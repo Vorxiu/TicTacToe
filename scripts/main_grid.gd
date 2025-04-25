@@ -19,6 +19,8 @@ extends Control
 @onready var label_7: Label = $Label7
 @onready var label_8: Label = $Label8
 @onready var label_9: Label = $Label9
+@onready var reload_button: TouchScreenButton = $"../../header/reload_button"
+@onready var ttt_header: Label = $"../../header/ttt_header"
 
 var player1_turn:bool
 var turn_count:int
@@ -29,6 +31,10 @@ var GRID = [['','',''],['','',''],['','','']]
 func _ready() -> void:
 	turn_count = 1
 	player1_turn = true
+	reload_button.visible = false
+	var tween = get_tree().create_tween()
+	tween.tween_property(ttt_header,"visible_ratio",1.0,0.5).set_trans(Tween.TRANS_SPRING)
+	
 
 func _process(delta: float) -> void:
 	if(player1_turn):
@@ -56,62 +62,69 @@ func play_turn(r:int,c:int):
 		if check_win_condition(false):
 			turn_display.text = "Player " + str(move) + " Won"
 			# await get_tree().create_timer(2.0).timeout
-			# get_tree().paused = true
+			reload_button.visible = true
+			get_tree().paused = true
+			
 	
-	elif turn_count >= 8:
+	if turn_count > 9:
 		turn_display.text = "Its a draw!"
+		reload_button.visible = true
 		get_tree().paused = true
+		
 	return move
 
 func check_win_condition(_is_bot):
-	var win_anim_time = 0.08
 	var tween = get_tree().create_tween()
+	#tween.set_process_mode(Tween.TWEEN_PROCESS_IDLE)
+	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+	var win_anim_time = 0.08
+	var win_color = Color(0,1,0)
 	# var return false
 	#Check diagonally
 	if  GRID[0][0] != '' and GRID[0][0] == GRID[1][1] and GRID[0][0] == GRID[2][2]:
-		tween.tween_property(label_1, "modulate", Color(0,1,0), win_anim_time)# label_1
-		tween.tween_property(label_5, "modulate", Color(0,1,0), win_anim_time)# label_5
-		tween.tween_property(label_9, "modulate", Color(0,1,0), win_anim_time)# label_9
+		tween.tween_property(label_1, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)# label_1
+		tween.tween_property(label_5, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)# label_5
+		tween.tween_property(label_9, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)# label_9
 		return true  
  
 	elif  GRID[0][2] != '' and GRID[0][2] == GRID[1][1] and GRID[0][2] == GRID[2][0]:
-		tween.tween_property(label_3, "modulate", Color(0,1,0), win_anim_time)
-		tween.tween_property(label_5, "modulate", Color(0,1,0), win_anim_time)
-		tween.tween_property(label_7, "modulate", Color(0,1,0), win_anim_time)
+		tween.tween_property(label_3, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+		tween.tween_property(label_5, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+		tween.tween_property(label_7, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 		return true
 
 	#Checks each row for matching row,,#r = list number,c = position in the list
 	for i in range(0,3):#0,0 wuold be label1 0,1 label4 0,2 label7,,i = 0,0,0 and 1,4,7, i = 1,1,1 then 2,
 		if  GRID[i][0] != '' and GRID[i][0] == GRID[i][1] and GRID[i][0] == GRID[i][2]:
 			if i == 0:
-				tween.tween_property(label_1, "modulate", Color(0,1,0), win_anim_time)
-				tween.tween_property(label_2, "modulate", Color(0,1,0), win_anim_time)
-				tween.tween_property(label_3, "modulate", Color(0,1,0), win_anim_time)
+				tween.tween_property(label_1, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+				tween.tween_property(label_2, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+				tween.tween_property(label_3, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 			elif i == 1:
-				tween.tween_property(label_4, "modulate", Color(0,1,0), win_anim_time)
-				tween.tween_property(label_5, "modulate", Color(0,1,0), win_anim_time)
-				tween.tween_property(label_6, "modulate", Color(0,1,0), win_anim_time)
+				tween.tween_property(label_4, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+				tween.tween_property(label_5, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+				tween.tween_property(label_6, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 			elif i == 2:
-				tween.tween_property(label_7, "modulate", Color(0,1,0), win_anim_time)
-				tween.tween_property(label_8, "modulate", Color(0,1,0), win_anim_time)
-				tween.tween_property(label_9, "modulate", Color(0,1,0), win_anim_time)
+				tween.tween_property(label_7, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+				tween.tween_property(label_8, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+				tween.tween_property(label_9, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 			return true
 
 	#Checks each column for matching column
 	for i in range(0,3): #here i 0 will be label1,2,3
 		if  GRID[0][i] != '' and GRID[0][i] == GRID[1][i] and GRID[0][i] == GRID[2][i]:
 			if i == 0:
-				tween.tween_property(label_1, "modulate", Color(0,1,0), win_anim_time)
-				tween.tween_property(label_4, "modulate", Color(0,1,0), win_anim_time)
-				tween.tween_property(label_7, "modulate", Color(0,1,0), win_anim_time)
+				tween.tween_property(label_1, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+				tween.tween_property(label_4, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+				tween.tween_property(label_7, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 			elif i == 1:
-				tween.tween_property(label_2, "modulate", Color(0,1,0), win_anim_time)
-				tween.tween_property(label_5, "modulate", Color(0,1,0), win_anim_time)
-				tween.tween_property(label_8, "modulate", Color(0,1,0), win_anim_time)
+				tween.tween_property(label_2, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+				tween.tween_property(label_5, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+				tween.tween_property(label_8, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 			elif i == 2:
-				tween.tween_property(label_3, "modulate", Color(0,1,0), win_anim_time)
-				tween.tween_property(label_6, "modulate", Color(0,1,0), win_anim_time)
-				tween.tween_property(label_9, "modulate", Color(0,1,0), win_anim_time)
+				tween.tween_property(label_3, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+				tween.tween_property(label_6, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+				tween.tween_property(label_9, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 			
 			return true
 
@@ -158,3 +171,7 @@ func _on_grid_button_8_released() -> void:
 func _on_grid_button_9_released() -> void:
 	grid_button_9.visible = false
 	label_9.text = play_turn(2,2)
+
+func _on_reload_button_released() -> void:
+	get_tree().paused = false
+	get_tree().reload_current_scene()

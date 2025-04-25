@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://iuj1t7gk628m"]
+[gd_scene load_steps=6 format=3 uid="uid://iuj1t7gk628m"]
 
 [ext_resource type="FontFile" uid="uid://c0crq6o2jh0pm" path="res://assets/font/Teko/static/Teko-SemiBold.ttf" id="1_r67kn"]
 [ext_resource type="Script" uid="uid://b04oav3klapnc" path="res://scripts/main_grid.gd" id="2_r67kn"]
@@ -6,6 +6,9 @@
 [sub_resource type="Theme" id="Theme_8n18e"]
 default_font = ExtResource("1_r67kn")
 default_font_size = 135
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8n18e"]
+radius = 233.05
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tjwpk"]
 
@@ -42,6 +45,8 @@ theme = SubResource("Theme_8n18e")
 text = "Tic Tac Toe"
 horizontal_alignment = 1
 vertical_alignment = 1
+visible_characters = 1
+visible_ratio = 0.1
 
 [node name="turn_display" type="Label" parent="ttt/header"]
 layout_mode = 1
@@ -60,6 +65,16 @@ theme_override_font_sizes/font_size = 38
 text = "Player 1 turn"
 horizontal_alignment = 1
 vertical_alignment = 2
+
+[node name="reload_button" type="TouchScreenButton" parent="ttt/header"]
+process_mode = 3
+process_priority = 1
+modulate = Color(100, 100, 100, 1)
+top_level = true
+position = Vector2(332, 1135)
+scale = Vector2(0.121094, 0.135704)
+shape = SubResource("CircleShape2D_8n18e")
+passby_press = true
 
 [node name="Gridwindow" type="Control" parent="ttt"]
 layout_mode = 3
@@ -226,6 +241,7 @@ metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
 [node name="Label1" type="Label" parent="ttt/Gridwindow/grid"]
+layout_mode = 0
 offset_left = 78.0
 offset_top = 339.0
 offset_right = 157.0
@@ -235,6 +251,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Label2" type="Label" parent="ttt/Gridwindow/grid"]
+layout_mode = 0
 offset_left = 335.0
 offset_top = 339.0
 offset_right = 414.0
@@ -244,6 +261,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Label3" type="Label" parent="ttt/Gridwindow/grid"]
+layout_mode = 0
 offset_left = 558.0
 offset_top = 339.0
 offset_right = 637.0
@@ -253,6 +271,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Label4" type="Label" parent="ttt/Gridwindow/grid"]
+layout_mode = 0
 offset_left = 78.0
 offset_top = 585.0
 offset_right = 157.0
@@ -262,6 +281,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Label5" type="Label" parent="ttt/Gridwindow/grid"]
+layout_mode = 0
 offset_left = 335.0
 offset_top = 585.0
 offset_right = 414.0
@@ -271,6 +291,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Label6" type="Label" parent="ttt/Gridwindow/grid"]
+layout_mode = 0
 offset_left = 558.0
 offset_top = 585.0
 offset_right = 637.0
@@ -280,6 +301,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Label7" type="Label" parent="ttt/Gridwindow/grid"]
+layout_mode = 0
 offset_left = 78.0
 offset_top = 849.0
 offset_right = 157.0
@@ -289,6 +311,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Label8" type="Label" parent="ttt/Gridwindow/grid"]
+layout_mode = 0
 offset_left = 335.0
 offset_top = 849.0
 offset_right = 414.0
@@ -298,6 +321,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Label9" type="Label" parent="ttt/Gridwindow/grid"]
+layout_mode = 0
 offset_left = 558.0
 offset_top = 849.0
 offset_right = 637.0
@@ -306,6 +330,7 @@ theme_override_font_sizes/font_size = 100
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[connection signal="released" from="ttt/header/reload_button" to="ttt/Gridwindow/grid" method="_on_reload_button_released"]
 [connection signal="released" from="ttt/Gridwindow/grid/gridButton_1" to="ttt/Gridwindow/grid" method="_on_grid_button_1_released"]
 [connection signal="released" from="ttt/Gridwindow/grid/gridButton_2" to="ttt/Gridwindow/grid" method="_on_grid_button_2_released"]
 [connection signal="released" from="ttt/Gridwindow/grid/gridButton_3" to="ttt/Gridwindow/grid" method="_on_grid_button_3_released"]
