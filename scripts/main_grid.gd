@@ -44,10 +44,12 @@ func _ready() -> void:
 	tween.tween_property(ttt_header,"visible_ratio",1.0,0.8).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 	set_turnLabeltext("Player X turn")
 	Global.Player_turn = true
+	if Global.Player_turn:
+		pass
 
 
 func play_turn(r:int,c:int):
-	var move:String
+	var move:String = "C"
 	turn_count += 1
 	
 	if(Global.Player_turn):#if true
@@ -81,7 +83,7 @@ func play_turn(r:int,c:int):
 		r = bot_move[0]
 		c = bot_move[1]
 		play_turn(r,c)
-	if Global.tictactoe_mode == 2 and move == player1 and turn_count <= 9:
+	elif Global.tictactoe_mode == 2 and move == player1 and turn_count <= 9: # the issue is here some where
 		var bot_move = beatable_bot()
 		print("bot move :" + str(bot_move))
 		r = bot_move[0]
@@ -271,6 +273,8 @@ func beatable_bot():
 			GRID[r][c] = ""  # Reset the grid
 			return move  # Return the blocking move
 		GRID[r][c] = ""  
+	return moves.pick_random()
+	
 func insert_move(r, c, move):  # r = row, c = column, move = "X" or "O"
 	var tween = get_tree().create_tween()
 	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
@@ -311,7 +315,6 @@ func insert_move(r, c, move):  # r = row, c = column, move = "X" or "O"
 func easy_bot():
 	# Define the bot's move value and the opponent's move value
 	var bot_move_value = player2
-	var opponent_move_value = player1
 	
 	# Get all available moves
 	var moves = available_moves()
