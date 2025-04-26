@@ -1,16 +1,17 @@
-[gd_scene load_steps=6 format=3 uid="uid://iuj1t7gk628m"]
+[gd_scene load_steps=7 format=3 uid="uid://iuj1t7gk628m"]
 
 [ext_resource type="FontFile" uid="uid://c0crq6o2jh0pm" path="res://assets/font/Teko/static/Teko-SemiBold.ttf" id="1_r67kn"]
+[ext_resource type="Texture2D" uid="uid://crki5byihn1g0" path="res://assets/ui/refresharrow.png" id="2_brbbq"]
 [ext_resource type="Script" uid="uid://b04oav3klapnc" path="res://scripts/main_grid.gd" id="2_r67kn"]
 
 [sub_resource type="Theme" id="Theme_8n18e"]
 default_font = ExtResource("1_r67kn")
 default_font_size = 135
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_tjwpk"]
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_8n18e"]
 radius = 233.05
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_tjwpk"]
 
 [node name="tictactoe_mainwindow" type="Control"]
 layout_mode = 3
@@ -29,6 +30,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 color = Color(0.129412, 0.129412, 0.129412, 1)
 
 [node name="ttt_header" type="Label" parent="ttt/header"]
@@ -62,19 +65,11 @@ grow_horizontal = 2
 grow_vertical = 0
 scale = Vector2(1, 0.8)
 theme_override_font_sizes/font_size = 38
-text = "Player 1 turn"
+text = "Player X turn"
 horizontal_alignment = 1
 vertical_alignment = 2
-
-[node name="reload_button" type="TouchScreenButton" parent="ttt/header"]
-process_mode = 3
-process_priority = 1
-modulate = Color(100, 100, 100, 1)
-top_level = true
-position = Vector2(332, 1135)
-scale = Vector2(0.121094, 0.135704)
-shape = SubResource("CircleShape2D_8n18e")
-passby_press = true
+visible_characters = 1
+visible_ratio = 0.1
 
 [node name="Gridwindow" type="Control" parent="ttt"]
 layout_mode = 3
@@ -330,7 +325,17 @@ theme_override_font_sizes/font_size = 100
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[connection signal="released" from="ttt/header/reload_button" to="ttt/Gridwindow/grid" method="_on_reload_button_released"]
+[node name="reload_button" type="TouchScreenButton" parent="ttt/Gridwindow/grid"]
+process_mode = 3
+process_priority = 1
+modulate = Color(100, 100, 100, 1)
+top_level = true
+position = Vector2(335, 1136)
+scale = Vector2(0.121094, 0.135704)
+texture_normal = ExtResource("2_brbbq")
+shape = SubResource("CircleShape2D_8n18e")
+passby_press = true
+
 [connection signal="released" from="ttt/Gridwindow/grid/gridButton_1" to="ttt/Gridwindow/grid" method="_on_grid_button_1_released"]
 [connection signal="released" from="ttt/Gridwindow/grid/gridButton_2" to="ttt/Gridwindow/grid" method="_on_grid_button_2_released"]
 [connection signal="released" from="ttt/Gridwindow/grid/gridButton_3" to="ttt/Gridwindow/grid" method="_on_grid_button_3_released"]
@@ -340,3 +345,4 @@ vertical_alignment = 1
 [connection signal="released" from="ttt/Gridwindow/grid/gridButton_7" to="ttt/Gridwindow/grid" method="_on_grid_button_7_released"]
 [connection signal="released" from="ttt/Gridwindow/grid/gridButton_8" to="ttt/Gridwindow/grid" method="_on_grid_button_8_released"]
 [connection signal="released" from="ttt/Gridwindow/grid/gridButton_9" to="ttt/Gridwindow/grid" method="_on_grid_button_9_released"]
+[connection signal="released" from="ttt/Gridwindow/grid/reload_button" to="ttt/Gridwindow/grid" method="_on_reload_button_released"]

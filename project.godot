@@ -30,7 +30,7 @@ version_control/autoload_on_startup=true
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/Notchz/plugin.cfg")
+enabled=PackedStringArray()
 
 [input_devices]
 
@@ -40,4 +40,5 @@ pointing/emulate_touch_from_mouse=true
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_etc2_astc=true
 reflections/emulate_touch_from_mouse=false
