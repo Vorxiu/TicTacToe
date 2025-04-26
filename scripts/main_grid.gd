@@ -1,4 +1,5 @@
 extends Control
+@onready var game_options: Control = $"../../changemode/game_options"
 
 @onready var turn_display: Label = $"../../header/turn_display"
 @onready var grid_button_1: TouchScreenButton = $gridButton_1
@@ -21,36 +22,49 @@ extends Control
 @onready var label_9: Label = $Label9
 @onready var reload_button: TouchScreenButton = $reload_button
 @onready var ttt_header: Label = $"../../header/ttt_header"
+@onready var insert_sound: AudioStreamPlayer2D = $"../../../insert_sound"
+@onready var gridwindow: Control = $".."
+@onready var button_game_options: TouchScreenButton = $"../../changemode/button_gameOptions"
 
-var player1_turn:bool
+
 var turn_count:int
 @export var player1:String = "X"
 @export var player2:String = "O"
 var GRID = [['','',''],['','',''],['','','']]
+#var mode:int = 0# 0 is pvp,1is easy bot,2is advanced bot
 
 func _ready() -> void:
+	Global.load_game()
 	turn_count = 1
-	player1_turn = true
+	game_options.visible = false
+	gridwindow.visible = true
+	#Global.Player_turn = true
 	reload_button.visible = false
 	var tween = get_tree().create_tween()
 	tween.tween_property(ttt_header,"visible_ratio",1.0,0.8).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 	set_turnLabeltext("Player X turn")
+	Global.Player_turn = true
+
 
 func play_turn(r:int,c:int):
 	var move:String
 	turn_count += 1
-
-	if(player1_turn):#if true
-		player1_turn = false
+	
+	if(Global.Player_turn):#if true
+		Global.Player_turn = false
 		move = player1
-	elif(!player1_turn):
-		player1_turn = true
+		set_turnLabeltext("Player " + "O" + " turn")
+	elif(!Global.Player_turn):
+		Global.Player_turn = true
 		move = player2
-
+		set_turnLabeltext("Player " + "X" + " turn")
 	#Inserts the move
-	set_turnLabeltext("Player " + str(move) + " turn")
+	
 	if GRID[r][c] == "":
+		insert_sound.pitch_scale = randf_range(0.9,1.2)
+		insert_sound.play()
 		GRID[r][c] = insert_move(r,c,move) #r = list number,c = position in the list
+		
 	
 	if turn_count > 4:
 		if check_win_condition(false):
@@ -59,9 +73,22 @@ func play_turn(r:int,c:int):
 		elif turn_count > 9:
 			set_turnLabeltext("It's a draw!")
 			reload()
+	
 	#gets the bot move
-	if move == player1 and turn_count <= 9:
+	if Global.tictactoe_mode == 3 and move == player1 and turn_count <= 9:
 		var bot_move = advanced_bot()
+		print("bot move :" + str(bot_move))
+		r = bot_move[0]
+		c = bot_move[1]
+		play_turn(r,c)
+	if Global.tictactoe_mode == 2 and move == player1 and turn_count <= 9:
+		var bot_move = beatable_bot()
+		print("bot move :" + str(bot_move))
+		r = bot_move[0]
+		c = bot_move[1]
+		play_turn(r,c)
+	elif Global.tictactoe_mode == 1 and move == player1 and turn_count <= 9:
+		var bot_move = easy_bot()
 		print("bot move :" + str(bot_move))
 		r = bot_move[0]
 		c = bot_move[1]
@@ -178,7 +205,7 @@ func available_moves():
 	return available_move
 
 func advanced_bot():
-	print("starting bot")
+
 	# Define the bot's move value and the opponent's move value
 	var bot_move_value = player2
 	var opponent_move_value = player1
@@ -204,7 +231,7 @@ func advanced_bot():
 		if check_win_condition(true):  # Check if this move would let the opponent win
 			GRID[r][c] = ""  # Reset the grid
 			return move  # Return the blocking move
-		GRID[r][c] = ""  # Reset the grid
+		GRID[r][c] = ""  
 
 	# If the center is available, take it
 	if GRID[1][1] == "":
@@ -215,10 +242,35 @@ func advanced_bot():
 	for corner in corner_moves:
 		if corner in moves:
 			return corner
-
-	# Otherwise, pick a random move
 	return moves.pick_random()
+func beatable_bot():
+	
+	# Define the bot's move value and the opponent's move value
+	var bot_move_value = player2
+	var opponent_move_value = player1
+	
+	# Get all available moves
+	var moves = available_moves()
 
+	# Check for a winning move
+	for move in moves:
+		var r = move[0]
+		var c = move[1]
+		GRID[r][c] = bot_move_value  # Simulate the bot's move
+		if check_win_condition(true):  # Check if this move wins the game
+			GRID[r][c] = ""  # Reset the grid
+			return move  # Return the winning move
+		GRID[r][c] = ""  # Reset the grid
+
+	# Check for a blocking move (prevent opponent from winning)
+	for move in moves:
+		var r = move[0]
+		var c = move[1]
+		GRID[r][c] = opponent_move_value  # Simulate the opponent's move
+		if check_win_condition(true):  # Check if this move would let the opponent win
+			GRID[r][c] = ""  # Reset the grid
+			return move  # Return the blocking move
+		GRID[r][c] = ""  
 func insert_move(r, c, move):  # r = row, c = column, move = "X" or "O"
 	var tween = get_tree().create_tween()
 	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
@@ -255,3 +307,60 @@ func insert_move(r, c, move):  # r = row, c = column, move = "X" or "O"
 		tween.tween_property(label_9,"text",move,anim_time)
 		grid_button_9.visible = false
 	return move
+
+func easy_bot():
+	# Define the bot's move value and the opponent's move value
+	var bot_move_value = player2
+	var opponent_move_value = player1
+	
+	# Get all available moves
+	var moves = available_moves()
+	# Check for a winning move
+	for move in moves:
+		var r = move[0]
+		var c = move[1]
+		GRID[r][c] = bot_move_value  # Simulate the bot's move
+		if check_win_condition(true):  # Check if this move wins the game
+			GRID[r][c] = ""  # Reset the grid
+			return move  # Return the winning move
+		GRID[r][c] = ""  # Reset the grid
+	return moves.pick_random()
+
+func _on_pvp_button_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		Global.tictactoe_mode = 0
+
+func _on_easy_button_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		Global.tictactoe_mode = 1
+
+func _on_bot_button_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		Global.tictactoe_mode = 2
+
+func _on_expert_button_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		Global.tictactoe_mode = 3
+
+
+func _on_resume_pressed() -> void:
+	game_options.visible = false
+	gridwindow.visible = true
+	get_tree().paused = false
+	Global.save_game()
+
+
+func _on_button_game_options_pressed() -> void:
+	game_options.visible = true
+	gridwindow.visible = false
+	get_tree().paused = true
+
+
+func _on_volume_gui_input(event: InputEvent) -> void:
+	
+	pass # Replace with function body.
+
+
+func _on_h_slider_value_changed(value: float) -> void:
+	pass # Replace with function body
+	AudioServer.set_bus_volume_linear(0,value)

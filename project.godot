@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="TicTacToe"
-run/main_scene="uid://iuj1t7gk628m"
+run/main_scene="uid://bcl4fk0vype1r"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[autoload]
+
+Global="*res://global.gd"
 
 [display]
 
@@ -38,7 +42,6 @@ pointing/emulate_touch_from_mouse=true
 
 [rendering]
 
-renderer/rendering_method="gl_compatibility"
-renderer/rendering_method.mobile="gl_compatibility"
+renderer/rendering_method="mobile"
 textures/vram_compression/import_etc2_astc=true
 reflections/emulate_touch_from_mouse=false
