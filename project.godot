@@ -36,6 +36,12 @@ version_control/autoload_on_startup=true
 
 enabled=PackedStringArray()
 
+[gui]
+
+theme/custom_font="uid://b5mntr3ahh4h0"
+theme/default_font_multichannel_signed_distance_field=true
+theme/default_font_generate_mipmaps=true
+
 [input_devices]
 
 pointing/emulate_touch_from_mouse=true

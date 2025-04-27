@@ -31,6 +31,11 @@ extends Control
 @onready var resume: Button = $"../../changemode/game_options/ColorRect/resume"
 @onready var score_display: Label = $"../../score_display"
 @onready var game_options: Control = $"../../changemode/game_options"
+@onready var option_window: ColorRect = $"../../changemode/game_options/Option_window"
+@onready var game_options_labels: Label = $"../../changemode/game_options/Option_window/GameOptions"
+@onready var option_menu_animation: AnimationPlayer = $"../../changemode/Option_menu_animation"
+
+
 
 var turn_count:int
 @export var player1:String = "X"
@@ -169,7 +174,7 @@ func reload():
 	get_tree().paused = true
 	reload_button.visible = true
 	score_display.visible = true
-	score_display.text = "Player " + str(player1) + " :" + str(Global.P1_WinCount) + "                                   Player " + str(player2) + " :" + str(Global.P2_WinCount) 
+	score_display.text = "Player " + str(player1) + "  " + str(Global.P1_WinCount) + "                                   Player " + str(player2) + "  " + str(Global.P2_WinCount) 
 
 func set_turnLabeltext(toast:String):
 
@@ -369,6 +374,7 @@ func _on_button_game_options_pressed() -> void:
 	gridwindow.visible = false
 	get_tree().paused = true
 	ttt_header.visible = false
+	option_menu_animation.play()
 
 func _on_h_slider_value_changed(value: float) -> void:
 	AudioServer.set_bus_volume_linear(0,value)
@@ -377,16 +383,16 @@ func draw_anim():
 	var tween = get_tree().create_tween()
 	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	tween.parallel()
-	var win_anim_time = 0.01
-	var win_color = Color("#B80C09")
+	var anim_time = 0.01
+	var color = Color("#E08E45")#B80C09:red
 	Color()
-	tween.tween_property(label_1, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	tween.tween_property(label_2, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	tween.tween_property(label_3, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	tween.tween_property(label_4, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	tween.tween_property(label_5, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	tween.tween_property(label_6, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	tween.tween_property(label_7, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	tween.tween_property(label_8, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	tween.tween_property(label_9, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(label_1, "modulate", color, anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(label_2, "modulate", color, anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(label_3, "modulate", color, anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(label_4, "modulate", color, anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(label_5, "modulate", color, anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(label_6, "modulate", color, anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(label_7, "modulate", color, anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(label_8, "modulate", color, anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(label_9, "modulate", color, anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	
