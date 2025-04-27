@@ -1,5 +1,5 @@
 extends Control
-
+@onready var button_press: AudioStreamPlayer2D = $"../../button_press"
 @onready var grid_button_1: TouchScreenButton = $gridButton_1
 @onready var grid_button_2: TouchScreenButton = $gridButton_2
 @onready var grid_button_3: TouchScreenButton = $gridButton_3
@@ -349,35 +349,41 @@ func easy_bot():
 func _on_pvp_button_toggled(toggled_on: bool) -> void:
 	if toggled_on:
 		Global.tictactoe_mode = 0
+		button_press.play()
 
 func _on_easy_button_toggled(toggled_on: bool) -> void:
 	if toggled_on:
 		Global.tictactoe_mode = 1
-
+		button_press.play()
 func _on_bot_button_toggled(toggled_on: bool) -> void:
 	if toggled_on:
 		Global.tictactoe_mode = 2
-
+		button_press.play()
 func _on_expert_button_toggled(toggled_on: bool) -> void:
 	if toggled_on:
 		Global.tictactoe_mode = 3
-
+		button_press.play()
 func _on_resume_pressed() -> void:
-	game_options.visible = false
 	gridwindow.visible = true
+	#game_options.visible = false
 	get_tree().paused = false
 	Global.save_game()
+	option_menu_animation.play_backwards("option")
 	ttt_header.visible = true
+	button_press.play()
 
 func _on_button_game_options_pressed() -> void:
+	button_press.play()
 	game_options.visible = true
 	gridwindow.visible = false
 	get_tree().paused = true
 	ttt_header.visible = false
 	option_menu_animation.play("option")
-
+	
+	
 func _on_h_slider_value_changed(value: float) -> void:
 	AudioServer.set_bus_volume_linear(0,value)
+	button_press.play()
 
 func draw_anim():
 	var tween = get_tree().create_tween()

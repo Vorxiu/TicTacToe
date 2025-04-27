@@ -1,6 +1,7 @@
-[gd_scene load_steps=15 format=3 uid="uid://dd0waknwp4u61"]
+[gd_scene load_steps=16 format=3 uid="uid://dd0waknwp4u61"]
 
 [ext_resource type="FontFile" uid="uid://c0crq6o2jh0pm" path="res://assets/font/Teko/static/Teko-SemiBold.ttf" id="1_r67kn"]
+[ext_resource type="AudioStream" uid="uid://desiy8j21cuou" path="res://assets/audio/Minimalist8.ogg" id="2_8bn2i"]
 [ext_resource type="Script" uid="uid://b04oav3klapnc" path="res://scripts/main_grid.gd" id="2_r67kn"]
 [ext_resource type="Theme" uid="uid://dnp6l7snho7jf" path="res://assets/themes/default_theme.tres" id="4_8n18e"]
 [ext_resource type="FontFile" uid="uid://b5mntr3ahh4h0" path="res://assets/font/Teko/Teko-VariableFont_wght.ttf" id="5_lpubu"]
@@ -105,6 +106,11 @@ grow_vertical = 2
 process_mode = 3
 stream = ExtResource("5_tjwpk")
 pitch_scale = 1.16
+
+[node name="button_press" type="AudioStreamPlayer2D" parent="."]
+process_mode = 3
+stream = ExtResource("2_8bn2i")
+pitch_scale = 0.92
 
 [node name="header" type="ColorRect" parent="."]
 layout_mode = 1
@@ -391,6 +397,7 @@ vertical_alignment = 1
 [node name="reload_button" type="TouchScreenButton" parent="Gridwindow/grid"]
 process_mode = 3
 process_priority = 1
+visible = false
 modulate = Color(100, 100, 100, 1)
 top_level = true
 position = Vector2(374, 768)
@@ -418,6 +425,7 @@ passby_press = true
 
 [node name="game_options" type="Control" parent="changemode"]
 process_mode = 3
+visible = false
 modulate = Color(0.929412, 0.94902, 0.956863, 1)
 layout_mode = 1
 anchors_preset = 8
@@ -453,13 +461,13 @@ metadata/_edit_group_ = true
 process_mode = 3
 top_level = true
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 157.0
-offset_top = -1.0
-offset_right = 439.0
-offset_bottom = -1.0
+anchors_preset = -1
+anchor_left = 0.218056
+anchor_top = 0.0484375
+anchor_right = 0.830389
+anchor_bottom = 0.568439
+offset_right = 561.12
+offset_bottom = 614.397
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.44, 0.520002)
@@ -468,6 +476,7 @@ theme_override_font_sizes/font_size = 200
 text = "Game  Options"
 horizontal_alignment = 1
 vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="Volume" type="Label" parent="changemode/game_options/Option_window"]
 layout_mode = 1
