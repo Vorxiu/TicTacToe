@@ -374,7 +374,7 @@ func _on_button_game_options_pressed() -> void:
 	gridwindow.visible = false
 	get_tree().paused = true
 	ttt_header.visible = false
-	option_menu_animation.play()
+	option_menu_animation.play("option")
 
 func _on_h_slider_value_changed(value: float) -> void:
 	AudioServer.set_bus_volume_linear(0,value)
