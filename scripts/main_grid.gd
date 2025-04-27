@@ -1,7 +1,5 @@
 extends Control
-@onready var game_options: Control = $"../../changemode/game_options"
 
-@onready var turn_display: Label = $"../../header/turn_display"
 @onready var grid_button_1: TouchScreenButton = $gridButton_1
 @onready var grid_button_2: TouchScreenButton = $gridButton_2
 @onready var grid_button_3: TouchScreenButton = $gridButton_3
@@ -21,11 +19,18 @@ extends Control
 @onready var label_8: Label = $Label8
 @onready var label_9: Label = $Label9
 @onready var reload_button: TouchScreenButton = $reload_button
-@onready var ttt_header: Label = $"../../header/ttt_header"
-@onready var insert_sound: AudioStreamPlayer2D = $"../../../insert_sound"
 @onready var gridwindow: Control = $".."
-@onready var button_game_options: TouchScreenButton = $"../../changemode/button_gameOptions"
-
+@onready var insert_sound: AudioStreamPlayer2D = $"../../insert_sound"
+@onready var ttt_header: Label = $"../../header/ttt_header"
+@onready var turn_display: Label = $"../../header/turn_display"
+@onready var h_slider: HSlider = $"../../changemode/game_options/ColorRect/HSlider"
+@onready var pvp_button: Button = $"../../changemode/game_options/ColorRect/pvp_button"
+@onready var easy_button: Button = $"../../changemode/game_options/ColorRect/easy_button"
+@onready var bot_button: Button = $"../../changemode/game_options/ColorRect/bot_button"
+@onready var expert_button: Button = $"../../changemode/game_options/ColorRect/expert_button"
+@onready var resume: Button = $"../../changemode/game_options/ColorRect/resume"
+@onready var score_display: Label = $"../../score_display"
+@onready var game_options: Control = $"../../changemode/game_options"
 
 var turn_count:int
 @export var player1:String = "X"
@@ -35,6 +40,7 @@ var GRID = [['','',''],['','',''],['','','']]
 
 func _ready() -> void:
 	Global.load_game()
+	score_display.visible = false
 	turn_count = 1
 	game_options.visible = false
 	gridwindow.visible = true
@@ -66,16 +72,20 @@ func play_turn(r:int,c:int):
 		insert_sound.pitch_scale = randf_range(0.9,1.2)
 		insert_sound.play()
 		GRID[r][c] = insert_move(r,c,move) #r = list number,c = position in the list
-		
 	
+	#checks the winner
 	if turn_count > 4:
 		if check_win_condition(false):
 			set_turnLabeltext("Player " + str(move) + " Won")
+			if move == player1:
+				Global.P1_WinCount += 1
+			elif move == player2:
+				Global.P2_WinCount += 1
 			reload()
 		elif turn_count > 9:
 			set_turnLabeltext("It's a draw!")
 			reload()
-	
+
 	#gets the bot move
 	if Global.tictactoe_mode == 3 and move == player1 and turn_count <= 9:
 		var bot_move = advanced_bot()
@@ -153,11 +163,13 @@ func check_win_condition(is_bot:bool):
 					tween.tween_property(label_6, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 					tween.tween_property(label_9, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 			return true
-
 	return false
+
 func reload():
 	get_tree().paused = true
 	reload_button.visible = true
+	score_display.visible = true
+	score_display.text = "Player " + str(player1) + " :" + str(Global.P1_WinCount) + "                                   Player " + str(player2) + " :" + str(Global.P2_WinCount) 
 
 func set_turnLabeltext(toast:String):
 
@@ -196,6 +208,7 @@ func _on_grid_button_9_released() -> void:
 
 func _on_reload_button_released() -> void:
 	get_tree().paused = false
+	score_display.visible = false
 	get_tree().reload_current_scene()
 
 func available_moves():
@@ -282,7 +295,6 @@ func insert_move(r, c, move):  # r = row, c = column, move = "X" or "O"
 
 	if move == player2:
 		anim_time += anim_time
-	
 	if r == 0 and c == 0:
 		tween.tween_property(label_1,"text",move,anim_time)
 		grid_button_1.visible = false
@@ -345,25 +357,18 @@ func _on_expert_button_toggled(toggled_on: bool) -> void:
 	if toggled_on:
 		Global.tictactoe_mode = 3
 
-
 func _on_resume_pressed() -> void:
 	game_options.visible = false
 	gridwindow.visible = true
 	get_tree().paused = false
 	Global.save_game()
-
+	ttt_header.visible = true
 
 func _on_button_game_options_pressed() -> void:
 	game_options.visible = true
 	gridwindow.visible = false
 	get_tree().paused = true
-
-
-func _on_volume_gui_input(event: InputEvent) -> void:
-	
-	pass # Replace with function body.
-
+	ttt_header.visible = false
 
 func _on_h_slider_value_changed(value: float) -> void:
-	pass # Replace with function body
 	AudioServer.set_bus_volume_linear(0,value)

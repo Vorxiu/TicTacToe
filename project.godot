@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="TicTacToe"
-run/main_scene="uid://bcl4fk0vype1r"
+run/main_scene="uid://d3do0ddlpmsqm"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
 

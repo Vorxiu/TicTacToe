@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://d3do0ddlpmsqm"]
+[gd_scene load_steps=12 format=3 uid="uid://dd0waknwp4u61"]
 
 [ext_resource type="FontFile" uid="uid://c0crq6o2jh0pm" path="res://assets/font/Teko/static/Teko-SemiBold.ttf" id="1_r67kn"]
 [ext_resource type="Script" uid="uid://b04oav3klapnc" path="res://scripts/main_grid.gd" id="2_r67kn"]
@@ -28,9 +28,13 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ttt" type="CanvasLayer" parent="."]
+[node name="insert_sound" type="AudioStreamPlayer2D" parent="."]
+process_mode = 3
+stream = ExtResource("5_tjwpk")
+pitch_scale = 1.16
 
-[node name="header" type="ColorRect" parent="ttt"]
+[node name="header" type="ColorRect" parent="."]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -38,10 +42,11 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+theme = ExtResource("4_8n18e")
 color = Color(0.129412, 0.129412, 0.129412, 1)
 metadata/_edit_lock_ = true
 
-[node name="ttt_header" type="Label" parent="ttt/header"]
+[node name="ttt_header" type="Label" parent="header"]
 top_level = true
 layout_mode = 1
 anchors_preset = 10
@@ -56,7 +61,7 @@ vertical_alignment = 1
 visible_characters = 1
 visible_ratio = 0.1
 
-[node name="turn_display" type="Label" parent="ttt/header"]
+[node name="turn_display" type="Label" parent="header"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -77,8 +82,26 @@ vertical_alignment = 2
 visible_characters = 1
 visible_ratio = 0.1
 
-[node name="Gridwindow" type="Control" parent="ttt"]
-layout_mode = 3
+[node name="score_display" type="Label" parent="."]
+process_mode = 3
+clip_contents = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0430556
+anchor_top = 0.825342
+anchor_right = 0.979167
+anchor_bottom = 0.881494
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("5_lpubu")
+theme_override_font_sizes/font_size = 50
+text = " PlayerX 1                                   PlayerO 1 "
+horizontal_alignment = 3
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Gridwindow" type="Control" parent="."]
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -91,7 +114,7 @@ offset_bottom = 369.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="horizontalLine1" type="Line2D" parent="ttt/Gridwindow"]
+[node name="horizontalLine1" type="Line2D" parent="Gridwindow"]
 z_index = 1
 position = Vector2(342, 243)
 points = PackedVector2Array(-332, 26, 376, 26)
@@ -103,7 +126,7 @@ end_cap_mode = 2
 metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
-[node name="horizontalLine2" type="Line2D" parent="ttt/Gridwindow"]
+[node name="horizontalLine2" type="Line2D" parent="Gridwindow"]
 z_index = 1
 position = Vector2(331, 518)
 points = PackedVector2Array(-323, 25, 388, 25)
@@ -115,7 +138,7 @@ end_cap_mode = 2
 metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
-[node name="horizontalLine3" type="Line2D" parent="ttt/Gridwindow"]
+[node name="horizontalLine3" type="Line2D" parent="Gridwindow"]
 z_index = 1
 position = Vector2(331, 518)
 points = PackedVector2Array(-323, 25, 388, 25)
@@ -127,7 +150,7 @@ end_cap_mode = 2
 metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
-[node name="verticleline1" type="Line2D" parent="ttt/Gridwindow"]
+[node name="verticleline1" type="Line2D" parent="Gridwindow"]
 z_index = 1
 position = Vector2(268, 371)
 rotation = 1.5708
@@ -140,7 +163,7 @@ end_cap_mode = 2
 metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
-[node name="verticleline2" type="Line2D" parent="ttt/Gridwindow"]
+[node name="verticleline2" type="Line2D" parent="Gridwindow"]
 z_index = 1
 position = Vector2(524, 386)
 rotation = 1.5708
@@ -153,7 +176,7 @@ end_cap_mode = 2
 metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
-[node name="grid" type="Control" parent="ttt/Gridwindow"]
+[node name="grid" type="Control" parent="Gridwindow"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -169,7 +192,7 @@ grow_vertical = 2
 script = ExtResource("2_r67kn")
 metadata/_edit_use_anchors_ = true
 
-[node name="gridButton_1" type="TouchScreenButton" parent="ttt/Gridwindow/grid"]
+[node name="gridButton_1" type="TouchScreenButton" parent="Gridwindow/grid"]
 position = Vector2(124, 416)
 scale = Vector2(11.4581, 10.9289)
 shape = SubResource("CircleShape2D_tjwpk")
@@ -177,7 +200,7 @@ passby_press = true
 metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
-[node name="gridButton_2" type="TouchScreenButton" parent="ttt/Gridwindow/grid"]
+[node name="gridButton_2" type="TouchScreenButton" parent="Gridwindow/grid"]
 position = Vector2(367, 416)
 scale = Vector2(11.4581, 10.9289)
 shape = SubResource("CircleShape2D_tjwpk")
@@ -185,7 +208,7 @@ passby_press = true
 metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
-[node name="gridButton_3" type="TouchScreenButton" parent="ttt/Gridwindow/grid"]
+[node name="gridButton_3" type="TouchScreenButton" parent="Gridwindow/grid"]
 position = Vector2(619, 418)
 scale = Vector2(11.4581, 10.9289)
 shape = SubResource("CircleShape2D_tjwpk")
@@ -193,7 +216,7 @@ passby_press = true
 metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
-[node name="gridButton_4" type="TouchScreenButton" parent="ttt/Gridwindow/grid"]
+[node name="gridButton_4" type="TouchScreenButton" parent="Gridwindow/grid"]
 position = Vector2(117, 684)
 scale = Vector2(11.4581, 10.9289)
 shape = SubResource("CircleShape2D_tjwpk")
@@ -201,7 +224,7 @@ passby_press = true
 metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
-[node name="gridButton_5" type="TouchScreenButton" parent="ttt/Gridwindow/grid"]
+[node name="gridButton_5" type="TouchScreenButton" parent="Gridwindow/grid"]
 position = Vector2(374, 684)
 scale = Vector2(11.4581, 10.9289)
 shape = SubResource("CircleShape2D_tjwpk")
@@ -209,7 +232,7 @@ passby_press = true
 metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
-[node name="gridButton_6" type="TouchScreenButton" parent="ttt/Gridwindow/grid"]
+[node name="gridButton_6" type="TouchScreenButton" parent="Gridwindow/grid"]
 position = Vector2(619, 682)
 scale = Vector2(11.4581, 10.9289)
 shape = SubResource("CircleShape2D_tjwpk")
@@ -217,7 +240,7 @@ passby_press = true
 metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
-[node name="gridButton_7" type="TouchScreenButton" parent="ttt/Gridwindow/grid"]
+[node name="gridButton_7" type="TouchScreenButton" parent="Gridwindow/grid"]
 position = Vector2(112, 934)
 scale = Vector2(11.4581, 10.9289)
 shape = SubResource("CircleShape2D_tjwpk")
@@ -225,7 +248,7 @@ passby_press = true
 metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
-[node name="gridButton_8" type="TouchScreenButton" parent="ttt/Gridwindow/grid"]
+[node name="gridButton_8" type="TouchScreenButton" parent="Gridwindow/grid"]
 position = Vector2(364, 932)
 scale = Vector2(11.4581, 10.9289)
 shape = SubResource("CircleShape2D_tjwpk")
@@ -233,7 +256,7 @@ passby_press = true
 metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
-[node name="gridButton_9" type="TouchScreenButton" parent="ttt/Gridwindow/grid"]
+[node name="gridButton_9" type="TouchScreenButton" parent="Gridwindow/grid"]
 position = Vector2(616, 939)
 scale = Vector2(11.4581, 10.9289)
 shape = SubResource("CircleShape2D_tjwpk")
@@ -241,7 +264,7 @@ passby_press = true
 metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
-[node name="Label1" type="Label" parent="ttt/Gridwindow/grid"]
+[node name="Label1" type="Label" parent="Gridwindow/grid"]
 layout_mode = 0
 offset_left = 78.0
 offset_top = 339.0
@@ -252,7 +275,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="Label2" type="Label" parent="ttt/Gridwindow/grid"]
+[node name="Label2" type="Label" parent="Gridwindow/grid"]
 layout_mode = 0
 offset_left = 335.0
 offset_top = 339.0
@@ -263,7 +286,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="Label3" type="Label" parent="ttt/Gridwindow/grid"]
+[node name="Label3" type="Label" parent="Gridwindow/grid"]
 layout_mode = 0
 offset_left = 558.0
 offset_top = 339.0
@@ -274,7 +297,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="Label4" type="Label" parent="ttt/Gridwindow/grid"]
+[node name="Label4" type="Label" parent="Gridwindow/grid"]
 layout_mode = 0
 offset_left = 77.9998
 offset_top = 569.0
@@ -285,7 +308,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="Label5" type="Label" parent="ttt/Gridwindow/grid"]
+[node name="Label5" type="Label" parent="Gridwindow/grid"]
 layout_mode = 0
 offset_left = 335.0
 offset_top = 585.0
@@ -296,7 +319,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="Label6" type="Label" parent="ttt/Gridwindow/grid"]
+[node name="Label6" type="Label" parent="Gridwindow/grid"]
 layout_mode = 0
 offset_left = 558.0
 offset_top = 585.0
@@ -307,7 +330,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="Label7" type="Label" parent="ttt/Gridwindow/grid"]
+[node name="Label7" type="Label" parent="Gridwindow/grid"]
 layout_mode = 0
 offset_left = 78.0
 offset_top = 849.0
@@ -318,7 +341,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="Label8" type="Label" parent="ttt/Gridwindow/grid"]
+[node name="Label8" type="Label" parent="Gridwindow/grid"]
 layout_mode = 0
 offset_left = 335.0
 offset_top = 849.0
@@ -329,7 +352,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="Label9" type="Label" parent="ttt/Gridwindow/grid"]
+[node name="Label9" type="Label" parent="Gridwindow/grid"]
 layout_mode = 0
 offset_left = 558.0
 offset_top = 849.0
@@ -340,7 +363,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="reload_button" type="TouchScreenButton" parent="ttt/Gridwindow/grid"]
+[node name="reload_button" type="TouchScreenButton" parent="Gridwindow/grid"]
 process_mode = 3
 process_priority = 1
 visible = false
@@ -351,23 +374,13 @@ scale = Vector2(0.121094, 0.135704)
 shape = SubResource("RectangleShape2D_j5sb0")
 passby_press = true
 
-[node name="Label" type="Label" parent="ttt/Gridwindow/grid/reload_button"]
-offset_right = 40.0
-offset_bottom = 23.0
-text = "Score
-f"
-
-[node name="changemode" type="Control" parent="ttt"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="changemode" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 0
 size_flags_horizontal = 4
 size_flags_vertical = 8
 
-[node name="button_gameOptions" type="TouchScreenButton" parent="ttt/changemode"]
+[node name="button_gameOptions" type="TouchScreenButton" parent="changemode"]
 process_mode = 3
 z_index = 4
 position = Vector2(374, 1206)
@@ -376,15 +389,18 @@ scale = Vector2(19.957, -1.37174)
 shape = SubResource("WorldBoundaryShape2D_j5sb0")
 passby_press = true
 
-[node name="game_options" type="Control" parent="ttt/changemode"]
+[node name="game_options" type="Control" parent="changemode"]
 process_mode = 3
+visible = false
 anchors_preset = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
 offset_top = 416.0
 offset_right = 40.0
 offset_bottom = 456.0
 scale = Vector2(1.25134, 1.75)
 
-[node name="ColorRect" type="ColorRect" parent="ttt/changemode/game_options"]
+[node name="ColorRect" type="ColorRect" parent="changemode/game_options"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -401,7 +417,7 @@ scale = Vector2(2.88, 0.977143)
 theme = ExtResource("4_8n18e")
 color = Color(0.197937, 0.197937, 0.197937, 0.521)
 
-[node name="GameOptions" type="Label" parent="ttt/changemode/game_options/ColorRect"]
+[node name="GameOptions" type="Label" parent="changemode/game_options/ColorRect"]
 unique_name_in_owner = true
 top_level = true
 layout_mode = 1
@@ -421,7 +437,7 @@ text = "Game  Options"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Volume" type="Label" parent="ttt/changemode/game_options/ColorRect"]
+[node name="Volume" type="Label" parent="changemode/game_options/ColorRect"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -437,17 +453,23 @@ text = "Volume"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HSlider" type="HSlider" parent="ttt/changemode/game_options/ColorRect"]
-layout_mode = 2
-offset_left = 95.3139
-offset_top = 174.363
-offset_right = 157.314
-offset_bottom = 219.363
+[node name="HSlider" type="HSlider" parent="changemode/game_options/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 90.4437
+offset_top = -38.3041
+offset_right = 69.4437
+offset_bottom = -38.3041
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.54788, 0.859649)
 max_value = 1.0
 step = 0.1
 value = 1.0
 
-[node name="Label" type="Label" parent="ttt/changemode/game_options/ColorRect"]
+[node name="Label" type="Label" parent="changemode/game_options/ColorRect"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -466,7 +488,7 @@ text = "Bot mode"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="pvp_button" type="Button" parent="ttt/changemode/game_options/ColorRect"]
+[node name="pvp_button" type="Button" parent="changemode/game_options/ColorRect"]
 layout_mode = 0
 offset_left = 1.65001
 offset_top = 345.906
@@ -479,7 +501,7 @@ button_pressed = true
 button_group = SubResource("ButtonGroup_j5sb0")
 text = "PVP"
 
-[node name="easy_button" type="Button" parent="ttt/changemode/game_options/ColorRect"]
+[node name="easy_button" type="Button" parent="changemode/game_options/ColorRect"]
 layout_mode = 0
 offset_left = 49.654
 offset_top = 345.906
@@ -491,7 +513,7 @@ toggle_mode = true
 button_group = SubResource("ButtonGroup_j5sb0")
 text = "Easy"
 
-[node name="bot_button" type="Button" parent="ttt/changemode/game_options/ColorRect"]
+[node name="bot_button" type="Button" parent="changemode/game_options/ColorRect"]
 layout_mode = 0
 offset_left = 91.276
 offset_top = 345.906
@@ -504,7 +526,7 @@ toggle_mode = true
 button_group = SubResource("ButtonGroup_j5sb0")
 text = "MID"
 
-[node name="expert_button" type="Button" parent="ttt/changemode/game_options/ColorRect"]
+[node name="expert_button" type="Button" parent="changemode/game_options/ColorRect"]
 layout_mode = 0
 offset_left = 134.84
 offset_top = 345.906
@@ -516,7 +538,7 @@ toggle_mode = true
 button_group = SubResource("ButtonGroup_j5sb0")
 text = "HARD"
 
-[node name="resume" type="Button" parent="ttt/changemode/game_options/ColorRect"]
+[node name="resume" type="Button" parent="changemode/game_options/ColorRect"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -534,26 +556,21 @@ icon = ExtResource("6_j5sb0")
 flat = true
 icon_alignment = 1
 
-[node name="insert_sound" type="AudioStreamPlayer2D" parent="."]
-process_mode = 3
-stream = ExtResource("5_tjwpk")
-pitch_scale = 1.16
-
-[connection signal="released" from="ttt/Gridwindow/grid/gridButton_1" to="ttt/Gridwindow/grid" method="_on_grid_button_1_released"]
-[connection signal="released" from="ttt/Gridwindow/grid/gridButton_2" to="ttt/Gridwindow/grid" method="_on_grid_button_2_released"]
-[connection signal="released" from="ttt/Gridwindow/grid/gridButton_3" to="ttt/Gridwindow/grid" method="_on_grid_button_3_released"]
-[connection signal="released" from="ttt/Gridwindow/grid/gridButton_4" to="ttt/Gridwindow/grid" method="_on_grid_button_4_released"]
-[connection signal="released" from="ttt/Gridwindow/grid/gridButton_5" to="ttt/Gridwindow/grid" method="_on_grid_button_5_released"]
-[connection signal="released" from="ttt/Gridwindow/grid/gridButton_6" to="ttt/Gridwindow/grid" method="_on_grid_button_6_released"]
-[connection signal="released" from="ttt/Gridwindow/grid/gridButton_7" to="ttt/Gridwindow/grid" method="_on_grid_button_7_released"]
-[connection signal="released" from="ttt/Gridwindow/grid/gridButton_8" to="ttt/Gridwindow/grid" method="_on_grid_button_8_released"]
-[connection signal="released" from="ttt/Gridwindow/grid/gridButton_9" to="ttt/Gridwindow/grid" method="_on_grid_button_9_released"]
-[connection signal="released" from="ttt/Gridwindow/grid/reload_button" to="ttt/Gridwindow/grid" method="_on_reload_button_released"]
-[connection signal="pressed" from="ttt/changemode/button_gameOptions" to="ttt/Gridwindow/grid" method="_on_button_game_options_pressed"]
-[connection signal="gui_input" from="ttt/changemode/game_options/ColorRect/Volume" to="ttt/Gridwindow/grid" method="_on_volume_gui_input"]
-[connection signal="value_changed" from="ttt/changemode/game_options/ColorRect/HSlider" to="ttt/Gridwindow/grid" method="_on_h_slider_value_changed"]
-[connection signal="toggled" from="ttt/changemode/game_options/ColorRect/pvp_button" to="ttt/Gridwindow/grid" method="_on_pvp_button_toggled"]
-[connection signal="toggled" from="ttt/changemode/game_options/ColorRect/easy_button" to="ttt/Gridwindow/grid" method="_on_easy_button_toggled"]
-[connection signal="toggled" from="ttt/changemode/game_options/ColorRect/bot_button" to="ttt/Gridwindow/grid" method="_on_bot_button_toggled"]
-[connection signal="toggled" from="ttt/changemode/game_options/ColorRect/expert_button" to="ttt/Gridwindow/grid" method="_on_expert_button_toggled"]
-[connection signal="pressed" from="ttt/changemode/game_options/ColorRect/resume" to="ttt/Gridwindow/grid" method="_on_resume_pressed"]
+[connection signal="released" from="Gridwindow/grid/gridButton_1" to="Gridwindow/grid" method="_on_grid_button_1_released"]
+[connection signal="released" from="Gridwindow/grid/gridButton_2" to="Gridwindow/grid" method="_on_grid_button_2_released"]
+[connection signal="released" from="Gridwindow/grid/gridButton_3" to="Gridwindow/grid" method="_on_grid_button_3_released"]
+[connection signal="released" from="Gridwindow/grid/gridButton_4" to="Gridwindow/grid" method="_on_grid_button_4_released"]
+[connection signal="released" from="Gridwindow/grid/gridButton_5" to="Gridwindow/grid" method="_on_grid_button_5_released"]
+[connection signal="released" from="Gridwindow/grid/gridButton_6" to="Gridwindow/grid" method="_on_grid_button_6_released"]
+[connection signal="released" from="Gridwindow/grid/gridButton_7" to="Gridwindow/grid" method="_on_grid_button_7_released"]
+[connection signal="released" from="Gridwindow/grid/gridButton_8" to="Gridwindow/grid" method="_on_grid_button_8_released"]
+[connection signal="released" from="Gridwindow/grid/gridButton_9" to="Gridwindow/grid" method="_on_grid_button_9_released"]
+[connection signal="released" from="Gridwindow/grid/reload_button" to="Gridwindow/grid" method="_on_reload_button_released"]
+[connection signal="pressed" from="changemode/button_gameOptions" to="Gridwindow/grid" method="_on_button_game_options_pressed"]
+[connection signal="gui_input" from="changemode/game_options/ColorRect/Volume" to="Gridwindow/grid" method="_on_volume_gui_input"]
+[connection signal="value_changed" from="changemode/game_options/ColorRect/HSlider" to="Gridwindow/grid" method="_on_h_slider_value_changed"]
+[connection signal="toggled" from="changemode/game_options/ColorRect/pvp_button" to="Gridwindow/grid" method="_on_pvp_button_toggled"]
+[connection signal="toggled" from="changemode/game_options/ColorRect/easy_button" to="Gridwindow/grid" method="_on_easy_button_toggled"]
+[connection signal="toggled" from="changemode/game_options/ColorRect/bot_button" to="Gridwindow/grid" method="_on_bot_button_toggled"]
+[connection signal="toggled" from="changemode/game_options/ColorRect/expert_button" to="Gridwindow/grid" method="_on_expert_button_toggled"]
+[connection signal="pressed" from="changemode/game_options/ColorRect/resume" to="Gridwindow/grid" method="_on_resume_pressed"]
