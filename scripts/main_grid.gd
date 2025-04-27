@@ -53,7 +53,6 @@ func _ready() -> void:
 	if Global.Player_turn:
 		pass
 
-
 func play_turn(r:int,c:int):
 	var move:String = "C"
 	turn_count += 1
@@ -84,6 +83,7 @@ func play_turn(r:int,c:int):
 			reload()
 		elif turn_count > 9:
 			set_turnLabeltext("It's a draw!")
+			draw_anim()
 			reload()
 
 	#gets the bot move
@@ -111,7 +111,7 @@ func check_win_condition(is_bot:bool):
 	#tween.set_process_mode(Tween.TWEEN_PROCESS_IDLE)
 	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	var win_anim_time = 0.08
-	var win_color = Color(0,1,0)
+	var win_color = Color("#63A375")
 	# var return false
 	#Check diagonally
 	if  GRID[0][0] != '' and GRID[0][0] == GRID[1][1] and GRID[0][0] == GRID[2][2]:
@@ -372,3 +372,21 @@ func _on_button_game_options_pressed() -> void:
 
 func _on_h_slider_value_changed(value: float) -> void:
 	AudioServer.set_bus_volume_linear(0,value)
+
+func draw_anim():
+	var tween = get_tree().create_tween()
+	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+	tween.parallel()
+	var win_anim_time = 0.01
+	var win_color = Color("#B80C09")
+	Color()
+	tween.tween_property(label_1, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(label_2, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(label_3, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(label_4, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(label_5, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(label_6, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(label_7, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(label_8, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(label_9, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	

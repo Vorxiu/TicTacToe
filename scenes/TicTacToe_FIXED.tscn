@@ -43,7 +43,7 @@ grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme = ExtResource("4_8n18e")
-color = Color(0.129412, 0.129412, 0.129412, 1)
+color = Color(0.117647, 0.117647, 0.141176, 1)
 metadata/_edit_lock_ = true
 
 [node name="ttt_header" type="Label" parent="header"]
@@ -55,6 +55,8 @@ offset_top = 44.0
 offset_bottom = 307.0
 grow_horizontal = 2
 theme = SubResource("Theme_8n18e")
+theme_override_colors/font_shadow_color = Color(0.628554, 0.717726, 0.750701, 0.607843)
+theme_override_constants/shadow_offset_y = 2
 text = "Tic Tac Toe"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -75,7 +77,7 @@ offset_bottom = 6.0
 grow_horizontal = 2
 grow_vertical = 0
 scale = Vector2(1, 0.8)
-theme_override_font_sizes/font_size = 38
+theme_override_font_sizes/font_size = 54
 text = "Player X turn"
 horizontal_alignment = 1
 vertical_alignment = 2
@@ -87,12 +89,13 @@ process_mode = 3
 clip_contents = true
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.0430556
-anchor_top = 0.825342
-anchor_right = 0.979167
-anchor_bottom = 0.881494
+anchor_left = 0.0458333
+anchor_top = 0.828125
+anchor_right = 0.954167
+anchor_bottom = 0.884375
 grow_horizontal = 2
 grow_vertical = 0
+theme = ExtResource("4_8n18e")
 theme_override_fonts/font = ExtResource("5_lpubu")
 theme_override_font_sizes/font_size = 50
 text = " PlayerX 1                                   PlayerO 1 "
@@ -102,91 +105,66 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Gridwindow" type="Control" parent="."]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -355.0
-offset_top = -369.0
-offset_right = -355.0
-offset_bottom = 369.0
+anchor_left = -0.00138889
+anchor_top = 0.211719
+anchor_right = -0.00138889
+anchor_bottom = 0.788281
 grow_horizontal = 2
 grow_vertical = 2
+metadata/_edit_use_anchors_ = true
 
 [node name="horizontalLine1" type="Line2D" parent="Gridwindow"]
-z_index = 1
+z_index = 2
 position = Vector2(342, 243)
 points = PackedVector2Array(-332, 26, 376, 26)
-width = 5.0
-default_color = Color(0.517647, 0.517647, 0.517647, 1)
-joint_mode = 2
+width = 1.5
+default_color = Color(0.929412, 0.94902, 0.956863, 1)
+joint_mode = 1
 begin_cap_mode = 2
 end_cap_mode = 2
-metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
 [node name="horizontalLine2" type="Line2D" parent="Gridwindow"]
-z_index = 1
+z_index = 2
 position = Vector2(331, 518)
 points = PackedVector2Array(-323, 25, 388, 25)
-width = 5.0
-default_color = Color(0.517647, 0.517647, 0.517647, 1)
-joint_mode = 2
+width = 1.5
+default_color = Color(0.929412, 0.94902, 0.956863, 1)
+joint_mode = 1
 begin_cap_mode = 2
 end_cap_mode = 2
-metadata/_edit_group_ = true
-metadata/_edit_lock_ = true
-
-[node name="horizontalLine3" type="Line2D" parent="Gridwindow"]
-z_index = 1
-position = Vector2(331, 518)
-points = PackedVector2Array(-323, 25, 388, 25)
-width = 5.0
-default_color = Color(0.517647, 0.517647, 0.517647, 1)
-joint_mode = 2
-begin_cap_mode = 2
-end_cap_mode = 2
-metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
 [node name="verticleline1" type="Line2D" parent="Gridwindow"]
-z_index = 1
-position = Vector2(268, 371)
-rotation = 1.5708
-points = PackedVector2Array(-333, 26, 396.025, 25.6133)
-width = 5.0
-default_color = Color(0.517647, 0.517647, 0.517647, 1)
-joint_mode = 2
-begin_cap_mode = 2
-end_cap_mode = 2
-metadata/_edit_group_ = true
-metadata/_edit_lock_ = true
-
-[node name="verticleline2" type="Line2D" parent="Gridwindow"]
-z_index = 1
+z_index = 2
 position = Vector2(524, 386)
 rotation = 1.5708
 points = PackedVector2Array(-339, 26, 392, 26)
-width = 5.0
-default_color = Color(0.517647, 0.517647, 0.517647, 1)
-joint_mode = 2
+width = 1.5
+default_color = Color(0.929412, 0.94902, 0.956863, 1)
+joint_mode = 1
 begin_cap_mode = 2
 end_cap_mode = 2
-metadata/_edit_group_ = true
+metadata/_edit_lock_ = true
+
+[node name="verticleline2" type="Line2D" parent="Gridwindow"]
+z_index = 2
+position = Vector2(274, 386)
+rotation = 1.5708
+points = PackedVector2Array(-339, 26, 392, 26)
+width = 1.5
+default_color = Color(0.929412, 0.94902, 0.956863, 1)
+joint_mode = 1
+begin_cap_mode = 2
+end_cap_mode = 2
 metadata/_edit_lock_ = true
 
 [node name="grid" type="Control" parent="Gridwindow"]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
+anchor_top = -0.368564
+anchor_bottom = -0.368564
 offset_left = -5.0
-offset_top = -641.0
 offset_right = -5.0
-offset_bottom = -641.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("2_r67kn")
@@ -197,7 +175,6 @@ position = Vector2(124, 416)
 scale = Vector2(11.4581, 10.9289)
 shape = SubResource("CircleShape2D_tjwpk")
 passby_press = true
-metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
 [node name="gridButton_2" type="TouchScreenButton" parent="Gridwindow/grid"]
@@ -205,7 +182,6 @@ position = Vector2(367, 416)
 scale = Vector2(11.4581, 10.9289)
 shape = SubResource("CircleShape2D_tjwpk")
 passby_press = true
-metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
 [node name="gridButton_3" type="TouchScreenButton" parent="Gridwindow/grid"]
@@ -213,7 +189,6 @@ position = Vector2(619, 418)
 scale = Vector2(11.4581, 10.9289)
 shape = SubResource("CircleShape2D_tjwpk")
 passby_press = true
-metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
 [node name="gridButton_4" type="TouchScreenButton" parent="Gridwindow/grid"]
@@ -221,7 +196,6 @@ position = Vector2(117, 684)
 scale = Vector2(11.4581, 10.9289)
 shape = SubResource("CircleShape2D_tjwpk")
 passby_press = true
-metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
 [node name="gridButton_5" type="TouchScreenButton" parent="Gridwindow/grid"]
@@ -229,7 +203,6 @@ position = Vector2(374, 684)
 scale = Vector2(11.4581, 10.9289)
 shape = SubResource("CircleShape2D_tjwpk")
 passby_press = true
-metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
 [node name="gridButton_6" type="TouchScreenButton" parent="Gridwindow/grid"]
@@ -237,7 +210,6 @@ position = Vector2(619, 682)
 scale = Vector2(11.4581, 10.9289)
 shape = SubResource("CircleShape2D_tjwpk")
 passby_press = true
-metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
 [node name="gridButton_7" type="TouchScreenButton" parent="Gridwindow/grid"]
@@ -245,7 +217,6 @@ position = Vector2(112, 934)
 scale = Vector2(11.4581, 10.9289)
 shape = SubResource("CircleShape2D_tjwpk")
 passby_press = true
-metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
 [node name="gridButton_8" type="TouchScreenButton" parent="Gridwindow/grid"]
@@ -253,7 +224,6 @@ position = Vector2(364, 932)
 scale = Vector2(11.4581, 10.9289)
 shape = SubResource("CircleShape2D_tjwpk")
 passby_press = true
-metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
 [node name="gridButton_9" type="TouchScreenButton" parent="Gridwindow/grid"]
@@ -261,7 +231,6 @@ position = Vector2(616, 939)
 scale = Vector2(11.4581, 10.9289)
 shape = SubResource("CircleShape2D_tjwpk")
 passby_press = true
-metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
 [node name="Label1" type="Label" parent="Gridwindow/grid"]
@@ -392,6 +361,7 @@ passby_press = true
 [node name="game_options" type="Control" parent="changemode"]
 process_mode = 3
 visible = false
+modulate = Color(0.929412, 0.94902, 0.956863, 1)
 anchors_preset = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
