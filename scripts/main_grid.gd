@@ -53,15 +53,30 @@ func _ready() -> void:
 	reload_button.visible = false
 	var tween = get_tree().create_tween()
 	tween.tween_property(ttt_header,"visible_ratio",1.0,0.8).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
-	set_turnLabeltext("Player X turn")
+
+	# print("Player turn debug")
+	# print(str(Global.P2_WinCount) + str(Global.P1_WinCount))
+	# if Global.P1_WinCount < Global.P2_WinCount:
+	# 	Global.Player_turn =  false
+	# elif Global.P2_WinCount > Global.P1_WinCount:
+	# 	Global.Player_turn = true
+	# elif Global.P2_WinCount == Global.P1_WinCount:
+	# 	Global.Player_turn = randi_range(0,1)
+	# #else:
+	# 	#
 	Global.Player_turn = true
-	if Global.Player_turn:
-		pass
+	if(Global.Player_turn):#if true
+		Global.Player_turn = false
+		set_turnLabeltext("Player " + "O" + " turn")
+	elif(!Global.Player_turn):
+		Global.Player_turn = true
+		set_turnLabeltext("Player " + "X" + " turn")
+	print("turn count " + str(turn_count)) 
 
 func play_turn(r:int,c:int):
 	var move:String = "C"
 	turn_count += 1
-	
+
 	if(Global.Player_turn):#if true
 		Global.Player_turn = false
 		move = player1
@@ -70,8 +85,12 @@ func play_turn(r:int,c:int):
 		Global.Player_turn = true
 		move = player2
 		set_turnLabeltext("Player " + "X" + " turn")
-	#Inserts the move
+	#----------------------------------------------#
+	print(str(Global.Player_turn) + "Player " + str(move) + " turn")
+	#set_turnLabeltext("Player " + str(move) + " turn")
 	
+	print(move)
+	#Inserts the move
 	if GRID[r][c] == "":
 		insert_sound.pitch_scale = randf_range(0.9,1.2)
 		insert_sound.play()
@@ -91,7 +110,7 @@ func play_turn(r:int,c:int):
 			draw_anim()
 			reload()
 
-	#gets the bot move
+	#the moves checks if it is the players turn and then in thr next itertion the bot inserts O
 	if Global.tictactoe_mode == 3 and move == player1 and turn_count <= 9:
 		var bot_move = advanced_bot()
 		print("bot move :" + str(bot_move))

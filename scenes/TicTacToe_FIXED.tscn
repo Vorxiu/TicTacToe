@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dd0waknwp4u61"]
+[gd_scene load_steps=17 format=3 uid="uid://dd0waknwp4u61"]
 
 [ext_resource type="FontFile" uid="uid://c0crq6o2jh0pm" path="res://assets/font/Teko/static/Teko-SemiBold.ttf" id="1_r67kn"]
 [ext_resource type="AudioStream" uid="uid://desiy8j21cuou" path="res://assets/audio/Minimalist8.ogg" id="2_8bn2i"]
@@ -7,6 +7,7 @@
 [ext_resource type="FontFile" uid="uid://b5mntr3ahh4h0" path="res://assets/font/Teko/Teko-VariableFont_wght.ttf" id="5_lpubu"]
 [ext_resource type="AudioStream" uid="uid://c8y6g66vicvpa" path="res://assets/sounds/fixed_switch_007.ogg" id="5_tjwpk"]
 [ext_resource type="Texture2D" uid="uid://dfgvs4yvbwg37" path="res://assets/ui/play-1003-svgrepo-com (1).svg" id="6_j5sb0"]
+[ext_resource type="Script" uid="uid://cd71yk2855xv2" path="res://scenes/multiplayer_window.gd" id="8_f2mm0"]
 
 [sub_resource type="Theme" id="Theme_8n18e"]
 default_font = ExtResource("1_r67kn")
@@ -186,6 +187,7 @@ horizontal_alignment = 3
 vertical_alignment = 1
 
 [node name="Gridwindow" type="Control" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -425,7 +427,6 @@ passby_press = true
 
 [node name="game_options" type="Control" parent="changemode"]
 process_mode = 3
-visible = false
 modulate = Color(0.929412, 0.94902, 0.956863, 1)
 layout_mode = 1
 anchors_preset = 8
@@ -439,6 +440,7 @@ scale = Vector2(1.25134, 1.75)
 
 [node name="Option_window" type="ColorRect" parent="changemode/game_options"]
 process_mode = 3
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -455,7 +457,6 @@ scale = Vector2(1e-05, 1e-05)
 pivot_offset = Vector2(72.7814, 258.388)
 theme = ExtResource("4_8n18e")
 color = Color(0.197937, 0.197937, 0.197937, 0.521)
-metadata/_edit_group_ = true
 
 [node name="GameOptions" type="Label" parent="changemode/game_options/Option_window"]
 process_mode = 3
@@ -597,11 +598,90 @@ icon = ExtResource("6_j5sb0")
 flat = true
 icon_alignment = 1
 
+[node name="Multiplayer_button" type="Button" parent="changemode/game_options/Option_window"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -42.0
+offset_top = -51.0
+offset_right = 42.0
+offset_bottom = 51.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "multiplayr
+"
+
 [node name="Option_menu_animation" type="AnimationPlayer" parent="changemode"]
 process_mode = 3
 libraries = {
 &"": SubResource("AnimationLibrary_f2mm0")
 }
+
+[node name="multiplayer_window" type="Control" parent="changemode"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_8n18e")
+script = ExtResource("8_f2mm0")
+
+[node name="ColorRect" type="ColorRect" parent="changemode/multiplayer_window"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.117647, 0.117647, 0.141176, 1)
+
+[node name="get_multiplayerKey" type="Button" parent="changemode/multiplayer_window"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -254.0
+offset_top = -6.0
+offset_right = 251.0
+offset_bottom = 180.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 60
+text = "Generate Key"
+
+[node name="multiplayer_key_edit" type="LineEdit" parent="changemode/multiplayer_window"]
+layout_mode = 0
+offset_left = 95.0
+offset_top = 315.0
+offset_right = 612.0
+offset_bottom = 536.0
+theme = ExtResource("4_8n18e")
+theme_override_font_sizes/font_size = 80
+text = "Enter_key"
+alignment = 1
+
+[node name="multiplayer_key_generated" type="Label" parent="changemode/multiplayer_window"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -56.0
+offset_top = 214.0
+offset_right = 17.0
+offset_bottom = 306.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_8n18e")
+theme_override_font_sizes/font_size = 64
+text = "placeholder"
 
 [connection signal="released" from="Gridwindow/grid/gridButton_1" to="Gridwindow/grid" method="_on_grid_button_1_released"]
 [connection signal="released" from="Gridwindow/grid/gridButton_2" to="Gridwindow/grid" method="_on_grid_button_2_released"]
@@ -621,3 +701,5 @@ libraries = {
 [connection signal="toggled" from="changemode/game_options/Option_window/bot_button" to="Gridwindow/grid" method="_on_bot_button_toggled"]
 [connection signal="toggled" from="changemode/game_options/Option_window/expert_button" to="Gridwindow/grid" method="_on_expert_button_toggled"]
 [connection signal="pressed" from="changemode/game_options/Option_window/resume" to="Gridwindow/grid" method="_on_resume_pressed"]
+[connection signal="pressed" from="changemode/multiplayer_window/get_multiplayerKey" to="changemode/multiplayer_window" method="_on_get_multiplayer_key_pressed"]
+[connection signal="text_submitted" from="changemode/multiplayer_window/multiplayer_key_edit" to="changemode/multiplayer_window" method="_on_multiplayer_key_edit_text_submitted"]
