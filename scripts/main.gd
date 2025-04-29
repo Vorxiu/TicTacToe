@@ -55,12 +55,10 @@ func _ready() -> void:
 	reload_button.visible = false
 	multiplayer_window.visible = false
 	tween.tween_property(ttt_header, "visible_ratio", 1.0, 0.8).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
-	
 	Global.Player_turn = Global.player1
 
 func _process(delta: float) -> void:
-	set_turnLabeltext("Player " + str(Global.Player_turn) + " turn")
-
+	set_turnLabeltext("Player " + str(Global.Player_turn) + " turn...")
 
 func play_turn(r: int, c: int):
 	var move: String = "Error"
