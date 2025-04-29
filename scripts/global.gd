@@ -7,7 +7,7 @@ var P2_WinCount:int = 0
 var GRID = [['','',''],['','',''],['','','']]
 @export var player1:String = "X"
 @export var player2:String = "O"
-var Player_turn:String = "X"
+var Player_turn:String = player1
 func clear_grid():
 	GRID = [['','',''],['','',''],['','','']]
 

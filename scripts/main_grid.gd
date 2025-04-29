@@ -67,7 +67,7 @@ func _ready() -> void:
 	# 	#
 
 	
-	Global.Player_turn = true
+	Global.Player_turn = Global.player1
 
 	print("turn count " + str(turn_count)) 
 func _process(delta: float) -> void:

@@ -66,15 +66,16 @@ func _process(delta: float) -> void:
 func play_turn(r:int,c:int):
 	var move:String = "Error"
 	turn_count += 1
-
+	
 	if(Global.Player_turn == Global.player1):#if true
 		Global.Player_turn = Global.player2
 		move = Global.player1
 	
-	elif(!Global.Player_turn == Global.player2):
+	elif(Global.Player_turn == Global.player2):
 		Global.Player_turn = Global.player1
 		move = Global.player2
-
+	#move = Global.Player_turn
+	
 	#Inserts the move
 	if Global.GRID[r][c] == "":
 		insert_sound.pitch_scale = randf_range(0.9,1.2)
