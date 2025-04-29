@@ -40,9 +40,6 @@ extends Control
 @onready var multiplayer_window: Control = $"../../changemode/multiplayer_window"
 var turn_count:int
 
-
-
-
 var bot_script = preload("res://scripts/bots.gd")
 var bot = bot_script.new()
 #var mode:int = 0# 0 is pvp,1is easy bot,2is advanced bot
@@ -74,11 +71,12 @@ func _ready() -> void:
 
 	print("turn count " + str(turn_count)) 
 func _process(delta: float) -> void:
+
 	if(Global.Player_turn):#if true
-		Global.Player_turn = false
+		# Global.Player_turn = false
 		set_turnLabeltext("Player " + "O" + " turn")
 	elif(!Global.Player_turn):
-		Global.Player_turn = true
+		# Global.Player_turn = true
 		set_turnLabeltext("Player " + "X" + " turn")
 
 func play_turn(r:int,c:int):
@@ -92,7 +90,6 @@ func play_turn(r:int,c:int):
 	elif(!Global.Player_turn):
 		Global.Player_turn = true
 		move = Global.player2
-
 
 	#Inserts the move
 	if Global.GRID[r][c] == "":
@@ -201,7 +198,6 @@ func reload():
 	score_display.text = "Player " + str(Global.player1) + "  " + str(Global.P1_WinCount) + "                                   Player " + str(Global.player2) + "  " + str(Global.P2_WinCount) 
 
 func set_turnLabeltext(toast:String):
-
 	turn_display.visible_ratio = 0.1
 	var tween = get_tree().create_tween()
 	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
@@ -240,8 +236,8 @@ func _on_reload_button_released() -> void:
 	score_display.visible = false
 	get_tree().reload_current_scene()
 
-	
-func insert_move(r, c, move):  # r = row, c = column, move = "X" or "O"
+	#Change this to use a loop and use grd for dynamic loading
+func insert_move(r, c, move):  # r = row, c = column, move = "X" or "O" 
 	var tween = get_tree().create_tween()
 	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	var anim_time = 0.1
@@ -276,7 +272,6 @@ func insert_move(r, c, move):  # r = row, c = column, move = "X" or "O"
 		tween.tween_property(label_9,"text",move,anim_time)
 		grid_button_9.visible = false
 	return move
-
 
 
 func _on_pvp_button_toggled(toggled_on: bool) -> void:
@@ -336,8 +331,6 @@ func draw_anim():
 	tween.tween_property(label_8, "modulate", color, anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	tween.tween_property(label_9, "modulate", color, anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	
-
-
 
 func _on_multiplayer_button_pressed() -> void:
 	multiplayer_window.visible = true

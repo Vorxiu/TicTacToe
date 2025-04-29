@@ -2,7 +2,7 @@
 
 [ext_resource type="FontFile" uid="uid://c0crq6o2jh0pm" path="res://assets/font/Teko/static/Teko-SemiBold.ttf" id="1_r67kn"]
 [ext_resource type="AudioStream" uid="uid://desiy8j21cuou" path="res://assets/audio/Minimalist8.ogg" id="2_8bn2i"]
-[ext_resource type="Script" uid="uid://b04oav3klapnc" path="res://scripts/main_grid.gd" id="2_r67kn"]
+[ext_resource type="Script" uid="uid://b04oav3klapnc" path="res://scripts/main.gd" id="2_r67kn"]
 [ext_resource type="Theme" uid="uid://dnp6l7snho7jf" path="res://assets/themes/default_theme.tres" id="4_8n18e"]
 [ext_resource type="FontFile" uid="uid://b5mntr3ahh4h0" path="res://assets/font/Teko/Teko-VariableFont_wght.ttf" id="5_lpubu"]
 [ext_resource type="AudioStream" uid="uid://c8y6g66vicvpa" path="res://assets/sounds/fixed_switch_007.ogg" id="5_tjwpk"]
