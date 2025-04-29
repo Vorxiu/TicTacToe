@@ -64,13 +64,13 @@ func _process(delta: float) -> void:
 	# 	set_turnLabeltext("Player " + "X" + " turn")
 
 func play_turn(r:int,c:int):
-	var move:String = "C"
+	var move:String = "Error"
 	turn_count += 1
 
 	if(Global.Player_turn == Global.player1):#if true
 		Global.Player_turn = Global.player2
 		move = Global.player1
-
+	
 	elif(!Global.Player_turn == Global.player2):
 		Global.Player_turn = Global.player1
 		move = Global.player2
@@ -229,77 +229,77 @@ func insert_move(r, c, move):  # r = row, c = column, move = "X" or "O"
 	if move == Global.player2:
 		anim_time += anim_time
 	
-	for row in range(0,3):
-		for column in range(0,3):
-			print(Global.GRID[row][column])
-			var move1 = Global.GRID[row][column]
-			r = row
-			c = column
-			if r == 0 and c == 0:
-				if label_1.text == "":
-					tween.tween_property(label_1,"text",move1,anim_time)
-					grid_button_1.visible = false
-			elif r == 0 and c == 1:
-				if label_2.text == "":
-					tween.tween_property(label_2,"text",move1,anim_time)
-					grid_button_2.visible = false
-			elif r == 0 and c == 2:
-				if label_3.text == "":
-					tween.tween_property(label_3,"text",move1,anim_time)
-					grid_button_3.visible = false
-			elif r == 1 and c == 0:
-				if label_4.text == "":
-					tween.tween_property(label_4,"text",move1,anim_time)
-					grid_button_4.visible = false
-			elif r == 1 and c == 1:
-				if label_5.text == "":
-					tween.tween_property(label_5,"text",move1,anim_time)
-					grid_button_5.visible = false
-			elif r == 1 and c == 2:
-				if label_6.text == "":
-					tween.tween_property(label_6,"text",move1,anim_time)
-					grid_button_6.visible = false
-			elif r == 2 and c == 0:
-				if label_7.text == "":
-					tween.tween_property(label_7,"text",move1,anim_time)
-					grid_button_7.visible = false
-			elif r == 2 and c == 1:
-				if label_8.text == "":
-					tween.tween_property(label_8,"text",move1,anim_time)
-					grid_button_8.visible = false
-			elif r == 2 and c == 2:
-				if label_9.text == "":
-					tween.tween_property(label_9,"text",move1,anim_time)
-					grid_button_9.visible = false
+	# for row in range(0,3):
+	# 	for column in range(0,3):
+	# 		print(Global.GRID[row][column])
+	# 		var move1 = Global.GRID[row][column]
+	# 		r = row
+	# 		c = column
+	# 		if r == 0 and c == 0:
+	# 			if label_1.text == "":
+	# 				tween.tween_property(label_1,"text",move1,anim_time)
+	# 				grid_button_1.visible = false
+	# 		elif r == 0 and c == 1:
+	# 			if label_2.text == "":
+	# 				tween.tween_property(label_2,"text",move1,anim_time)
+	# 				grid_button_2.visible = false
+	# 		elif r == 0 and c == 2:
+	# 			if label_3.text == "":
+	# 				tween.tween_property(label_3,"text",move1,anim_time)
+	# 				grid_button_3.visible = false
+	# 		elif r == 1 and c == 0:
+	# 			if label_4.text == "":
+	# 				tween.tween_property(label_4,"text",move1,anim_time)
+	# 				grid_button_4.visible = false
+	# 		elif r == 1 and c == 1:
+	# 			if label_5.text == "":
+	# 				tween.tween_property(label_5,"text",move1,anim_time)
+	# 				grid_button_5.visible = false
+	# 		elif r == 1 and c == 2:
+	# 			if label_6.text == "":
+	# 				tween.tween_property(label_6,"text",move1,anim_time)
+	# 				grid_button_6.visible = false
+	# 		elif r == 2 and c == 0:
+	# 			if label_7.text == "":
+	# 				tween.tween_property(label_7,"text",move1,anim_time)
+	# 				grid_button_7.visible = false
+	# 		elif r == 2 and c == 1:
+	# 			if label_8.text == "":
+	# 				tween.tween_property(label_8,"text",move1,anim_time)
+	# 				grid_button_8.visible = false
+	# 		elif r == 2 and c == 2:
+	# 			if label_9.text == "":
+	# 				tween.tween_property(label_9,"text",move1,anim_time)
+	# 				grid_button_9.visible = false
 
 
-	# if r == 0 and c == 0:
-	# 	tween.tween_property(label_1,"text",move,anim_time)
-	# 	grid_button_1.visible = false
-	# elif r == 0 and c == 1:
-	# 	tween.tween_property(label_2,"text",move,anim_time)
-	# 	grid_button_2.visible = false
-	# elif r == 0 and c == 2:
-	# 	tween.tween_property(label_3,"text",move,anim_time)
-	# 	grid_button_3.visible = false
-	# elif r == 1 and c == 0:
-	# 	tween.tween_property(label_4,"text",move,anim_time)
-	# 	grid_button_4.visible = false
-	# elif r == 1 and c == 1:
-	# 	tween.tween_property(label_5,"text",move,anim_time)
-	# 	grid_button_5.visible = false
-	# elif r == 1 and c == 2:
-	# 	tween.tween_property(label_6,"text",move,anim_time)
-	# 	grid_button_6.visible = false
-	# elif r == 2 and c == 0:
-	# 	tween.tween_property(label_7,"text",move,anim_time)
-	# 	grid_button_7.visible = false
-	# elif r == 2 and c == 1:
-	# 	tween.tween_property(label_8,"text",move,anim_time)
-	# 	grid_button_8.visible = false
-	# elif r == 2 and c == 2:
-	# 	tween.tween_property(label_9,"text",move,anim_time)
-	# 	grid_button_9.visible = false
+	if r == 0 and c == 0:
+		tween.tween_property(label_1,"text",move,anim_time)
+		grid_button_1.visible = false
+	elif r == 0 and c == 1:
+		tween.tween_property(label_2,"text",move,anim_time)
+		grid_button_2.visible = false
+	elif r == 0 and c == 2:
+		tween.tween_property(label_3,"text",move,anim_time)
+		grid_button_3.visible = false
+	elif r == 1 and c == 0:
+		tween.tween_property(label_4,"text",move,anim_time)
+		grid_button_4.visible = false
+	elif r == 1 and c == 1:
+		tween.tween_property(label_5,"text",move,anim_time)
+		grid_button_5.visible = false
+	elif r == 1 and c == 2:
+		tween.tween_property(label_6,"text",move,anim_time)
+		grid_button_6.visible = false
+	elif r == 2 and c == 0:
+		tween.tween_property(label_7,"text",move,anim_time)
+		grid_button_7.visible = false
+	elif r == 2 and c == 1:
+		tween.tween_property(label_8,"text",move,anim_time)
+		grid_button_8.visible = false
+	elif r == 2 and c == 2:
+		tween.tween_property(label_9,"text",move,anim_time)
+		grid_button_9.visible = false
 	return move
 
 func _on_pvp_button_toggled(toggled_on: bool) -> void:

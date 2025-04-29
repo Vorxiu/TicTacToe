@@ -71,23 +71,24 @@ func _ready() -> void:
 
 	print("turn count " + str(turn_count)) 
 func _process(delta: float) -> void:
-	if(Global.Player_turn):#if true
-		Global.Player_turn = false
-		set_turnLabeltext("Player " + "O" + " turn")
-	elif(!Global.Player_turn):
-		Global.Player_turn = true
-		set_turnLabeltext("Player " + "X" + " turn")
+	# if(Global.Player_turn):#if true
+	# 	Global.Player_turn = false
+	# 	set_turnLabeltext("Player " + "O" + " turn")
+	# elif(!Global.Player_turn):
+	# 	Global.Player_turn = true
+	# 	set_turnLabeltext("Player " + "X" + " turn")
+	set_turnLabeltext("Player " + str(Global.Player_turn) + " turn")
 
 func play_turn(r:int,c:int):
-	var move:String = "C"
+	var move:String = "Error"
 	turn_count += 1
 
-	if(Global.Player_turn):#if true
-		Global.Player_turn = false
+	if(Global.Player_turn == Global.player1):#if true
+		Global.Player_turn = Global.player2
 		move = Global.player1
 
-	elif(!Global.Player_turn):
-		Global.Player_turn = true
+	elif(!Global.Player_turn == Global.player2):
+		Global.Player_turn =Global.player1
 		move = Global.player2
 
 	#Inserts the move

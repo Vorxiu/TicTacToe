@@ -1,13 +1,13 @@
 extends Node
 var tictactoe_mode:int = 0 # 0 is pvp,1is easy bot,2is advanced bot
 const save_path = "user://savedgame.cfg"
-var Player_turn:String = player1
+
 var P1_WinCount:int = 0
 var P2_WinCount:int = 0
 var GRID = [['','',''],['','',''],['','','']]
 @export var player1:String = "X"
 @export var player2:String = "O"
-
+var Player_turn:String = "X"
 func clear_grid():
 	GRID = [['','',''],['','',''],['','','']]
 
