@@ -36,41 +36,36 @@ extends Control
 @onready var game_options_labels: Label = $"../../changemode/game_options/Option_window/GameOptions"
 @onready var option_menu_animation: AnimationPlayer = $"../../changemode/Option_menu_animation"
 @onready var multiplayer_window: Control = $"../../changemode/multiplayer_window"
-var turn_count:int
+
 var bot_script = preload("res://scripts/bots.gd")
 var bot = bot_script.new()
 #var mode:int = 0# 0 is pvp,1is easy bot,2is advanced bot
 
 func _ready() -> void:
+	var tween = get_tree().create_tween()
 	Global.load_game()
+	Global.clear_grid()
+	Global.turn_count = 1
 	score_display.visible = false
-	turn_count = 1
 	game_options.visible = false
 	gridwindow.visible = true
-	#Global.Player_turn = true
 	reload_button.visible = false
-	var tween = get_tree().create_tween()
-	tween.tween_property(ttt_header,"visible_ratio",1.0,0.8).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 	multiplayer_window.visible = false
+	tween.tween_property(ttt_header,"visible_ratio",1.0,0.8).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	
 	Global.Player_turn = Global.player1
 
 func _process(delta: float) -> void:
-	
-	# if(Global.Player_turn):#if true
-	# 	# Global.Player_turn = false
 	set_turnLabeltext("Player " + str(Global.Player_turn) + " turn")
-	# elif(!Global.Player_turn):
-	# 	# Global.Player_turn = true
-	# 	set_turnLabeltext("Player " + "X" + " turn")
+
 
 func play_turn(r:int,c:int):
 	var move:String = "Error"
-	turn_count += 1
+	Global.turn_count += 1
 	
 	if(Global.Player_turn == Global.player1):#if true
 		Global.Player_turn = Global.player2
 		move = Global.player1
-	
 	elif(Global.Player_turn == Global.player2):
 		Global.Player_turn = Global.player1
 		move = Global.player2
@@ -83,7 +78,7 @@ func play_turn(r:int,c:int):
 		Global.GRID[r][c] = insert_move(r,c,move) #r = list number,c = position in the list
 	
 	#checks the winner
-	if turn_count > 4:
+	if Global.turn_count > 4:
 		if check_win_condition(false):
 			set_turnLabeltext("Player " + str(move) + " Won")
 			if move == Global.player1:
@@ -91,25 +86,25 @@ func play_turn(r:int,c:int):
 			elif move == Global.player2:
 				Global.P2_WinCount += 1
 			reload()
-		elif turn_count > 9:
+		elif Global.turn_count > 9:
 			set_turnLabeltext("It's a draw!")
 			draw_anim()
 			reload()
 
 	#the moves checks if it is the players turn and then in thr next itertion the bot inserts O
-	if Global.tictactoe_mode == 3 and move == Global.player1 and turn_count <= 9:
+	if Global.tictactoe_mode == 3 and move == Global.player1 and Global.turn_count <= 9:
 		var bot_move = bot.advanced_bot()
 		print("bot move :" + str(bot_move))
 		r = bot_move[0]
 		c = bot_move[1]
 		play_turn(r,c)
-	elif Global.tictactoe_mode == 2 and move == Global.player1 and turn_count <= 9: # the issue is here some where
+	elif Global.tictactoe_mode == 2 and move == Global.player1 and Global.turn_count <= 9: # the issue is here some where
 		var bot_move = bot.beatable_bot()
 		print("bot move :" + str(bot_move))
 		r = bot_move[0]
 		c = bot_move[1]
 		play_turn(r,c)
-	elif Global.tictactoe_mode == 1 and move == Global.player1 and turn_count <= 9:
+	elif Global.tictactoe_mode == 1 and move == Global.player1 and Global.turn_count <= 9:
 		var bot_move = bot.easy_bot()
 		print("bot move :" + str(bot_move))
 		r = bot_move[0]
@@ -185,7 +180,7 @@ func set_turnLabeltext(toast:String):
 	turn_display.visible_ratio = 0.1
 	var tween = get_tree().create_tween()
 	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
-	tween.tween_property(turn_display,"visible_ratio",1,0.25).set_ease(Tween.EASE_IN)
+	tween.tween_property(turn_display,"visible_ratio",1.0,0.25).set_ease(Tween.EASE_IN)
 	turn_display.text = toast
 
 func _on_grid_button_1_released() -> void:

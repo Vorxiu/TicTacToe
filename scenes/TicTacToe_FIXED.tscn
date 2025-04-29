@@ -407,7 +407,6 @@ vertical_alignment = 1
 [node name="reload_button" type="TouchScreenButton" parent="Gridwindow/grid"]
 process_mode = 3
 process_priority = 1
-visible = false
 modulate = Color(100, 100, 100, 1)
 top_level = true
 position = Vector2(374, 768)

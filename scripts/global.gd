@@ -1,7 +1,7 @@
 extends Node
 var tictactoe_mode:int = 0 # 0 is pvp,1is easy bot,2is advanced bot
 const save_path = "user://savedgame.cfg"
-
+var turn_count:int = 0
 var P1_WinCount:int = 0
 var P2_WinCount:int = 0
 var GRID = [['','',''],['','',''],['','','']]
