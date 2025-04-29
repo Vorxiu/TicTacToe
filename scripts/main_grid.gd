@@ -1,14 +1,16 @@
 extends Control
-@onready var button_press: AudioStreamGlobal.Player2D = $"../../button_press"
-@onready var Global.grid_button_1: TouchScreenButton = $Global.gridButton_1
-@onready var Global.grid_button_2: TouchScreenButton = $Global.gridButton_2
-@onready var Global.grid_button_3: TouchScreenButton = $Global.gridButton_3
-@onready var Global.grid_button_4: TouchScreenButton = $Global.gridButton_4
-@onready var Global.grid_button_5: TouchScreenButton = $Global.gridButton_5
-@onready var Global.grid_button_6: TouchScreenButton = $Global.gridButton_6
-@onready var Global.grid_button_7: TouchScreenButton = $Global.gridButton_7
-@onready var Global.grid_button_8: TouchScreenButton = $Global.gridButton_8
-@onready var Global.grid_button_9: TouchScreenButton = $Global.gridButton_9
+@onready var button_press: AudioStreamPlayer2D = $"../../button_press"
+@onready var grid_button_1: TouchScreenButton = $gridButton_1
+@onready var grid_button_3: TouchScreenButton = $gridButton_3
+@onready var grid_button_4: TouchScreenButton = $gridButton_4
+@onready var grid_button_5: TouchScreenButton = $gridButton_5
+@onready var grid_button_6: TouchScreenButton = $gridButton_6
+@onready var grid_button_7: TouchScreenButton = $gridButton_7
+@onready var grid_button_8: TouchScreenButton = $gridButton_8
+@onready var grid_button_9: TouchScreenButton = $gridButton_9
+@onready var game_options: Control = $"../../changemode/game_options"
+@onready var grid_button_2: TouchScreenButton = $gridButton_2
+
 @onready var label_1: Label = $Label1
 @onready var label_2: Label = $Label2
 @onready var label_3: Label = $Label3
@@ -19,8 +21,8 @@ extends Control
 @onready var label_8: Label = $Label8
 @onready var label_9: Label = $Label9
 @onready var reload_button: TouchScreenButton = $reload_button
-@onready var Global.gridwindow: Control = $".."
-@onready var insert_sound: AudioStreamGlobal.Player2D = $"../../insert_sound"
+@onready var gridwindow: Control = $".."
+@onready var insert_sound: AudioStreamPlayer2D = $"../../insert_sound"
 @onready var ttt_header: Label = $"../../header/ttt_header"
 @onready var turn_display: Label = $"../../header/turn_display"
 @onready var h_slider: HSlider = $"../../changemode/game_options/ColorRect/HSlider"
@@ -30,16 +32,19 @@ extends Control
 @onready var expert_button: Button = $"../../changemode/game_options/ColorRect/expert_button"
 @onready var resume: Button = $"../../changemode/game_options/ColorRect/resume"
 @onready var score_display: Label = $"../../score_display"
-@onready var game_options: Control = $"../../changemode/game_options"
+@onready var game_options_window: Control = $"../../changemode/game_options"
+
 @onready var option_window: ColorRect = $"../../changemode/game_options/Option_window"
 @onready var game_options_labels: Label = $"../../changemode/game_options/Option_window/GameOptions"
 @onready var option_menu_animation: AnimationPlayer = $"../../changemode/Option_menu_animation"
 @onready var multiplayer_window: Control = $"../../changemode/multiplayer_window"
-
-
 var turn_count:int
 
 
+
+
+var bot_script = preload("res://scripts/bots.gd")
+var bot = bot_script.new()
 #var mode:int = 0# 0 is pvp,1is easy bot,2is advanced bot
 
 func _ready() -> void:
@@ -47,7 +52,7 @@ func _ready() -> void:
 	score_display.visible = false
 	turn_count = 1
 	game_options.visible = false
-	Global.gridwindow.visible = true
+	gridwindow.visible = true
 	#Global.Player_turn = true
 	reload_button.visible = false
 	var tween = get_tree().create_tween()
@@ -111,19 +116,19 @@ func play_turn(r:int,c:int):
 
 	#the moves checks if it is the players turn and then in thr next itertion the bot inserts O
 	if Global.tictactoe_mode == 3 and move == Global.player1 and turn_count <= 9:
-		var bot_move = advanced_bot()
+		var bot_move = bot.advanced_bot()
 		print("bot move :" + str(bot_move))
 		r = bot_move[0]
 		c = bot_move[1]
 		play_turn(r,c)
 	elif Global.tictactoe_mode == 2 and move == Global.player1 and turn_count <= 9: # the issue is here some where
-		var bot_move = beatable_bot()
+		var bot_move = bot.beatable_bot()
 		print("bot move :" + str(bot_move))
 		r = bot_move[0]
 		c = bot_move[1]
 		play_turn(r,c)
 	elif Global.tictactoe_mode == 1 and move == Global.player1 and turn_count <= 9:
-		var bot_move = easy_bot()
+		var bot_move = bot.easy_bot()
 		print("bot move :" + str(bot_move))
 		r = bot_move[0]
 		c = bot_move[1]
@@ -203,31 +208,31 @@ func set_turnLabeltext(toast:String):
 	tween.tween_property(turn_display,"visible_ratio",1,0.25).set_ease(Tween.EASE_IN)
 	turn_display.text = toast
 
-func _on_Global.grid_button_1_released() -> void:
+func _on_grid_button_1_released() -> void:
 	play_turn(0,0)
 
-func _on_Global.grid_button_2_released() -> void:
+func _on_grid_button_2_released() -> void:
 	play_turn(0,1)
 
-func _on_Global.grid_button_3_released() -> void:
+func _on_grid_button_3_released() -> void:
 	play_turn(0,2)
 
-func _on_Global.grid_button_4_released() -> void:
+func _on_grid_button_4_released() -> void:
 	play_turn(1,0)
 
-func _on_Global.grid_button_5_released() -> void:
+func _on_grid_button_5_released() -> void:
 	play_turn(1,1)
 
-func _on_Global.grid_button_6_released() -> void:
+func _on_grid_button_6_released() -> void:
 	play_turn(1,2)
 
-func _on_Global.grid_button_7_released() -> void:
+func _on_grid_button_7_released() -> void:
 	play_turn(2,0)
 
-func _on_Global.grid_button_8_released() -> void:
+func _on_grid_button_8_released() -> void:
 	play_turn(2,1)
 
-func _on_Global.grid_button_9_released() -> void:
+func _on_grid_button_9_released() -> void:
 	play_turn(2,2)
 
 func _on_reload_button_released() -> void:
@@ -245,31 +250,31 @@ func insert_move(r, c, move):  # r = row, c = column, move = "X" or "O"
 		anim_time += anim_time
 	if r == 0 and c == 0:
 		tween.tween_property(label_1,"text",move,anim_time)
-		Global.grid_button_1.visible = false
+		grid_button_1.visible = false
 	elif r == 0 and c == 1:
 		tween.tween_property(label_2,"text",move,anim_time)
-		Global.grid_button_2.visible = false
+		grid_button_2.visible = false
 	elif r == 0 and c == 2:
 		tween.tween_property(label_3,"text",move,anim_time)
-		Global.grid_button_3.visible = false
+		grid_button_3.visible = false
 	elif r == 1 and c == 0:
 		tween.tween_property(label_4,"text",move,anim_time)
-		Global.grid_button_4.visible = false
+		grid_button_4.visible = false
 	elif r == 1 and c == 1:
 		tween.tween_property(label_5,"text",move,anim_time)
-		Global.grid_button_5.visible = false
+		grid_button_5.visible = false
 	elif r == 1 and c == 2:
 		tween.tween_property(label_6,"text",move,anim_time)
-		Global.grid_button_6.visible = false
+		grid_button_6.visible = false
 	elif r == 2 and c == 0:
 		tween.tween_property(label_7,"text",move,anim_time)
-		Global.grid_button_7.visible = false
+		grid_button_7.visible = false
 	elif r == 2 and c == 1:
 		tween.tween_property(label_8,"text",move,anim_time)
-		Global.grid_button_8.visible = false
+		grid_button_8.visible = false
 	elif r == 2 and c == 2:
 		tween.tween_property(label_9,"text",move,anim_time)
-		Global.grid_button_9.visible = false
+		grid_button_9.visible = false
 	return move
 
 

@@ -1,6 +1,4 @@
-
 extends Node
-
 
 func available_moves():
 	var available_move = []
@@ -23,7 +21,7 @@ func advanced_bot():
 		var r = move[0]
 		var c = move[1]
 		Global.GRID[r][c] = bot_move_value  # Simulate the bot's move
-		if check_win_condition(true):  # Check if this move wins the game
+		if check_win_condition():  # Check if this move wins the game
 			Global.GRID[r][c] = ""  # Reset the Global.grid
 			return move  # Return the winning move
 		Global.GRID[r][c] = ""  # Reset the Global.grid
@@ -33,7 +31,7 @@ func advanced_bot():
 		var r = move[0]
 		var c = move[1]
 		Global.GRID[r][c] = opponent_move_value  # Simulate the opponent's move
-		if check_win_condition(true):  # Check if this move would let the opponent win
+		if check_win_condition():  # Check if this move would let the opponent win
 			Global.GRID[r][c] = ""  # Reset the Global.grid
 			return move  # Return the blocking move
 		Global.GRID[r][c] = ""  
@@ -48,12 +46,11 @@ func advanced_bot():
 		if corner in moves:
 			return corner
 	return moves.pick_random()
+
 func beatable_bot():
-	
 	# Define the bot's move value and the opponent's move value
-	var bot_move_value = player2
+	var bot_move_value = Global.player2
 	var opponent_move_value = Global.player1
-	
 	# Get all available moves
 	var moves = available_moves()
 
@@ -62,7 +59,7 @@ func beatable_bot():
 		var r = move[0]
 		var c = move[1]
 		Global.GRID[r][c] = bot_move_value  # Simulate the bot's move
-		if check_win_condition(true):  # Check if this move wins the game
+		if check_win_condition():  # Check if this move wins the game
 			Global.GRID[r][c] = ""  # Reset the Global.grid
 			return move  # Return the winning move
 		Global.GRID[r][c] = ""  # Reset the Global.grid
@@ -72,7 +69,7 @@ func beatable_bot():
 		var r = move[0]
 		var c = move[1]
 		Global.GRID[r][c] = opponent_move_value  # Simulate the opponent's move
-		if check_win_condition(true):  # Check if this move would let the opponent win
+		if check_win_condition():  # Check if this move would let the opponent win
 			Global.GRID[r][c] = ""  # Reset the Global.grid
 			return move  # Return the blocking move
 		Global.GRID[r][c] = ""  
@@ -89,7 +86,7 @@ func easy_bot():
 		var r = move[0]
 		var c = move[1]
 		Global.GRID[r][c] = bot_move_value  # Simulate the bot's move
-		if check_win_condition(true):  # Check if this move wins the game
+		if check_win_condition():  # Check if this move wins the game
 			Global.GRID[r][c] = ""  # Reset the grid
 			return move  # Return the winning move
 		Global.GRID[r][c] = ""  # Reset the grid
