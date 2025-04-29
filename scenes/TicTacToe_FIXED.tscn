@@ -7,7 +7,7 @@
 [ext_resource type="FontFile" uid="uid://b5mntr3ahh4h0" path="res://assets/font/Teko/Teko-VariableFont_wght.ttf" id="5_lpubu"]
 [ext_resource type="AudioStream" uid="uid://c8y6g66vicvpa" path="res://assets/sounds/fixed_switch_007.ogg" id="5_tjwpk"]
 [ext_resource type="Texture2D" uid="uid://dfgvs4yvbwg37" path="res://assets/ui/play-1003-svgrepo-com (1).svg" id="6_j5sb0"]
-[ext_resource type="Script" path="res://scenes/multiplayer_window.gd" id="8_f2mm0"]
+[ext_resource type="Script" uid="uid://cd71yk2855xv2" path="res://scenes/multiplayer_window.gd" id="8_f2mm0"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_f2mm0"]
 

@@ -8,7 +8,6 @@ func available_moves():
 				available_move.append([rows,column])
 	return available_move
 
-
 func advanced_bot():
 
 	# Define the bot's move value and the opponent's move value

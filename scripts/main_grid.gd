@@ -10,6 +10,7 @@ extends Control
 @onready var grid_button_9: TouchScreenButton = $gridButton_9
 @onready var game_options: Control = $"../../changemode/game_options"
 @onready var grid_button_2: TouchScreenButton = $gridButton_2
+
 @onready var label_1: Label = $Label1
 @onready var label_2: Label = $Label2
 @onready var label_3: Label = $Label3
@@ -32,11 +33,13 @@ extends Control
 @onready var resume: Button = $"../../changemode/game_options/ColorRect/resume"
 @onready var score_display: Label = $"../../score_display"
 @onready var game_options_window: Control = $"../../changemode/game_options"
+
 @onready var option_window: ColorRect = $"../../changemode/game_options/Option_window"
 @onready var game_options_labels: Label = $"../../changemode/game_options/Option_window/GameOptions"
 @onready var option_menu_animation: AnimationPlayer = $"../../changemode/Option_menu_animation"
 @onready var multiplayer_window: Control = $"../../changemode/multiplayer_window"
 var turn_count:int
+
 var bot_script = preload("res://scripts/bots.gd")
 var bot = bot_script.new()
 #var mode:int = 0# 0 is pvp,1is easy bot,2is advanced bot
@@ -52,27 +55,39 @@ func _ready() -> void:
 	var tween = get_tree().create_tween()
 	tween.tween_property(ttt_header,"visible_ratio",1.0,0.8).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 	multiplayer_window.visible = false
-	Global.Player_turn = Global.player1
+	# print("Player turn debug")
+	# print(str(Global.P2_WinCount) + str(Global.P1_WinCount))
+	# if Global.P1_WinCount < Global.P2_WinCount:
+	# 	Global.Player_turn =  false
+	# elif Global.P2_WinCount > Global.P1_WinCount:
+	# 	Global.Player_turn = true
+	# elif Global.P2_WinCount == Global.P1_WinCount:
+	# 	Global.Player_turn = randi_range(0,1)
+	# #else:
+	# 	#
 
-func _process(delta: float) -> void:
 	
-	# if(Global.Player_turn):#if true
-	# 	# Global.Player_turn = false
-	set_turnLabeltext("Player " + str(Global.Player_turn) + " turn")
-	# elif(!Global.Player_turn):
-	# 	# Global.Player_turn = true
-	# 	set_turnLabeltext("Player " + "X" + " turn")
+	Global.Player_turn = true
+
+	print("turn count " + str(turn_count)) 
+func _process(delta: float) -> void:
+	if(Global.Player_turn):#if true
+		Global.Player_turn = false
+		set_turnLabeltext("Player " + "O" + " turn")
+	elif(!Global.Player_turn):
+		Global.Player_turn = true
+		set_turnLabeltext("Player " + "X" + " turn")
 
 func play_turn(r:int,c:int):
 	var move:String = "C"
 	turn_count += 1
 
-	if(Global.Player_turn == Global.player1):#if true
-		Global.Player_turn = Global.player2
+	if(Global.Player_turn):#if true
+		Global.Player_turn = false
 		move = Global.player1
 
-	elif(!Global.Player_turn == Global.player2):
-		Global.Player_turn = Global.player1
+	elif(!Global.Player_turn):
+		Global.Player_turn = true
 		move = Global.player2
 
 	#Inserts the move
@@ -114,6 +129,7 @@ func play_turn(r:int,c:int):
 		r = bot_move[0]
 		c = bot_move[1]
 		play_turn(r,c)
+
 
 func check_win_condition(is_bot:bool):
 	var tween = get_tree().create_tween()
@@ -181,6 +197,7 @@ func reload():
 	score_display.text = "Player " + str(Global.player1) + "  " + str(Global.P1_WinCount) + "                                   Player " + str(Global.player2) + "  " + str(Global.P2_WinCount) 
 
 func set_turnLabeltext(toast:String):
+
 	turn_display.visible_ratio = 0.1
 	var tween = get_tree().create_tween()
 	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
@@ -220,87 +237,42 @@ func _on_reload_button_released() -> void:
 	get_tree().reload_current_scene()
 
 	#Change this to use a loop and use grd for dynamic loading
-
-#Dynamically updates the grid
-func insert_move(r, c, move):  # r = row, c = column, move = "X" or "O"
+func insert_move(r, c, move):  # r = row, c = column, move = "X" or "O" 
 	var tween = get_tree().create_tween()
 	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	var anim_time = 0.1
+
 	if move == Global.player2:
 		anim_time += anim_time
-	
-	for row in range(0,3):
-		for column in range(0,3):
-			print(Global.GRID[row][column])
-			var move1 = Global.GRID[row][column]
-			r = row
-			c = column
-			if r == 0 and c == 0:
-				if label_1.text == "":
-					tween.tween_property(label_1,"text",move1,anim_time)
-					grid_button_1.visible = false
-			elif r == 0 and c == 1:
-				if label_2.text == "":
-					tween.tween_property(label_2,"text",move1,anim_time)
-					grid_button_2.visible = false
-			elif r == 0 and c == 2:
-				if label_3.text == "":
-					tween.tween_property(label_3,"text",move1,anim_time)
-					grid_button_3.visible = false
-			elif r == 1 and c == 0:
-				if label_4.text == "":
-					tween.tween_property(label_4,"text",move1,anim_time)
-					grid_button_4.visible = false
-			elif r == 1 and c == 1:
-				if label_5.text == "":
-					tween.tween_property(label_5,"text",move1,anim_time)
-					grid_button_5.visible = false
-			elif r == 1 and c == 2:
-				if label_6.text == "":
-					tween.tween_property(label_6,"text",move1,anim_time)
-					grid_button_6.visible = false
-			elif r == 2 and c == 0:
-				if label_7.text == "":
-					tween.tween_property(label_7,"text",move1,anim_time)
-					grid_button_7.visible = false
-			elif r == 2 and c == 1:
-				if label_8.text == "":
-					tween.tween_property(label_8,"text",move1,anim_time)
-					grid_button_8.visible = false
-			elif r == 2 and c == 2:
-				if label_9.text == "":
-					tween.tween_property(label_9,"text",move1,anim_time)
-					grid_button_9.visible = false
-
-
-	# if r == 0 and c == 0:
-	# 	tween.tween_property(label_1,"text",move,anim_time)
-	# 	grid_button_1.visible = false
-	# elif r == 0 and c == 1:
-	# 	tween.tween_property(label_2,"text",move,anim_time)
-	# 	grid_button_2.visible = false
-	# elif r == 0 and c == 2:
-	# 	tween.tween_property(label_3,"text",move,anim_time)
-	# 	grid_button_3.visible = false
-	# elif r == 1 and c == 0:
-	# 	tween.tween_property(label_4,"text",move,anim_time)
-	# 	grid_button_4.visible = false
-	# elif r == 1 and c == 1:
-	# 	tween.tween_property(label_5,"text",move,anim_time)
-	# 	grid_button_5.visible = false
-	# elif r == 1 and c == 2:
-	# 	tween.tween_property(label_6,"text",move,anim_time)
-	# 	grid_button_6.visible = false
-	# elif r == 2 and c == 0:
-	# 	tween.tween_property(label_7,"text",move,anim_time)
-	# 	grid_button_7.visible = false
-	# elif r == 2 and c == 1:
-	# 	tween.tween_property(label_8,"text",move,anim_time)
-	# 	grid_button_8.visible = false
-	# elif r == 2 and c == 2:
-	# 	tween.tween_property(label_9,"text",move,anim_time)
-	# 	grid_button_9.visible = false
+	if r == 0 and c == 0:
+		tween.tween_property(label_1,"text",move,anim_time)
+		grid_button_1.visible = false
+	elif r == 0 and c == 1:
+		tween.tween_property(label_2,"text",move,anim_time)
+		grid_button_2.visible = false
+	elif r == 0 and c == 2:
+		tween.tween_property(label_3,"text",move,anim_time)
+		grid_button_3.visible = false
+	elif r == 1 and c == 0:
+		tween.tween_property(label_4,"text",move,anim_time)
+		grid_button_4.visible = false
+	elif r == 1 and c == 1:
+		tween.tween_property(label_5,"text",move,anim_time)
+		grid_button_5.visible = false
+	elif r == 1 and c == 2:
+		tween.tween_property(label_6,"text",move,anim_time)
+		grid_button_6.visible = false
+	elif r == 2 and c == 0:
+		tween.tween_property(label_7,"text",move,anim_time)
+		grid_button_7.visible = false
+	elif r == 2 and c == 1:
+		tween.tween_property(label_8,"text",move,anim_time)
+		grid_button_8.visible = false
+	elif r == 2 and c == 2:
+		tween.tween_property(label_9,"text",move,anim_time)
+		grid_button_9.visible = false
 	return move
+
 
 func _on_pvp_button_toggled(toggled_on: bool) -> void:
 	if toggled_on:
