@@ -1,29 +1,17 @@
 extends Node
-var GRID
-func bot_turn(turn_count):
-	#var r:int
-	#var c:int
-		# if Global.tictactoe_mode != 0:
-	
-	# the moves checks if it is the players turn and then in the next iteration the bot inserts O
-	if Global.tictactoe_mode == 3 and Global.Player_turn == Global.player1 and turn_count <= 9:
-		return advanced_bot()
-		#print("bot move :" + str(bot_move))
-		#r = bot_move[0]
-		#c = bot_move[1]
-		#play_turn(r, c)
-	elif Global.tictactoe_mode == 2 and Global.Player_turn == Global.player1 and turn_count <= 9: # the issue is here some where
-		return beatable_bot()
-		#print("bot move :" + str(bot_move))
-		#r = bot_move[0]
-		#c = bot_move[1]
-		#play_turn(r,c)
-	elif Global.tictactoe_mode == 1 and Global.Player_turn == Global.player1 and turn_count <= 9:
-		return easy_bot()
-		#print("bot move :" + str(bot_move))
-		#r = bot_move[0]
-		#c = bot_move[1]
-		#play_turn(r,c)
+var GRID = Global.GRID
+var x
+func bot_turn():#Global.Player_turn == Global.player1 and 
+
+		if Global.tictactoe_mode == 3:
+			x = advanced_bot()
+			return x
+		elif Global.tictactoe_mode == 2: # the issue is here some where
+			x = beatable_bot()
+			return x
+		elif Global.tictactoe_mode == 1:
+			x = easy_bot()
+			return x
 
 func available_moves():
 	GRID = Global.GRID

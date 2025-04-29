@@ -36,6 +36,8 @@ extends Control
 @onready var game_options_labels: Label = $"../../changemode/game_options/Option_window/GameOptions"
 @onready var option_menu_animation: AnimationPlayer = $"../../changemode/Option_menu_animation"
 @onready var multiplayer_window: Control = $"../../changemode/multiplayer_window"
+@onready var button_game_options: TouchScreenButton = $"../../changemode/button_gameOptions"
+
 
 var bot_script = preload("res://scripts/bots.gd")
 var bot = bot_script.new()
@@ -45,6 +47,7 @@ func _ready() -> void:
 	var tween = get_tree().create_tween()
 	Global.load_game()
 	Global.clear_grid()
+	update_grid()
 	Global.turn_count = 1
 	score_display.visible = false
 	game_options.visible = false
@@ -63,19 +66,19 @@ func play_turn(r: int, c: int):
 	var move: String = "Error"
 	Global.turn_count += 1
 	
-	if (Global.Player_turn == Global.player1): # if true
+	if (Global.Player_turn == Global.player1): # if X
 		Global.Player_turn = Global.player2
 		move = Global.player1
 	elif (Global.Player_turn == Global.player2):
 		Global.Player_turn = Global.player1
 		move = Global.player2
-	#move = Global.Player_turn
 	
 	#Inserts the move
 	if Global.GRID[r][c] == "":
 		insert_sound.pitch_scale = randf_range(0.9, 1.2)
 		insert_sound.play()
-		Global.GRID[r][c] = insert_move(r, c, move) # r = list number,c = position in the list
+		Global.GRID[r][c] = move#insert_move(r, c, move) # r = list number,c = position in the list
+		update_grid()
 	
 	#checks the winner
 	if Global.turn_count > 4:
@@ -90,26 +93,13 @@ func play_turn(r: int, c: int):
 			set_turnLabeltext("It's a draw!")
 			draw_anim()
 			reload()
+	
+	#Bot turn
+	if Global.tictactoe_mode != 0 and Global.turn_count <= 9 and Global.Player_turn == "O":
+		var b_move = bot.bot_turn()
+		print(b_move)
+		play_turn(b_move[0],b_move[1])
 
-	#the moves checks if it is the players turn and then in thr next itertion the bot inserts O
-	if Global.tictactoe_mode == 3 and move == Global.player1 and Global.turn_count <= 9:
-		var bot_move = bot.advanced_bot()
-		print("bot move :" + str(bot_move))
-		r = bot_move[0]
-		c = bot_move[1]
-		play_turn(r, c)
-	elif Global.tictactoe_mode == 2 and move == Global.player1 and Global.turn_count <= 9: # the issue is here some where
-		var bot_move = bot.beatable_bot()
-		print("bot move :" + str(bot_move))
-		r = bot_move[0]
-		c = bot_move[1]
-		play_turn(r, c)
-	elif Global.tictactoe_mode == 1 and move == Global.player1 and Global.turn_count <= 9:
-		var bot_move = bot.easy_bot()
-		print("bot move :" + str(bot_move))
-		r = bot_move[0]
-		c = bot_move[1]
-		play_turn(r, c)
 
 func check_win_condition(is_bot: bool):
 	var tween = get_tree().create_tween()
@@ -218,42 +208,6 @@ func _on_reload_button_released() -> void:
 	#Change this to use a loop and use grd for dynamic loading
 
 #Dynamically updates the grid
-func insert_move(r, c, move): # r = row, c = column, move = "X" or "O"
-	var tween = get_tree().create_tween()
-	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
-	var anim_time = 0.1
-	if move == Global.player2:
-		anim_time += anim_time
-	
-	if r == 0 and c == 0:
-		tween.tween_property(label_1, "text", move, anim_time)
-		grid_button_1.visible = false
-	elif r == 0 and c == 1:
-		tween.tween_property(label_2, "text", move, anim_time)
-		grid_button_2.visible = false
-	elif r == 0 and c == 2:
-		tween.tween_property(label_3, "text", move, anim_time)
-		grid_button_3.visible = false
-	elif r == 1 and c == 0:
-		tween.tween_property(label_4, "text", move, anim_time)
-		grid_button_4.visible = false
-	elif r == 1 and c == 1:
-		tween.tween_property(label_5, "text", move, anim_time)
-		grid_button_5.visible = false
-	elif r == 1 and c == 2:
-		tween.tween_property(label_6, "text", move, anim_time)
-		grid_button_6.visible = false
-	elif r == 2 and c == 0:
-		tween.tween_property(label_7, "text", move, anim_time)
-		grid_button_7.visible = false
-	elif r == 2 and c == 1:
-		tween.tween_property(label_8, "text", move, anim_time)
-		grid_button_8.visible = false
-	elif r == 2 and c == 2:
-		tween.tween_property(label_9, "text", move, anim_time)
-		grid_button_9.visible = false
-	return move
-
 func update_grid():
 	var tween = get_tree().create_tween()
 	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
@@ -262,58 +216,50 @@ func update_grid():
 		anim_time += anim_time
 	var move1
 
-	if Global.GRID[0][0] != "":
+	if Global.GRID[0][0] != "" and label_1.text == "":
 		move1 = Global.GRID[0][0]
-		if label_1.text == "":
-			tween.tween_property(label_1, "text", move1, anim_time)
-			grid_button_1.visible = false
+		tween.tween_property(label_1, "text", move1, anim_time)
+		grid_button_1.visible = false
 	
-	if Global.GRID[0][1] != "":
+	if Global.GRID[0][1] != "" and label_2.text == "":
 		move1 = Global.GRID[0][1]
 		tween.tween_property(label_2, "text", move1, anim_time)
 		grid_button_2.visible = false
 
-	if Global.GRID[0][2] != "":
+	if Global.GRID[0][2] != "" and label_3.text == "":
 		move1 = Global.GRID[0][2]
-		if label_3.text == "":
-			tween.tween_property(label_3, "text", move1, anim_time)
-			grid_button_3.visible = false
+		tween.tween_property(label_3, "text", move1, anim_time)
+		grid_button_3.visible = false
 
-	if Global.GRID[1][0] != "":
+	if Global.GRID[1][0] != "" and label_4.text == "":
 		move1 = Global.GRID[1][0]
-		if label_4.text == "":
-			tween.tween_property(label_4, "text", move1, anim_time)
-			grid_button_4.visible = false
+		tween.tween_property(label_4, "text", move1, anim_time)
+		grid_button_4.visible = false
 
-	if Global.GRID[1][1] != "":
+	if Global.GRID[1][1] != "" and label_5.text == "":
 		move1 = Global.GRID[1][1]
-		if label_5.text == "":
-			tween.tween_property(label_5, "text", move1, anim_time)
-			grid_button_5.visible = false
+		tween.tween_property(label_5, "text", move1, anim_time)
+		grid_button_5.visible = false
 
-	if Global.GRID[1][2] != "":
+	if Global.GRID[1][2] != "" and label_6.text == "":
 		move1 = Global.GRID[1][2]
-		if label_6.text == "":
-			tween.tween_property(label_6, "text", move1, anim_time)
-			grid_button_6.visible = false
+		tween.tween_property(label_6, "text", move1, anim_time)
+		grid_button_6.visible = false
 
-	if Global.GRID[2][0] != "":
+	if Global.GRID[2][0] != "" and label_7.text == "":
 		move1 = Global.GRID[2][0]
-		if label_7.text == "":
-			tween.tween_property(label_7, "text", move1, anim_time)
-			grid_button_7.visible = false
+		tween.tween_property(label_7, "text", move1, anim_time)
+		grid_button_7.visible = false
 
-	if Global.GRID[2][1] != "":
+	if Global.GRID[2][1] != "" and label_8.text == "":
 		move1 = Global.GRID[2][1]
-		if label_8.text == "":
-			tween.tween_property(label_8, "text", move1, anim_time)
-			grid_button_8.visible = false
+		tween.tween_property(label_8, "text", move1, anim_time)
+		grid_button_8.visible = false
 
-	if Global.GRID[2][2] != "":
+	if Global.GRID[2][2] != "" and label_9.text == "":
 		move1 = Global.GRID[2][2]
-		if label_9.text == "":
-			tween.tween_property(label_9, "text", move1, anim_time)
-			grid_button_9.visible = false
+		tween.tween_property(label_9, "text", move1, anim_time)
+		grid_button_9.visible = false
 
 
 func _on_pvp_button_toggled(toggled_on: bool) -> void:
@@ -334,7 +280,7 @@ func _on_expert_button_toggled(toggled_on: bool) -> void:
 		Global.tictactoe_mode = 3
 		button_press.play()
 func _on_resume_pressed() -> void:
-	Global.gridwindow.visible = true
+	gridwindow.visible = true
 	multiplayer_window.visible = false
 	#game_options.visible = false
 	get_tree().paused = false
@@ -346,7 +292,7 @@ func _on_resume_pressed() -> void:
 func _on_button_game_options_pressed() -> void:
 	button_press.play()
 	game_options.visible = true
-	Global.gridwindow.visible = false
+	gridwindow.visible = false
 	get_tree().paused = true
 	ttt_header.visible = false
 	option_menu_animation.play("option")
