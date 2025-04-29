@@ -1,17 +1,13 @@
 extends Node
 var GRID = Global.GRID
-var x
 func bot_turn():#Global.Player_turn == Global.player1 and 
 
 		if Global.tictactoe_mode == 3:
-			x = advanced_bot()
-			return x
+			return advanced_bot()
 		elif Global.tictactoe_mode == 2: # the issue is here some where
-			x = beatable_bot()
-			return x
+			return beatable_bot()
 		elif Global.tictactoe_mode == 1:
-			x = easy_bot()
-			return x
+			return easy_bot()
 
 func available_moves():
 	GRID = Global.GRID
