@@ -56,31 +56,46 @@ func _ready() -> void:
 	multiplayer_window.visible = false
 	tween.tween_property(ttt_header, "visible_ratio", 1.0, 0.8).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 	Global.Player_turn = Global.player1
+	set_turnLabeltext("Player " + str(Global.Player_turn) + " turn")
+	
 
 func _process(delta: float) -> void:
-	set_turnLabeltext("Player " + str(Global.Player_turn) + " turn...")
+	pass
+	# update_grid()
 
 func play_turn(r: int, c: int):
 	var move: String = "Error"
 	Global.turn_count += 1
-	
+
+	move = Global.Player_turn
+	# Swaps the player move
 	if (Global.Player_turn == Global.player1): # if X
 		Global.Player_turn = Global.player2
-		move = Global.player1
 	elif (Global.Player_turn == Global.player2):
 		Global.Player_turn = Global.player1
-		move = Global.player2
-	
-	#Inserts the move
+
+	set_turnLabeltext("Player " + str(Global.Player_turn) + " turn")
+	insert_Grid(r,c,move)
+	update_grid()
+	get_winner(move)
+
+	#Bot turn
+	if Global.tictactoe_mode != 0 and Global.turn_count <= 9 and Global.Player_turn == Global.player2:
+		var b_move = bot.bot_turn()
+		print(b_move)
+		play_turn(b_move[0],b_move[1])
+
+
+func insert_Grid(r,c,move):
 	if Global.GRID[r][c] == "":
 		insert_sound.pitch_scale = randf_range(0.9, 1.2)
 		insert_sound.play()
-		Global.GRID[r][c] = move#insert_move(r, c, move) # r = list number,c = position in the list
-		update_grid()
-	
-	#checks the winner
+		Global.GRID[r][c] = move # r = list number,c = position in the list
+
+func get_winner(move):
+		#checks the winner
 	if Global.turn_count > 4:
-		if check_win_condition(false):
+		if check_win_condition():
 			set_turnLabeltext("Player " + str(move) + " Won")
 			if move == Global.player1:
 				Global.P1_WinCount += 1
@@ -92,69 +107,62 @@ func play_turn(r: int, c: int):
 			draw_anim()
 			reload()
 	
-	#Bot turn
-	if Global.tictactoe_mode != 0 and Global.turn_count <= 9 and Global.Player_turn == "O":
-		var b_move = bot.bot_turn()
-		print(b_move)
-		play_turn(b_move[0],b_move[1])
-
-
-func check_win_condition(is_bot: bool):
+func check_win_condition():
 	var tween = get_tree().create_tween()
 	#tween.set_process_mode(Tween.TWEEN_PROCESS_IDLE)
 	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	var win_anim_time = 0.08
-	var win_color = Color("#63A375")
-	# var return false
+	var win_color = Color("#63A375")#Green color
+	if Global.tictactoe_mode > 0 and Global.Player_turn == Global.player1: #if its the  bots turn
+		win_color = Color("#B80C09")#Red color
 	#Check diagonally
 	if Global.GRID[0][0] != '' and Global.GRID[0][0] == Global.GRID[1][1] and Global.GRID[0][0] == Global.GRID[2][2]:
-		if !is_bot:
-			tween.tween_property(label_1, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT) # label_1
-			tween.tween_property(label_5, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT) # label_5
-			tween.tween_property(label_9, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT) # label_9
+
+		tween.tween_property(label_1, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT) # label_1
+		tween.tween_property(label_5, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT) # label_5
+		tween.tween_property(label_9, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT) # label_9
 		return true
  
 	if Global.GRID[0][2] != '' and Global.GRID[0][2] == Global.GRID[1][1] and Global.GRID[0][2] == Global.GRID[2][0]:
-		if !is_bot:
-			tween.tween_property(label_3, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-			tween.tween_property(label_5, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-			tween.tween_property(label_7, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+
+		tween.tween_property(label_3, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		tween.tween_property(label_5, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		tween.tween_property(label_7, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 		return true
 
 	#Checks each row for matching row,,#r = list number,c = position in the list
-	for i in range(0, 3): # 0,0 wuold be label1 0,1 label4 0,2 label7,,i = 0,0,0 and 1,4,7, i = 1,1,1 then 2,
+	for i in range(0, 3): 
 		if Global.GRID[i][0] != '' and Global.GRID[i][0] == Global.GRID[i][1] and Global.GRID[i][0] == Global.GRID[i][2]:
-			if !is_bot:
-				if i == 0:
-					tween.tween_property(label_1, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-					tween.tween_property(label_2, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-					tween.tween_property(label_3, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-				elif i == 1:
-					tween.tween_property(label_4, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-					tween.tween_property(label_5, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-					tween.tween_property(label_6, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-				elif i == 2:
-					tween.tween_property(label_7, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-					tween.tween_property(label_8, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-					tween.tween_property(label_9, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+			if i == 0:
+				tween.tween_property(label_1, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+				tween.tween_property(label_2, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+				tween.tween_property(label_3, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+			elif i == 1:
+				tween.tween_property(label_4, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+				tween.tween_property(label_5, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+				tween.tween_property(label_6, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+			elif i == 2:
+				tween.tween_property(label_7, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+				tween.tween_property(label_8, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+				tween.tween_property(label_9, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 			return true
 
 	#Checks each column for matching column
-	for i in range(0, 3): # here i 0 will be label1,2,3
+	for i in range(0, 3): 
 		if Global.GRID[0][i] != '' and Global.GRID[0][i] == Global.GRID[1][i] and Global.GRID[0][i] == Global.GRID[2][i]:
-			if !is_bot:
-				if i == 0:
-					tween.tween_property(label_1, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-					tween.tween_property(label_4, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-					tween.tween_property(label_7, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-				elif i == 1:
-					tween.tween_property(label_2, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-					tween.tween_property(label_5, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-					tween.tween_property(label_8, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-				elif i == 2:
-					tween.tween_property(label_3, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-					tween.tween_property(label_6, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-					tween.tween_property(label_9, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+
+			if i == 0:
+				tween.tween_property(label_1, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+				tween.tween_property(label_4, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+				tween.tween_property(label_7, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+			elif i == 1:
+				tween.tween_property(label_2, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+				tween.tween_property(label_5, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+				tween.tween_property(label_8, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+			elif i == 2:
+				tween.tween_property(label_3, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+				tween.tween_property(label_6, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+				tween.tween_property(label_9, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 			return true
 	return false
 
