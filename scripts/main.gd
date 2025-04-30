@@ -39,8 +39,6 @@ extends Control
 @onready var option_menu_animation: AnimationPlayer = $"../../changemode/Option_menu_animation"
 @onready var multiplayer_window: Control = $"../../changemode/multiplayer_window"
 @onready var button_game_options: TouchScreenButton = $"../../changemode/button_gameOptions"
-
-
 var bot_script = preload("res://scripts/bots.gd")
 var bot = bot_script.new()
 #var mode:int = 0# 0 is pvp,1is easy bot,2is advanced bot
@@ -60,6 +58,14 @@ func _ready() -> void:
 	Global.Player_turn = Global.player1
 	set_turnLabeltext("Player " + str(Global.Player_turn) + " turn")
 
+func _process(delta: float) -> void:
+
+	
+	if Global.grid_changed():
+		update_grid()
+
+		if !get_tree().paused and Global.turn_count > 4:
+			get_winner()
 
 func play_turn(r: int, c: int):
 	var move: String = "Error"
@@ -74,8 +80,7 @@ func play_turn(r: int, c: int):
 
 	set_turnLabeltext("Player " + str(Global.Player_turn) + " turn")
 	insert_Grid(r,c,move)
-	update_grid()
-	get_winner()
+
 
 	#Bot turn
 	if Global.tictactoe_mode != 0 and Global.turn_count <= 9 and Global.Player_turn == Global.player2:
@@ -88,15 +93,19 @@ func insert_Grid(r,c,move):
 	if Global.GRID[r][c] == "":
 		insert_sound.pitch_scale = randf_range(0.9, 1.2)
 		insert_sound.play()
-		Global.GRID[r][c] = move # r = list number,c = position in the list
+		Global.grid_change(r,c,move)  # r = list number,c = position in the list
 
 func get_winner():
+	if Global.turn_count < 5:
+		return
 	var move
-		#checks the winner
+	#checks who made the move
 	if (Global.Player_turn == Global.player1): # if X
 		move = Global.player2
 	elif (Global.Player_turn == Global.player2):
 		move = Global.player1
+	
+	#checks the win condition
 	if Global.turn_count > 4:
 		if check_win_condition():
 			set_turnLabeltext("Player " + str(move) + " Won")
@@ -105,6 +114,7 @@ func get_winner():
 			elif move == Global.player2:
 				Global.P2_WinCount += 1
 			reload()
+			return
 		elif Global.turn_count > 9:
 			set_turnLabeltext("It's a draw!")
 			draw_anim()
