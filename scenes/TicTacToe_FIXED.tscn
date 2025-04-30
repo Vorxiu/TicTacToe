@@ -77,6 +77,9 @@ properties/20/replication_mode = 1
 properties/21/path = NodePath("../..:turn_count")
 properties/21/spawn = true
 properties/21/replication_mode = 1
+properties/22/path = NodePath("reload_button:shape_visible")
+properties/22/spawn = true
+properties/22/replication_mode = 1
 
 [sub_resource type="Theme" id="Theme_8n18e"]
 default_font = ExtResource("1_r67kn")
@@ -809,6 +812,7 @@ grow_vertical = 2
 theme = ExtResource("4_8n18e")
 theme_override_font_sizes/font_size = 64
 
+[connection signal="grid_updated" from="." to="Gridwindow/grid" method="_on_tictactoe_mainwindow_grid_updated"]
 [connection signal="released" from="Gridwindow/grid/gridButton_1" to="Gridwindow/grid" method="_on_grid_button_1_released"]
 [connection signal="released" from="Gridwindow/grid/gridButton_2" to="Gridwindow/grid" method="_on_grid_button_2_released"]
 [connection signal="released" from="Gridwindow/grid/gridButton_3" to="Gridwindow/grid" method="_on_grid_button_3_released"]

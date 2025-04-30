@@ -58,13 +58,10 @@ func _ready() -> void:
 	Global.Player_turn = Global.player1
 	set_turnLabeltext("Player " + str(Global.Player_turn) + " turn")
 
-func _process(delta: float) -> void:
-
-	
-	if Global.grid_changed():
-		update_grid()
-
-		if !get_tree().paused and Global.turn_count > 4:
+func _on_tictactoe_mainwindow_grid_updated() -> void:
+	print("got grid update function")
+	update_grid()
+	if !get_tree().paused and Global.turn_count > 4:
 			get_winner()
 
 func play_turn(r: int, c: int):
