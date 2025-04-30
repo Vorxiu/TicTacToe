@@ -155,53 +155,59 @@ func _on_multiplayer_button_pressed() -> void:
     multiplayer_window.visible = true
     game_options.visible = false
 
-# =================================Main Logic================================================
-func play_turn(r: int, c: int):
-    if Global.GRID[r][c] != "":  # Check if cell is already occupied
-        return
-        
-    if Global.is_multiplayer:
-        if Global.Player_turn != Global.multiplayer_PlayerSymbol:
-            return
-        make_move.rpc(r, c, Global.multiplayer_PlayerSymbol)
-    else:
-        Global.grid_changed(r, c, Global.Player_turn)
-        # Swaps the player move
-        if (Global.Player_turn == Global.player1): # if X
-            Global.Player_turn = Global.player2
-        elif (Global.Player_turn == Global.player2):
-            Global.Player_turn = Global.player1
-        set_turnLabeltext("Player " + str(Global.Player_turn) + " turn")
-        
-        # Bot turn
-        if Global.tictactoe_mode != 0 and Global.turn_count <= 9 and Global.Player_turn == Global.player2:
-            var b_move = bot.bot_turn()
-            print(b_move)
-            play_turn(b_move[0], b_move[1])
 
-func get_winner():
-    if Global.turn_count < 5:
-        return
-    var move
-    # checks who made the move
-    if (Global.Player_turn == Global.player1): # if X
-        move = Global.player2
-    elif (Global.Player_turn == Global.player2):
-        move = Global.player1
+func update_grid():
+    var tween = get_tree().create_tween()
+    tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+    var anim_time = 0.1
+    if Global.Player_turn == Global.player1:
+        anim_time += anim_time
+    var move1
+
+    if Global.GRID[0][0] != "" and label_1.text == "":
+        move1 = Global.GRID[0][0]
+        tween.tween_property(label_1, "text", move1, anim_time)
+        grid_button_1.visible = false
     
-    # checks the win condition
-    if Global.turn_count > 4:
-        if check_win_condition():
-            set_turnLabeltext("Player " + str(move) + " Won")
-            if move == Global.player1:
-                Global.P1_WinCount += 1
-            elif move == Global.player2:
-                Global.P2_WinCount += 1
-            reload()
-            return
-        elif Global.turn_count >= 9:
-            set_turnLabeltext("Its a draw!")
-            reload()
+    if Global.GRID[0][1] != "" and label_2.text == "":
+        move1 = Global.GRID[0][1]
+        tween.tween_property(label_2, "text", move1, anim_time)
+        grid_button_2.visible = false
+
+    if Global.GRID[0][2] != "" and label_3.text == "":
+        move1 = Global.GRID[0][2]
+        tween.tween_property(label_3, "text", move1, anim_time)
+        grid_button_3.visible = false
+
+    if Global.GRID[1][0] != "" and label_4.text == "":
+        move1 = Global.GRID[1][0]
+        tween.tween_property(label_4, "text", move1, anim_time)
+        grid_button_4.visible = false
+
+    if Global.GRID[1][1] != "" and label_5.text == "":
+        move1 = Global.GRID[1][1]
+        tween.tween_property(label_5, "text", move1, anim_time)
+        grid_button_5.visible = false
+
+    if Global.GRID[1][2] != "" and label_6.text == "":
+        move1 = Global.GRID[1][2]
+        tween.tween_property(label_6, "text", move1, anim_time)
+        grid_button_6.visible = false
+
+    if Global.GRID[2][0] != "" and label_7.text == "":
+        move1 = Global.GRID[2][0]
+        tween.tween_property(label_7, "text", move1, anim_time)
+        grid_button_7.visible = false
+
+    if Global.GRID[2][1] != "" and label_8.text == "":
+        move1 = Global.GRID[2][1]
+        tween.tween_property(label_8, "text", move1, anim_time)
+        grid_button_8.visible = false
+
+    if Global.GRID[2][2] != "" and label_9.text == "":
+        move1 = Global.GRID[2][2]
+        tween.tween_property(label_9, "text", move1, anim_time)
+        grid_button_9.visible = false
 
 func check_win_condition():
     var tween = get_tree().create_tween()
@@ -267,72 +273,6 @@ func check_win_condition():
         draw_anim()
     return false
 
-func reload():
-    get_tree().paused = true
-    reload_button.visible = true
-    score_display.visible = true
-    score_display.text = "Player " + str(Global.player1) + "  " + str(Global.P1_WinCount) + "                                   Player " + str(Global.player2) + "  " + str(Global.P2_WinCount)
-
-func set_turnLabeltext(toast: String):
-    turn_display.visible_ratio = 0.1
-    var tween = get_tree().create_tween()
-    tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
-    tween.tween_property(turn_display, "visible_ratio", 1.0, 0.25).set_ease(Tween.EASE_IN)
-    turn_display.text = toast
-
-func update_grid():
-    var tween = get_tree().create_tween()
-    tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
-    var anim_time = 0.1
-    if Global.Player_turn == Global.player1:
-        anim_time += anim_time
-    var move1
-
-    if Global.GRID[0][0] != "" and label_1.text == "":
-        move1 = Global.GRID[0][0]
-        tween.tween_property(label_1, "text", move1, anim_time)
-        grid_button_1.visible = false
-    
-    if Global.GRID[0][1] != "" and label_2.text == "":
-        move1 = Global.GRID[0][1]
-        tween.tween_property(label_2, "text", move1, anim_time)
-        grid_button_2.visible = false
-
-    if Global.GRID[0][2] != "" and label_3.text == "":
-        move1 = Global.GRID[0][2]
-        tween.tween_property(label_3, "text", move1, anim_time)
-        grid_button_3.visible = false
-
-    if Global.GRID[1][0] != "" and label_4.text == "":
-        move1 = Global.GRID[1][0]
-        tween.tween_property(label_4, "text", move1, anim_time)
-        grid_button_4.visible = false
-
-    if Global.GRID[1][1] != "" and label_5.text == "":
-        move1 = Global.GRID[1][1]
-        tween.tween_property(label_5, "text", move1, anim_time)
-        grid_button_5.visible = false
-
-    if Global.GRID[1][2] != "" and label_6.text == "":
-        move1 = Global.GRID[1][2]
-        tween.tween_property(label_6, "text", move1, anim_time)
-        grid_button_6.visible = false
-
-    if Global.GRID[2][0] != "" and label_7.text == "":
-        move1 = Global.GRID[2][0]
-        tween.tween_property(label_7, "text", move1, anim_time)
-        grid_button_7.visible = false
-
-    if Global.GRID[2][1] != "" and label_8.text == "":
-        move1 = Global.GRID[2][1]
-        tween.tween_property(label_8, "text", move1, anim_time)
-        grid_button_8.visible = false
-
-    if Global.GRID[2][2] != "" and label_9.text == "":
-        move1 = Global.GRID[2][2]
-        tween.tween_property(label_9, "text", move1, anim_time)
-        grid_button_9.visible = false
-
 func draw_anim():
     var tween = get_tree().create_tween()
     tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
@@ -348,6 +288,67 @@ func draw_anim():
     tween.tween_property(label_7, "modulate", color, anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
     tween.tween_property(label_8, "modulate", color, anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
     tween.tween_property(label_9, "modulate", color, anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+
+# =================================Main Logic================================================
+func play_turn(r: int, c: int):
+    if Global.GRID[r][c] != "":  # Check if cell is already occupied
+        return
+        
+    if Global.is_multiplayer:
+        if Global.Player_turn != Global.multiplayer_PlayerSymbol:
+            return
+        make_move.rpc(r, c, Global.multiplayer_PlayerSymbol)
+    else:
+        Global.grid_changed(r, c, Global.Player_turn)
+        # Swaps the player move
+        if (Global.Player_turn == Global.player1): # if X
+            Global.Player_turn = Global.player2
+        elif (Global.Player_turn == Global.player2):
+            Global.Player_turn = Global.player1
+        set_turnLabeltext("Player " + str(Global.Player_turn) + " turn")
+        
+        # Bot turn
+        if Global.tictactoe_mode != 0 and Global.turn_count <= 9 and Global.Player_turn == Global.player2:
+            var b_move = bot.bot_turn()
+            print(b_move)
+            play_turn(b_move[0], b_move[1])
+
+func get_winner():
+    if Global.turn_count < 5:
+        return
+    var move
+    # checks who made the move
+    if (Global.Player_turn == Global.player1): # if X
+        move = Global.player2
+    elif (Global.Player_turn == Global.player2):
+        move = Global.player1
+    
+    # checks the win condition
+    if Global.turn_count > 4:
+        if check_win_condition():
+            set_turnLabeltext("Player " + str(move) + " Won")
+            if move == Global.player1:
+                Global.P1_WinCount += 1
+            elif move == Global.player2:
+                Global.P2_WinCount += 1
+            reload()
+            return
+        elif Global.turn_count >= 9:
+            set_turnLabeltext("Its a draw!")
+            reload()
+
+func reload():
+    get_tree().paused = true
+    reload_button.visible = true
+    score_display.visible = true
+    score_display.text = "Player " + str(Global.player1) + "  " + str(Global.P1_WinCount) + "                                   Player " + str(Global.player2) + "  " + str(Global.P2_WinCount)
+
+func set_turnLabeltext(toast: String):
+    turn_display.visible_ratio = 0.1
+    var tween = get_tree().create_tween()
+    tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+    tween.tween_property(turn_display, "visible_ratio", 1.0, 0.25).set_ease(Tween.EASE_IN)
+    turn_display.text = toast
 
 # Multiplayer Code
 # This RPC is called by a player to make a move
