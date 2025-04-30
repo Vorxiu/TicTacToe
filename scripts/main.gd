@@ -119,8 +119,6 @@ func get_winner():
 			reload()
 			return
 		elif Global.turn_count >= 9:
-			set_turnLabeltext("It's a draw!")
-			draw_anim()
 			reload()
 	
 func check_win_condition():
@@ -130,7 +128,7 @@ func check_win_condition():
 	var win_anim_time = 0.08
 	var win_color = Color("#63A375")#Green color
 	
-	if (Global.tictactoe_mode > 0  and Global.Player_turn == Global.player1) or (Global.is_multiplayer and Global.multiplayer_PlayerSymbol == Global.Player_turn): #if its the  bots turn
+	if (Global.tictactoe_mode > 0  and Global.Player_turn == Global.player1) or (Global.is_multiplayer and Global.multiplayer_PlayerSymbol != Global.Player_turn): #if its the  bots turn
 		win_color = Color("#B80C09")#Red color
 	
 	#Check diagonally
@@ -182,6 +180,10 @@ func check_win_condition():
 				tween.tween_property(label_6, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 				tween.tween_property(label_9, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 			return true
+	# Condition for draw
+	if bot.available_moves() == []:
+		set_turnLabeltext("It's a draw!")
+		draw_anim()
 	return false
 
 func reload():
@@ -224,12 +226,12 @@ func _on_grid_button_8_released() -> void:
 func _on_grid_button_9_released() -> void:
 	play_turn(2, 2)
 
+@rpc("any_peer","call_local","reliable")
 func _on_reload_button_released() -> void:
 	get_tree().paused = false
 	score_display.visible = false
 	get_tree().reload_current_scene()
 
-	#Change this to use a loop and use grd for dynamic loading
 
 #Dynamically updates the grid
 func update_grid():
@@ -326,14 +328,12 @@ func _on_h_slider_value_changed(value: float) -> void:
 	AudioServer.set_bus_volume_linear(0, value)
 	button_press.play()
 
-@rpc("any_peer","call_local","reliable")
 func draw_anim():
 	var tween = get_tree().create_tween()
 	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	tween.parallel()
 	var anim_time = 0.01
-	var color = Color("#E08E45") # B80C09:red
-	# Color()
+	var color = Color("#E08E45")
 	tween.tween_property(label_1, "modulate", color, anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	tween.tween_property(label_2, "modulate", color, anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	tween.tween_property(label_3, "modulate", color, anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
@@ -352,7 +352,6 @@ func _on_multiplayer_button_pressed() -> void:
 # This RPC is called by a player to make a move
 @rpc("any_peer", "call_local", "reliable")
 func make_move(row: int, col: int, player_symbol: String):
-
 	# If we're the server, validate the move
 	if multiplayer.is_server():
 		if Global.GRID[row][col] == "" and Global.Player_turn == player_symbol:
@@ -366,7 +365,7 @@ func process_valid_move(row: int, col: int, player_symbol: String):
 	
 	Global.grid_changed(row, col, player_symbol)
 	Global.turn_count += 1
-	print(Global.turn_count)
+
 	if player_symbol == Global.player1:
 		Global.Player_turn = Global.player2
 	else:

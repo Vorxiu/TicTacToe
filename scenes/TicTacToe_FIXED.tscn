@@ -12,7 +12,7 @@
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_f2mm0"]
 properties/0/path = NodePath("../../score_display:text")
-properties/0/spawn = true
+properties/0/spawn = false
 properties/0/replication_mode = 2
 properties/1/path = NodePath("../..:GRID")
 properties/1/spawn = true

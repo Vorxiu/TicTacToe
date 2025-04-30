@@ -23,14 +23,15 @@ func _on_multiplayer_key_edit_text_submitted(new_text: String) -> void:
 				multiplayer_connected(id)
 				Global.multiplayer_PlayerSymbol = Global.player2
 	)
-	print("Connected")
 
 func multiplayer_connected(id):
-	player_joined_label.text = ("Server Connected id:" + str(id))
+	if id == 1:
+		player_joined_label.text = ("Server Connected id: " + str(id))
+	else:
+		player_joined_label.text = ("Player Connected id: " + str(id))
 	print ("Connected id " + str(id))
 	Global.is_multiplayer = true
-	Global.multiplayer_PlayerSymbol = Global.player2
-	Global.multiplayer_opponentID = id
+	#Global.multiplayer_opponentID = id
 	Global.clear_grid()
 
 func _on_copy_pressed() -> void:
