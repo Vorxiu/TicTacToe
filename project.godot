@@ -15,16 +15,23 @@ config/version="0.1 pre release"
 run/main_scene="uid://dd0waknwp4u61"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 boot_splash/show_image=false
-config/icon="res://icon.svg"
+boot_splash/fullsize=false
+boot_splash/image="uid://b6wkxqlr8007o"
+config/icon="uid://b6wkxqlr8007o"
 
 [autoload]
 
 Global="*res://scripts/global.gd"
 
+[debug]
+
+settings/stdout/print_fps=true
+
 [display]
 
 window/size/viewport_width=720
 window/size/viewport_height=1280
+window/size/always_on_top=true
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/handheld/orientation=1
@@ -46,6 +53,7 @@ theme/default_font_generate_mipmaps=true
 
 [input_devices]
 
+pointing/android/enable_long_press_as_right_click=true
 pointing/emulate_touch_from_mouse=true
 
 [rendering]

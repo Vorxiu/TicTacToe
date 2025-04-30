@@ -30,8 +30,6 @@ extends Control
 @onready var bot_button: Button = $"../../changemode/game_options/Option_window/bot_button"
 @onready var expert_button: Button = $"../../changemode/game_options/Option_window/expert_button"
 @onready var resume: Button = $"../../changemode/game_options/Option_window/resume"
-
-
 @onready var score_display: Label = $"../../score_display"
 @onready var game_options_window: Control = $"../../changemode/game_options"
 @onready var option_window: ColorRect = $"../../changemode/game_options/Option_window"
@@ -47,6 +45,7 @@ func _ready() -> void:
 	var tween = get_tree().create_tween()
 	Global.load_game()
 	Global.clear_grid()
+	Global.grid_updated.connect(_on_tictactoe_mainwindow_grid_updated)  # Add this line
 	update_grid()
 	Global.turn_count = 1
 	score_display.visible = false
@@ -58,39 +57,46 @@ func _ready() -> void:
 	Global.Player_turn = Global.player1
 	set_turnLabeltext("Player " + str(Global.Player_turn) + " turn")
 
+
 func _on_tictactoe_mainwindow_grid_updated() -> void:
-	print("got grid update function")
 	update_grid()
 	if !get_tree().paused and Global.turn_count > 4:
-			get_winner()
+		get_winner()
 
 func play_turn(r: int, c: int):
-	var move: String = "Error"
-	Global.turn_count += 1
 
-	move = Global.Player_turn
-	# Swaps the player move
-	if (Global.Player_turn == Global.player1): # if X
-		Global.Player_turn = Global.player2
-	elif (Global.Player_turn == Global.player2):
-		Global.Player_turn = Global.player1
+	if Global.is_multiplayer:
+		
+		if Global.Player_turn != Global.multiplayer_PlayerSymbol:
+			return
+		# Send the move to all peers (including authority)
+		make_move.rpc(r, c, Global.multiplayer_PlayerSymbol)
+	else:
+		var move: String = "Error"
+		Global.turn_count += 1
+		move = Global.Player_turn
+		# Swaps the player move
+		if (Global.Player_turn == Global.player1): # if X
+			Global.Player_turn = Global.player2
+		elif (Global.Player_turn == Global.player2):
+			Global.Player_turn = Global.player1
 
-	set_turnLabeltext("Player " + str(Global.Player_turn) + " turn")
-	insert_Grid(r,c,move)
+		set_turnLabeltext("Player " + str(Global.Player_turn) + " turn")
+		insert_Grid(r,c,move)
 
 
-	#Bot turn
-	if Global.tictactoe_mode != 0 and Global.turn_count <= 9 and Global.Player_turn == Global.player2:
-		var b_move = bot.bot_turn()
-		print(b_move)
-		play_turn(b_move[0],b_move[1])
+		#Bot turn
+		if Global.tictactoe_mode != 0 and Global.turn_count <= 9 and Global.Player_turn == Global.player2:
+			var b_move = bot.bot_turn()
+			print(b_move)
+			play_turn(b_move[0],b_move[1])
 
 
 func insert_Grid(r,c,move):
 	if Global.GRID[r][c] == "":
 		insert_sound.pitch_scale = randf_range(0.9, 1.2)
 		insert_sound.play()
-		Global.grid_change(r,c,move)  # r = list number,c = position in the list
+		Global.grid_changed(r,c,move)  # r = list number,c = position in the list
 
 func get_winner():
 	if Global.turn_count < 5:
@@ -123,7 +129,9 @@ func check_win_condition():
 	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	var win_anim_time = 0.08
 	var win_color = Color("#63A375")#Green color
-	if Global.tictactoe_mode > 0 and Global.Player_turn == Global.player1: #if its the  bots turn
+	if Global.tictactoe_mode > 0  and Global.Player_turn == Global.player1: #if its the  bots turn
+		win_color = Color("#B80C09")#Red color
+	if Global.is_multiplayer and Global.multiplayer_PlayerSymbol == Global.Player_turn:
 		win_color = Color("#B80C09")#Red color
 	#Check diagonally
 	if Global.GRID[0][0] != '' and Global.GRID[0][0] == Global.GRID[1][1] and Global.GRID[0][0] == Global.GRID[2][2]:
@@ -339,3 +347,29 @@ func draw_anim():
 func _on_multiplayer_button_pressed() -> void:
 	multiplayer_window.visible = true
 	game_options.visible = false
+
+# This RPC is called by a player to make a move
+@rpc("any_peer", "call_local", "reliable")
+func make_move(row: int, col: int, player_symbol: String):
+
+	# If we're the server, validate the move
+	if multiplayer.is_server():
+		if Global.GRID[row][col] == "" and Global.Player_turn == player_symbol:
+			process_valid_move.rpc(row, col, player_symbol)
+		else:
+			print("Invalid move")
+
+# This RPC is called by the server to confirm a valid move to all clients
+@rpc("authority", "call_local", "reliable")
+func process_valid_move(row: int, col: int, player_symbol: String):
+	
+	Global.grid_changed(row, col, player_symbol)
+	Global.turn_count += 1
+	if player_symbol == Global.player1:
+		Global.Player_turn = Global.player2
+	else:
+		Global.Player_turn = Global.player1
+		
+	set_turnLabeltext("Player " + str(Global.Player_turn) + " turn")
+	check_win_condition()
+	

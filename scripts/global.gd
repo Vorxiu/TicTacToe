@@ -9,14 +9,15 @@ var tictactoe_mode:int = 0 # 0 is pvp,1is easy bot,2is advanced bot
 var P1_WinCount:int = 0
 var P2_WinCount:int = 0
 signal grid_updated()
-
+var is_multiplayer:bool
 var Player_turn:String = player1
+var multiplayer_PlayerSymbol = ""
 
 func clear_grid():
 	GRID = [['','',''],['','',''],['','','']]
 
 
-func grid_change(r,c,move):
+func grid_changed(r,c,move):
 	if GRID[r][c] != move:
 		GRID[r][c] = move
 		emit_signal("grid_updated")
