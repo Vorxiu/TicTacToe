@@ -24,12 +24,14 @@ extends Control
 @onready var insert_sound: AudioStreamPlayer2D = $"../../insert_sound"
 @onready var ttt_header: Label = $"../../header/ttt_header"
 @onready var turn_display: Label = $"../../header/turn_display"
-@onready var h_slider: HSlider = $"../../changemode/game_options/ColorRect/HSlider"
-@onready var pvp_button: Button = $"../../changemode/game_options/ColorRect/pvp_button"
-@onready var easy_button: Button = $"../../changemode/game_options/ColorRect/easy_button"
-@onready var bot_button: Button = $"../../changemode/game_options/ColorRect/bot_button"
-@onready var expert_button: Button = $"../../changemode/game_options/ColorRect/expert_button"
-@onready var resume: Button = $"../../changemode/game_options/ColorRect/resume"
+@onready var h_slider: HSlider = $"../../changemode/game_options/Option_window/HSlider"
+@onready var pvp_button: Button = $"../../changemode/game_options/Option_window/pvp_button"
+@onready var easy_button: Button = $"../../changemode/game_options/Option_window/easy_button"
+@onready var bot_button: Button = $"../../changemode/game_options/Option_window/bot_button"
+@onready var expert_button: Button = $"../../changemode/game_options/Option_window/expert_button"
+@onready var resume: Button = $"../../changemode/game_options/Option_window/resume"
+
+
 @onready var score_display: Label = $"../../score_display"
 @onready var game_options_window: Control = $"../../changemode/game_options"
 @onready var option_window: ColorRect = $"../../changemode/game_options/Option_window"
@@ -57,11 +59,7 @@ func _ready() -> void:
 	tween.tween_property(ttt_header, "visible_ratio", 1.0, 0.8).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 	Global.Player_turn = Global.player1
 	set_turnLabeltext("Player " + str(Global.Player_turn) + " turn")
-	
 
-func _process(delta: float) -> void:
-	pass
-	# update_grid()
 
 func play_turn(r: int, c: int):
 	var move: String = "Error"
@@ -77,7 +75,7 @@ func play_turn(r: int, c: int):
 	set_turnLabeltext("Player " + str(Global.Player_turn) + " turn")
 	insert_Grid(r,c,move)
 	update_grid()
-	get_winner(move)
+	get_winner()
 
 	#Bot turn
 	if Global.tictactoe_mode != 0 and Global.turn_count <= 9 and Global.Player_turn == Global.player2:
@@ -92,8 +90,13 @@ func insert_Grid(r,c,move):
 		insert_sound.play()
 		Global.GRID[r][c] = move # r = list number,c = position in the list
 
-func get_winner(move):
+func get_winner():
+	var move
 		#checks the winner
+	if (Global.Player_turn == Global.player1): # if X
+		move = Global.player2
+	elif (Global.Player_turn == Global.player2):
+		move = Global.player1
 	if Global.turn_count > 4:
 		if check_win_condition():
 			set_turnLabeltext("Player " + str(move) + " Won")
