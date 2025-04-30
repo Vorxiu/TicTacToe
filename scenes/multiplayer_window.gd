@@ -5,6 +5,7 @@ extends Control
 
 var connection_string = "Couldn't connect"
 func _on_start_server_key_pressed() -> void:
+	
 	var server := IrohServer.start()
 	multiplayer.multiplayer_peer = server
 	connection_string = server.connection_string()
@@ -25,7 +26,9 @@ func _on_multiplayer_key_edit_text_submitted(new_text: String) -> void:
 	player_joined_label.text = "Joining Server"
 	if client == null:
 		player_joined_label.text = "Failed to intialize client"
-	
+	multiplayer.connection_failed.connect(func():
+		player_joined_label.text = "Connection error: "+ str(client.connection_error())
+		)
 	multiplayer.multiplayer_peer.peer_connected.connect(
 			func(id):
 				player_joined_label.text = "Player connected with id" + str(id)
