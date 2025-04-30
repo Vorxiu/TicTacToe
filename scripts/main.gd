@@ -57,10 +57,13 @@ func _ready() -> void:
 	Global.Player_turn = Global.player1
 	set_turnLabeltext("Player " + str(Global.Player_turn) + " turn")
 
-
+# Called when a change occurs to the grids
 func _on_tictactoe_mainwindow_grid_updated() -> void:
+	Global.turn_count += 1
+	insert_sound.pitch_scale = randf_range(0.9, 1.2)
+	insert_sound.play()
 	update_grid()
-	if !get_tree().paused and Global.turn_count > 4:
+	if !get_tree().paused and Global.turn_count > 5:
 		get_winner()
 
 func play_turn(r: int, c: int):
@@ -69,34 +72,23 @@ func play_turn(r: int, c: int):
 		
 		if Global.Player_turn != Global.multiplayer_PlayerSymbol:
 			return
-		# Send the move to all peers (including authority)
 		make_move.rpc(r, c, Global.multiplayer_PlayerSymbol)
+	
 	else:
-		var move: String = "Error"
-		Global.turn_count += 1
-		move = Global.Player_turn
+		#Global.turn_count += 1
+		Global.grid_changed(r,c,Global.Player_turn)
 		# Swaps the player move
 		if (Global.Player_turn == Global.player1): # if X
 			Global.Player_turn = Global.player2
 		elif (Global.Player_turn == Global.player2):
 			Global.Player_turn = Global.player1
-
 		set_turnLabeltext("Player " + str(Global.Player_turn) + " turn")
-		insert_Grid(r,c,move)
-
-
+		
 		#Bot turn
 		if Global.tictactoe_mode != 0 and Global.turn_count <= 9 and Global.Player_turn == Global.player2:
 			var b_move = bot.bot_turn()
 			print(b_move)
 			play_turn(b_move[0],b_move[1])
-
-
-func insert_Grid(r,c,move):
-	if Global.GRID[r][c] == "":
-		insert_sound.pitch_scale = randf_range(0.9, 1.2)
-		insert_sound.play()
-		Global.grid_changed(r,c,move)  # r = list number,c = position in the list
 
 func get_winner():
 	if Global.turn_count < 5:
@@ -119,11 +111,11 @@ func get_winner():
 			reload()
 			return
 		elif Global.turn_count >= 9:
+			set_turnLabeltext("Its a draw!")
 			reload()
 	
 func check_win_condition():
 	var tween = get_tree().create_tween()
-	#tween.set_process_mode(Tween.TWEEN_PROCESS_IDLE)
 	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	var win_anim_time = 0.08
 	var win_color = Color("#63A375")#Green color
@@ -226,7 +218,7 @@ func _on_grid_button_8_released() -> void:
 func _on_grid_button_9_released() -> void:
 	play_turn(2, 2)
 
-@rpc("any_peer","call_local","reliable")
+
 func _on_reload_button_released() -> void:
 	get_tree().paused = false
 	score_display.visible = false
@@ -364,7 +356,6 @@ func make_move(row: int, col: int, player_symbol: String):
 func process_valid_move(row: int, col: int, player_symbol: String):
 	
 	Global.grid_changed(row, col, player_symbol)
-	Global.turn_count += 1
 
 	if player_symbol == Global.player1:
 		Global.Player_turn = Global.player2

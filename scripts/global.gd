@@ -13,12 +13,12 @@ var is_multiplayer:bool
 var Player_turn:String = player1
 var multiplayer_PlayerSymbol = ""
 
+
 func clear_grid():
 	GRID = [['','',''],['','',''],['','','']]
 
-
 func grid_changed(r,c,move):
-	if GRID[r][c] != move:
+	if GRID[r][c] != move and GRID[r][c] == "":
 		GRID[r][c] = move
 		emit_signal("grid_updated")
 
