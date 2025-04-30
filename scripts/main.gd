@@ -217,7 +217,7 @@ func check_win_condition():
 	var win_anim_time = 0.08
 	var win_color = Color("#63A375")#Green color
 	
-	if (Global.tictactoe_mode > 0  and Global.Player_turn == Global.player1) or (Global.is_multiplayer and Global.multiplayer_PlayerSymbol != Global.Player_turn): #if its the  bots turn
+	if (Global.tictactoe_mode > 0  and Global.Player_turn == Global.player1) or (Global.is_multiplayer and Global.multiplayer_PlayerSymbol == Global.Player_turn): #if its the  bots turn
 		win_color = Color("#B80C09")#Red color
 	
 	#Check diagonally
@@ -289,6 +289,8 @@ func draw_anim():
 
 # =================================Main Logic================================================
 func play_turn(r: int, c: int):
+
+		
 	if Global.GRID[r][c] != "":  # Check if cell is already occupied
 		return
 		
@@ -325,6 +327,7 @@ func get_winner():
 	# checks the win condition
 	if Global.turn_count > 4:
 		if check_win_condition():
+			
 			set_turnLabeltext("Player " + str(move) + " Won")
 			turn_display.text = ("Player " + str(move) + " Won")
 			print("Player " + str(move) + " Won")

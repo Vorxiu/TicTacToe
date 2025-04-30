@@ -20,6 +20,7 @@ func clear_grid():
 func grid_changed(r,c,move):
 	if GRID[r][c] != move and GRID[r][c] == "":
 		GRID[r][c] = move
+
 		emit_signal("grid_updated")
 
 func save_game():

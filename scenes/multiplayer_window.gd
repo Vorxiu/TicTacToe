@@ -9,8 +9,12 @@ func _on_start_server_key_pressed() -> void:
 	multiplayer.multiplayer_peer = server
 	connection_string = server.connection_string()
 	mp_key_label.text = connection_string
+	player_joined_label.text = "Starting server"
+	if server == null:
+		player_joined_label.text = "Failed to initialize server"
 	multiplayer.multiplayer_peer.peer_connected.connect(
 		func(id):
+			player_joined_label.text = "Server hosted with id" + str(id)
 			multiplayer_connected(id)
 			Global.multiplayer_PlayerSymbol = Global.player1
 	)
@@ -18,8 +22,13 @@ func _on_start_server_key_pressed() -> void:
 func _on_multiplayer_key_edit_text_submitted(new_text: String) -> void:
 	var client = IrohClient.connect(new_text)
 	multiplayer.multiplayer_peer = client
+	player_joined_label.text = "Joining Server"
+	if client == null:
+		player_joined_label.text = "Failed to intialize client"
+	
 	multiplayer.multiplayer_peer.peer_connected.connect(
 			func(id):
+				player_joined_label.text = "Player connected with id" + str(id)
 				multiplayer_connected(id)
 				Global.multiplayer_PlayerSymbol = Global.player2
 	)
