@@ -118,7 +118,7 @@ func get_winner():
 				Global.P2_WinCount += 1
 			reload()
 			return
-		elif Global.turn_count > 9:
+		elif Global.turn_count >= 9:
 			set_turnLabeltext("It's a draw!")
 			draw_anim()
 			reload()
@@ -129,10 +129,10 @@ func check_win_condition():
 	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	var win_anim_time = 0.08
 	var win_color = Color("#63A375")#Green color
-	if Global.tictactoe_mode > 0  and Global.Player_turn == Global.player1: #if its the  bots turn
+	
+	if (Global.tictactoe_mode > 0  and Global.Player_turn == Global.player1) or (Global.is_multiplayer and Global.multiplayer_PlayerSymbol == Global.Player_turn): #if its the  bots turn
 		win_color = Color("#B80C09")#Red color
-	if Global.is_multiplayer and Global.multiplayer_PlayerSymbol == Global.Player_turn:
-		win_color = Color("#B80C09")#Red color
+	
 	#Check diagonally
 	if Global.GRID[0][0] != '' and Global.GRID[0][0] == Global.GRID[1][1] and Global.GRID[0][0] == Global.GRID[2][2]:
 
@@ -326,6 +326,7 @@ func _on_h_slider_value_changed(value: float) -> void:
 	AudioServer.set_bus_volume_linear(0, value)
 	button_press.play()
 
+@rpc("any_peer","call_local","reliable")
 func draw_anim():
 	var tween = get_tree().create_tween()
 	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
@@ -365,11 +366,12 @@ func process_valid_move(row: int, col: int, player_symbol: String):
 	
 	Global.grid_changed(row, col, player_symbol)
 	Global.turn_count += 1
+	print(Global.turn_count)
 	if player_symbol == Global.player1:
 		Global.Player_turn = Global.player2
 	else:
 		Global.Player_turn = Global.player1
-		
+		 
 	set_turnLabeltext("Player " + str(Global.Player_turn) + " turn")
-	check_win_condition()
+	# check_win_condition()
 	
