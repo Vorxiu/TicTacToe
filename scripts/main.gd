@@ -229,7 +229,7 @@ func check_win_condition():
 	
 	#Check diagonally
 	if Global.GRID[0][0] != '' and Global.GRID[0][0] == Global.GRID[1][1] and Global.GRID[0][0] == Global.GRID[2][2]:
-
+		global.wi
 		tween.tween_property(label_1, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT) # label_1
 		tween.tween_property(label_5, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT) # label_5
 		tween.tween_property(label_9, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT) # label_9
@@ -316,7 +316,6 @@ func play_turn(r: int, c: int):
 		# Bot turn
 		if Global.tictactoe_mode != 0  and Global.Player_turn == Global.player2 and Global.turn_count <= 9:
 			var b_move = bot.bot_turn()
-			print(b_move)
 			play_turn(b_move[0], b_move[1])
 
 func get_winner():
@@ -334,7 +333,6 @@ func get_winner():
 		if check_win_condition():
 			set_turnLabeltext("Player " + str(move) + " Won")
 			turn_display.text = ("Player " + str(move) + " Won")
-			print("Player " + str(move) + " Won")
 			if move == Global.player1:
 				Global.P1_WinCount += 1
 			elif move == Global.player2:
@@ -345,7 +343,6 @@ func get_winner():
 			# Condition for draw
 			draw_anim()
 			set_turnLabeltext("Its a draw!")
-			print("Its a draw")
 			game_finished()
 
 # WHen any win condition is met

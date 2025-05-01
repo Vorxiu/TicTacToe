@@ -6,6 +6,7 @@ const save_path = "user://savedgame.cfg"
 @export var player1:String = "X"
 @export var player2:String = "O"
 var tictactoe_mode:int = 0 # 0 is pvp,1is easy bot,2is advanced bot
+var winner:String = ""
 var P1_WinCount:int = 0
 var P2_WinCount:int = 0
 signal grid_updated()
