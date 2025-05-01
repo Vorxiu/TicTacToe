@@ -69,7 +69,6 @@ func _ready() -> void:
 
 # signal for when grid is changed 
 func _on_tictactoe_mainwindow_grid_updated() -> void:
-	Global.turn_count += 1
 	insert_sound.pitch_scale = randf_range(0.9, 1.2)
 	insert_sound.play()
 	update_grid()
@@ -121,21 +120,25 @@ func _on_button_game_options_pressed() -> void:
 func _on_pvp_button_toggled(toggled_on: bool) -> void:
 	if toggled_on:
 		Global.tictactoe_mode = 0
+		button_press.pitch_scale = randf_range(0.9, 1.2)
 		button_press.play()
 
 func _on_easy_button_toggled(toggled_on: bool) -> void:
 	if toggled_on:
 		Global.tictactoe_mode = 1
+		button_press.pitch_scale = randf_range(0.9, 1.2)
 		button_press.play()
 
 func _on_bot_button_toggled(toggled_on: bool) -> void:
 	if toggled_on:
 		Global.tictactoe_mode = 2
+		button_press.pitch_scale = randf_range(0.9, 1.2)
 		button_press.play()
 
 func _on_expert_button_toggled(toggled_on: bool) -> void:
 	if toggled_on:
 		Global.tictactoe_mode = 3
+		button_press.pitch_scale = randf_range(0.9, 1.2)
 		button_press.play()
 
 func _on_resume_pressed() -> void:
@@ -145,15 +148,19 @@ func _on_resume_pressed() -> void:
 	Global.save_game()
 	option_menu_animation.play_backwards("option")
 	ttt_header.visible = true
+	button_press.pitch_scale = randf_range(0.9, 1.2)
 	button_press.play()
 
 func _on_h_slider_value_changed(value: float) -> void:
 	AudioServer.set_bus_volume_linear(0, value)
+	button_press.pitch_scale = randf_range(0.9, 1.2)
 	button_press.play()
 
 func _on_multiplayer_button_pressed() -> void:
 	multiplayer_window.visible = true
 	game_options.visible = false
+	button_press.pitch_scale = randf_range(0.9, 1.2)
+	button_press.play()
 
 
 func update_grid():
@@ -217,7 +224,7 @@ func check_win_condition():
 	var win_anim_time = 0.08
 	var win_color = Color("#63A375")#Green color
 	
-	if (Global.tictactoe_mode > 0  and Global.Player_turn == Global.player1) or (Global.is_multiplayer and Global.multiplayer_PlayerSymbol == Global.Player_turn): #if its the  bots turn
+	if (Global.tictactoe_mode > 0  and Global.Player_turn == Global.player2) or (Global.is_multiplayer and Global.multiplayer_PlayerSymbol == Global.Player_turn): #if its the  bots turn
 		win_color = Color("#B80C09")#Red color
 	
 	#Check diagonally
@@ -290,15 +297,12 @@ func draw_anim():
 # =================================Main Logic================================================
 func play_turn(r: int, c: int):
 
-		
-	if Global.GRID[r][c] != "":  # Check if cell is already occupied
-		return
-		
 	if Global.is_multiplayer:
 		if Global.Player_turn != Global.multiplayer_PlayerSymbol:
 			return
 		make_move.rpc(r, c, Global.multiplayer_PlayerSymbol)
 	else:
+		Global.turn_count += 1
 		#inserts the move
 		Global.grid_changed(r, c, Global.Player_turn)
 		# Swaps the player move
@@ -306,10 +310,11 @@ func play_turn(r: int, c: int):
 			Global.Player_turn = Global.player2
 		elif (Global.Player_turn == Global.player2):
 			Global.Player_turn = Global.player1
+
 		set_turnLabeltext("Player " + str(Global.Player_turn) + " turn")
 		_on_tictactoe_mainwindow_grid_updated()
 		# Bot turn
-		if Global.tictactoe_mode != 0 and Global.turn_count <= 9 and Global.Player_turn == Global.player2:
+		if Global.tictactoe_mode != 0  and Global.Player_turn == Global.player2 and Global.turn_count <= 9:
 			var b_move = bot.bot_turn()
 			print(b_move)
 			play_turn(b_move[0], b_move[1])
@@ -327,7 +332,6 @@ func get_winner():
 	# checks the win condition
 	if Global.turn_count > 4:
 		if check_win_condition():
-			
 			set_turnLabeltext("Player " + str(move) + " Won")
 			turn_display.text = ("Player " + str(move) + " Won")
 			print("Player " + str(move) + " Won")
@@ -346,7 +350,7 @@ func get_winner():
 
 # WHen any win condition is met
 func game_finished():
-	#get_tree().paused = true
+	get_tree().paused = true
 	reload_button.visible = true
 	score_display.visible = true
 	score_display.text = "Player " + str(Global.player1) + "  " + str(Global.P1_WinCount) + "                                   Player " + str(Global.player2) + "  " + str(Global.P2_WinCount)
@@ -374,7 +378,7 @@ func make_move(row: int, col: int, player_symbol: String):
 @rpc("authority", "call_local", "reliable")
 func process_valid_move(row: int, col: int, player_symbol: String):
 	Global.grid_changed(row, col, player_symbol)
-
+	Global.turn_count += 1
 	if player_symbol == Global.player1:
 		Global.Player_turn = Global.player2
 	else:

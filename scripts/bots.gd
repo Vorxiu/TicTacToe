@@ -1,5 +1,6 @@
 extends Node
 var GRID = Global.GRID
+
 func bot_turn():#Global.Player_turn == Global.player1 and 
 
 		if Global.tictactoe_mode == 3:
