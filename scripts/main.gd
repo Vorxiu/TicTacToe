@@ -229,14 +229,14 @@ func check_win_condition():
 	
 	#Check diagonally
 	if Global.GRID[0][0] != '' and Global.GRID[0][0] == Global.GRID[1][1] and Global.GRID[0][0] == Global.GRID[2][2]:
-		global.wi
+		Global.winner = Global.player1 if Global.GRID[0][0] == Global.player1 else Global.player2
 		tween.tween_property(label_1, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT) # label_1
 		tween.tween_property(label_5, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT) # label_5
 		tween.tween_property(label_9, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT) # label_9
 		return true
  
 	if Global.GRID[0][2] != '' and Global.GRID[0][2] == Global.GRID[1][1] and Global.GRID[0][2] == Global.GRID[2][0]:
-
+		Global.winner = Global.player1 if Global.GRID[0][2] == Global.player1 else Global.player2
 		tween.tween_property(label_3, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 		tween.tween_property(label_5, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 		tween.tween_property(label_7, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
@@ -245,6 +245,7 @@ func check_win_condition():
 	#Checks each row for matching row,,#r = list number,c = position in the list
 	for i in range(0, 3): 
 		if Global.GRID[i][0] != '' and Global.GRID[i][0] == Global.GRID[i][1] and Global.GRID[i][0] == Global.GRID[i][2]:
+			Global.winner = Global.player1 if Global.GRID[i][0] == Global.player1 else Global.player2
 			if i == 0:
 				tween.tween_property(label_1, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 				tween.tween_property(label_2, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
@@ -262,7 +263,7 @@ func check_win_condition():
 	#Checks each column for matching column
 	for i in range(0, 3): 
 		if Global.GRID[0][i] != '' and Global.GRID[0][i] == Global.GRID[1][i] and Global.GRID[0][i] == Global.GRID[2][i]:
-
+			Global.winner = Global.player1 if Global.GRID[0][i] == Global.player1 else Global.player2
 			if i == 0:
 				tween.tween_property(label_1, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 				tween.tween_property(label_4, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
