@@ -226,7 +226,7 @@ func update_grid():
 func check_win_condition():
 	var tween = get_tree().create_tween()
 	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
-	var win_anim_time = 0.09
+	var win_anim_time = 0.1
 	var win_color = Color("#63A375")#Green color ||| Color("#B80C09") #Red color
 	
 	#Check diagonally
@@ -337,9 +337,9 @@ func get_winner():
 			set_turnLabeltext("Player " + str(move) + " Won")
 			turn_display.text = ("Player " + str(move) + " Won")
 			if move == Global.player1:
-				Global.P1_WinCount += 1
-			elif move == Global.player2:
 				Global.P2_WinCount += 1
+			elif move == Global.player2:
+				Global.P1_WinCount += 1
 			game_finished()
 			return
 		elif Global.turn_count >= 9 and bot.available_moves().is_empty():

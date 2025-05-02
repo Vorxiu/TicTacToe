@@ -14,6 +14,7 @@ config/name="TicTacToe"
 config/version="0.1 pre release"
 run/main_scene="uid://dd0waknwp4u61"
 config/features=PackedStringArray("4.4", "GL Compatibility")
+run/low_processor_mode=true
 boot_splash/show_image=false
 boot_splash/fullsize=false
 boot_splash/image="uid://b6wkxqlr8007o"
