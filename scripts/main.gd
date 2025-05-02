@@ -171,67 +171,67 @@ func _on_multiplayer_button_pressed() -> void:
 
 
 func update_grid():
-	var tween = get_tree().create_tween()
-	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
-	var anim_time = 0.1
-	var scale_anim_time = 0.5
+	var tween = get_tree().create_tween().set_pause_mode(Tween.TWEEN_PAUSE_PROCESS).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	#Global.Player_turn == Global.player2 and 
+	var anim_time = 0.5
+
+	var scale_anim_time = 1 if (Global.tictactoe_mode != 0) else 0.5
 	var final_scale_size = Vector2(1,1)
 	if Global.Player_turn == Global.player1:
 		anim_time += anim_time
 	var move1
-	tween.set_trans(Tween.TRANS_BACK)
-	tween.set_ease(Tween.EASE_OUT)
+
 	if Global.GRID[0][0] != "" and label_1.text == "":
-		move1 = Global.GRID[0][0]
+		move1 = str(Global.GRID[0][0])
 		tween.tween_property(label_1, "text", move1, anim_time)
 		tween.tween_property(label_1, "scale", final_scale_size, scale_anim_time)
 
 		grid_button_1.visible = false
 	
 	if Global.GRID[0][1] != "" and label_2.text == "":
-		move1 = Global.GRID[0][1]
+		move1 = str(Global.GRID[0][1])
 		tween.tween_property(label_2, "text", move1, anim_time)
 		tween.tween_property(label_2, "scale", final_scale_size, scale_anim_time)
 		grid_button_2.visible = false
 
 	if Global.GRID[0][2] != "" and label_3.text == "":
-		move1 = Global.GRID[0][2]
+		move1 = str(Global.GRID[0][2])
 		tween.tween_property(label_3, "text", move1, anim_time)
 		tween.tween_property(label_3, "scale", final_scale_size, scale_anim_time)
 		grid_button_3.visible = false
 
 	if Global.GRID[1][0] != "" and label_4.text == "":
-		move1 = Global.GRID[1][0]
+		move1 = str(Global.GRID[1][0])
 		tween.tween_property(label_4, "text", move1, anim_time)
 		tween.tween_property(label_4, "scale", final_scale_size, scale_anim_time)
 		grid_button_4.visible = false
 
 	if Global.GRID[1][1] != "" and label_5.text == "":
-		move1 = Global.GRID[1][1]
+		move1 = str(Global.GRID[1][1])
 		tween.tween_property(label_5, "text", move1, anim_time)
 		tween.tween_property(label_5, "scale", final_scale_size, scale_anim_time)
 		grid_button_5.visible = false
 
 	if Global.GRID[1][2] != "" and label_6.text == "":
-		move1 = Global.GRID[1][2]
+		move1 = str(Global.GRID[1][2])
 		tween.tween_property(label_6, "text", move1, anim_time)
 		tween.tween_property(label_6, "scale", final_scale_size, scale_anim_time)
 		grid_button_6.visible = false
 
 	if Global.GRID[2][0] != "" and label_7.text == "":
-		move1 = Global.GRID[2][0]
+		move1 = str(Global.GRID[2][0])
 		tween.tween_property(label_7, "text", move1, anim_time)
 		tween.tween_property(label_7, "scale", final_scale_size, scale_anim_time)
 		grid_button_7.visible = false
 
 	if Global.GRID[2][1] != "" and label_8.text == "":
-		move1 = Global.GRID[2][1]
+		move1 = str(Global.GRID[2][1])
 		tween.tween_property(label_8, "text", move1, anim_time)
 		tween.tween_property(label_8, "scale", final_scale_size, scale_anim_time)
 		grid_button_8.visible = false
 
 	if Global.GRID[2][2] != "" and label_9.text == "":
-		move1 = Global.GRID[2][2]
+		move1 = str(Global.GRID[2][2])
 		tween.tween_property(label_9, "text", move1, anim_time)
 		tween.tween_property(label_9, "scale", final_scale_size, scale_anim_time)
 		grid_button_9.visible = false
@@ -241,22 +241,23 @@ func update_grid():
 func check_win_condition():
 	var tween = get_tree().create_tween()
 	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
-	var win_anim_time = 0.1
+	var win_anim_time = 0.2
 	var win_color = Color("#63A375")#Green color ||| Color("#B80C09") #Red color
-	
+	tween.set_trans(Tween.TRANS_SINE)
+	tween.set_ease(Tween.EASE_IN_OUT)
 	#Check diagonally
 	if Global.GRID[0][0] != '' and Global.GRID[0][0] == Global.GRID[1][1] and Global.GRID[0][0] == Global.GRID[2][2]:
 		win_color = Color("#B80C09") if (Global.GRID[0][0] != Global.multiplayer_PlayerSymbol and Global.is_multiplayer) or (!Global.is_multiplayer and Global.tictactoe_mode != 0  and  Global.GRID[0][0] == Global.player2) else Color("#63A375") #Red color
-		tween.tween_property(label_1, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT) # label_1
-		tween.tween_property(label_5, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT) # label_5
-		tween.tween_property(label_9, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT) # label_9
+		tween.tween_property(label_1, "modulate", win_color, win_anim_time) # label_1
+		tween.tween_property(label_5, "modulate", win_color, win_anim_time) # label_5
+		tween.tween_property(label_9, "modulate", win_color, win_anim_time) # label_9
 		return true
  
 	if Global.GRID[0][2] != '' and Global.GRID[0][2] == Global.GRID[1][1] and Global.GRID[0][2] == Global.GRID[2][0]:
 		win_color = Color("#B80C09") if (Global.GRID[0][2] != Global.multiplayer_PlayerSymbol and Global.is_multiplayer) or (!Global.is_multiplayer and Global.tictactoe_mode != 0  and  Global.GRID[0][2] == Global.player2) else Color("#63A375")
-		tween.tween_property(label_3, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-		tween.tween_property(label_5, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-		tween.tween_property(label_7, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		tween.tween_property(label_3, "modulate", win_color, win_anim_time)
+		tween.tween_property(label_5, "modulate", win_color, win_anim_time)
+		tween.tween_property(label_7, "modulate", win_color, win_anim_time)
 		return true
 
 	#Checks each row for matching row,,#r = list number,c = position in the list
@@ -264,17 +265,17 @@ func check_win_condition():
 		if Global.GRID[i][0] != '' and Global.GRID[i][0] == Global.GRID[i][1] and Global.GRID[i][0] == Global.GRID[i][2]:
 			win_color = Color("#B80C09") if (Global.GRID[i][0] != Global.multiplayer_PlayerSymbol and Global.is_multiplayer) or (!Global.is_multiplayer and Global.tictactoe_mode != 0  and  Global.GRID[i][0] == Global.player2) else Color("#63A375")
 			if i == 0:
-				tween.tween_property(label_1, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-				tween.tween_property(label_2, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-				tween.tween_property(label_3, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+				tween.tween_property(label_1, "modulate", win_color, win_anim_time)
+				tween.tween_property(label_2, "modulate", win_color, win_anim_time)
+				tween.tween_property(label_3, "modulate", win_color, win_anim_time)
 			elif i == 1:
-				tween.tween_property(label_4, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-				tween.tween_property(label_5, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-				tween.tween_property(label_6, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+				tween.tween_property(label_4, "modulate", win_color, win_anim_time)
+				tween.tween_property(label_5, "modulate", win_color, win_anim_time)
+				tween.tween_property(label_6, "modulate", win_color, win_anim_time)
 			elif i == 2:
-				tween.tween_property(label_7, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-				tween.tween_property(label_8, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-				tween.tween_property(label_9, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+				tween.tween_property(label_7, "modulate", win_color, win_anim_time)
+				tween.tween_property(label_8, "modulate", win_color, win_anim_time)
+				tween.tween_property(label_9, "modulate", win_color, win_anim_time)
 			return true
 
 	#Checks each column for matching column
@@ -282,17 +283,17 @@ func check_win_condition():
 		if Global.GRID[0][i] != '' and Global.GRID[0][i] == Global.GRID[1][i] and Global.GRID[0][i] == Global.GRID[2][i]:
 			win_color = Color("#B80C09") if (Global.GRID[0][i] != Global.multiplayer_PlayerSymbol and Global.is_multiplayer) or (!Global.is_multiplayer and Global.tictactoe_mode != 0  and  Global.GRID[0][i] == Global.player2) else Color("#63A375")
 			if i == 0:
-				tween.tween_property(label_1, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-				tween.tween_property(label_4, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-				tween.tween_property(label_7, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+				tween.tween_property(label_1, "modulate", win_color, win_anim_time)
+				tween.tween_property(label_4, "modulate", win_color, win_anim_time)
+				tween.tween_property(label_7, "modulate", win_color, win_anim_time)
 			elif i == 1:
-				tween.tween_property(label_2, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-				tween.tween_property(label_5, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-				tween.tween_property(label_8, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+				tween.tween_property(label_2, "modulate", win_color, win_anim_time)
+				tween.tween_property(label_5, "modulate", win_color, win_anim_time)
+				tween.tween_property(label_8, "modulate", win_color, win_anim_time)
 			elif i == 2:
-				tween.tween_property(label_3, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-				tween.tween_property(label_6, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-				tween.tween_property(label_9, "modulate", win_color, win_anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+				tween.tween_property(label_3, "modulate", win_color, win_anim_time)
+				tween.tween_property(label_6, "modulate", win_color, win_anim_time)
+				tween.tween_property(label_9, "modulate", win_color, win_anim_time)
 			return true
 	return false
 
@@ -300,17 +301,19 @@ func draw_anim():
 	var tween = get_tree().create_tween()
 	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	tween.parallel()
-	var anim_time = 0.01
+	tween.set_trans(Tween.TRANS_SINE)
+	tween.set_ease(Tween.EASE_OUT_IN)
+	var anim_time = 0.03
 	var color = Color("#E08E45")
-	tween.tween_property(label_1, "modulate", color, anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	tween.tween_property(label_2, "modulate", color, anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	tween.tween_property(label_3, "modulate", color, anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	tween.tween_property(label_4, "modulate", color, anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	tween.tween_property(label_5, "modulate", color, anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	tween.tween_property(label_6, "modulate", color, anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	tween.tween_property(label_7, "modulate", color, anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	tween.tween_property(label_8, "modulate", color, anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	tween.tween_property(label_9, "modulate", color, anim_time).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(label_5, "modulate", color, anim_time)
+	tween.tween_property(label_4, "modulate", color, anim_time)
+	tween.tween_property(label_6, "modulate", color, anim_time)
+	tween.tween_property(label_2, "modulate", color, anim_time)
+	tween.tween_property(label_1, "modulate", color, anim_time)
+	tween.tween_property(label_3, "modulate", color, anim_time)
+	tween.tween_property(label_8, "modulate", color, anim_time)
+	tween.tween_property(label_7, "modulate", color, anim_time)
+	tween.tween_property(label_9, "modulate", color, anim_time)
 
 # =================================Main Logic================================================
 func play_turn(r: int, c: int):
@@ -368,7 +371,7 @@ func game_finished():
 	get_tree().paused = true
 	reload_button.visible = true
 	score_display.visible = true
-	score_display.text = "Player " + str(Global.player1) + "  " + str(Global.P1_WinCount) + "                                   Player " + str(Global.player2) + "  " + str(Global.P2_WinCount)
+	score_display.text =  str(Global.player1) + "  " + str(Global.P1_WinCount) + "                                   " + str(Global.player2) + "  " + str(Global.P2_WinCount)
 
 @rpc("authority","call_local")
 func set_turnLabeltext(toast: String):
