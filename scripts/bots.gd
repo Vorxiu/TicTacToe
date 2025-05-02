@@ -26,22 +26,14 @@ func advanced_bot():
 	var opponent_move_value = Global.player1
 	# Get all available moves
 	var moves = available_moves()
+
 	# Check for a winning move
 	for move in moves:
 		var r = move[0]
 		var c = move[1]
 		GRID[r][c] = bot_move_value  # Simulate the bot's move
-		var moves1 = available_moves()
+
 		#Simulates another move
-		for move1 in moves1:
-			var r1 = move1[0]
-			var c1 = move1[1]
-			GRID[r1][c1] = bot_move_value 
-			if check_win_condition():  
-				GRID[r1][c1] = ""  
-				return move  
-			GRID[r1][c1] = ""  
-		
 		if check_win_condition():  # Check if this move wins the game
 			GRID[r][c] = ""  # Reset the grid
 			return move  # Return the winning move
@@ -57,9 +49,34 @@ func advanced_bot():
 			return move  # Return the blocking move
 		GRID[r][c] = ""  
 
-	# # If the center is available, take it
-	# if GRID[1][1] == "":
-	# 	return [1, 1]
+	#checks two moves ahead in the future
+	if Global.turn_count > 2:
+		var win1
+		for a:int in range(len(moves)):
+			var x1:int = moves[a][0]
+			var y1:int = moves[a][1]
+			GRID[x1][y1] = bot_move_value
+			var future_moves = available_moves()
+			
+			for b:int in range(len(future_moves)):
+				var x2:int = future_moves[b][0]
+				var y2:int = future_moves[b][1]
+				GRID[x2][y2] = bot_move_value
+				win1 = check_win_condition()
+				if GRID[x2][y2] == bot_move_value:
+					GRID[x2][y2] = " "
+				if win1:
+					break
+			
+			if GRID[x1][y1] == bot_move_value:
+				GRID[x1][y1] = " "
+			if win1:
+				# print("Found W move")
+				var w_move = [x1,y1]
+				return w_move #The move that may lead to a wi
+	# If the center is available, take it
+	if GRID[1][1] == "":
+		return [1, 1]
 
 	# # Check for an empty corner
 	# var corner_moves = [[0, 0], [0, 2], [2, 0], [2, 2]]
