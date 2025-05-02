@@ -226,7 +226,7 @@ func update_grid():
 func check_win_condition():
 	var tween = get_tree().create_tween()
 	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
-	var win_anim_time = 0.10
+	var win_anim_time = 0.09
 	var win_color = Color("#63A375")#Green color ||| Color("#B80C09") #Red color
 	
 	#Check diagonally

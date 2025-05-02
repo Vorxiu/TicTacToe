@@ -50,7 +50,7 @@ func advanced_bot():
 		GRID[r][c] = ""  
 
 	#checks two moves ahead in the future
-	if Global.turn_count > 1:
+	if Global.turn_count > 2:
 		var win1
 		for a:int in range(len(moves)):
 			var x1:int = moves[a][0]
@@ -64,12 +64,12 @@ func advanced_bot():
 				GRID[x2][y2] = bot_move_value
 				win1 = check_win_condition()
 				if GRID[x2][y2] == bot_move_value:
-					GRID[x2][y2] = " "
+					GRID[x2][y2] = ""
 				if win1:
 					break
 			
 			if GRID[x1][y1] == bot_move_value:
-				GRID[x1][y1] = " "
+				GRID[x1][y1] = ""
 			if win1:
 				# print("Found W move")
 				var w_move = [x1,y1]
