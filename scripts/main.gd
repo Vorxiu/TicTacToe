@@ -107,6 +107,7 @@ func _on_grid_button_9_released() -> void:
 # starting ui buttons
 
 func _on_reload_button_released() -> void:
+	Input.vibrate_handheld(Global.vibration_intensity)
 	reload_game.rpc()
 
 @rpc("authority","call_local","reliable")
@@ -122,6 +123,7 @@ func _on_button_game_options_pressed() -> void:
 	get_tree().paused = true
 	ttt_header.visible = false
 	option_menu_animation.play("option")
+
 
 # Options menu h
 func _on_pvp_button_toggled(toggled_on: bool) -> void:
@@ -173,19 +175,17 @@ func _on_multiplayer_button_pressed() -> void:
 func update_grid():
 	var tween = get_tree().create_tween().set_pause_mode(Tween.TWEEN_PAUSE_PROCESS).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	#Global.Player_turn == Global.player2 and 
-	var anim_time = 0.5
-
-	var scale_anim_time = 1 if (Global.tictactoe_mode != 0) else 0.5
+	var anim_time = 0.1
+	var scale_anim_time = 0.4 #if (Global.tictactoe_mode != 0) else 0.5
 	var final_scale_size = Vector2(1,1)
 	if Global.Player_turn == Global.player1:
-		anim_time += anim_time
+		anim_time = 0.2
 	var move1
-
+	
 	if Global.GRID[0][0] != "" and label_1.text == "":
 		move1 = str(Global.GRID[0][0])
 		tween.tween_property(label_1, "text", move1, anim_time)
 		tween.tween_property(label_1, "scale", final_scale_size, scale_anim_time)
-
 		grid_button_1.visible = false
 	
 	if Global.GRID[0][1] != "" and label_2.text == "":
@@ -352,6 +352,7 @@ func get_winner():
 	# checks the win condition
 	if Global.turn_count > 4:
 		if check_win_condition():
+			Input.vibrate_handheld(Global.vibration_intensity)
 			set_turnLabeltext("Player " + str(move) + " Won")
 			turn_display.text = ("Player " + str(move) + " Won")
 			if move == Global.player1:
@@ -361,6 +362,7 @@ func get_winner():
 			game_finished()
 			return
 		elif Global.turn_count >= 9 and bot.available_moves().is_empty():
+			Input.vibrate_handheld(Global.vibration_intensity)
 			# Condition for draw
 			draw_anim()
 			set_turnLabeltext("Its a draw!")
@@ -371,7 +373,7 @@ func game_finished():
 	get_tree().paused = true
 	reload_button.visible = true
 	score_display.visible = true
-	score_display.text =  str(Global.player1) + "  " + str(Global.P1_WinCount) + "                                   " + str(Global.player2) + "  " + str(Global.P2_WinCount)
+	score_display.text =  str(Global.player1) + "  🞄  " + str(Global.P1_WinCount) + "                                   " + str(Global.player2) + "  🞄  " + str(Global.P2_WinCount)
 
 @rpc("authority","call_local")
 func set_turnLabeltext(toast: String):

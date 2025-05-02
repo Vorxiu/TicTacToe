@@ -13,7 +13,8 @@ var P2_WinCount:int = 0
 signal grid_updated()
 var connection_status:String = ""
 var Player_turn:String = player1
-var multiplayer_PlayerSymbol = ""
+var multiplayer_PlayerSymbol:String = ""
+var vibration_intensity:int = 500
 
 
 func clear_grid():
@@ -37,3 +38,9 @@ func load_game():
 	var err = config.load(save_path)
 	if err == OK:
 		tictactoe_mode = config.get_value("TicTacToe","mode",0)
+
+
+func _on_vibration_intensity_value_changed(value: float) -> void:
+	vibration_intensity = value
+	Input.vibrate_handheld(value)
+	pass # Replace with function body.
