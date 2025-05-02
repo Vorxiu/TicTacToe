@@ -163,6 +163,7 @@ corner_detail = 5
 [resource]
 default_font = ExtResource("1_sx0q5")
 Button/colors/font_color = Color(0.929412, 0.94902, 0.956863, 1)
+Button/colors/font_focus_color = Color(0.358119, 0.295595, 0.517938, 1)
 Button/colors/font_hover_color = Color(0.304431, 0.248446, 0.446164, 1)
 Button/colors/font_pressed_color = Color(0.556863, 0.490196, 0.745098, 1)
 Button/colors/icon_pressed_color = Color(0.381703, 0.381703, 0.381703, 1)

@@ -174,53 +174,66 @@ func update_grid():
 	var tween = get_tree().create_tween()
 	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	var anim_time = 0.1
+	var scale_anim_time = 0.5
+	var final_scale_size = Vector2(1,1)
 	if Global.Player_turn == Global.player1:
 		anim_time += anim_time
 	var move1
-
+	tween.set_trans(Tween.TRANS_BACK)
+	tween.set_ease(Tween.EASE_OUT)
 	if Global.GRID[0][0] != "" and label_1.text == "":
 		move1 = Global.GRID[0][0]
 		tween.tween_property(label_1, "text", move1, anim_time)
+		tween.tween_property(label_1, "scale", final_scale_size, scale_anim_time)
+
 		grid_button_1.visible = false
 	
 	if Global.GRID[0][1] != "" and label_2.text == "":
 		move1 = Global.GRID[0][1]
 		tween.tween_property(label_2, "text", move1, anim_time)
+		tween.tween_property(label_2, "scale", final_scale_size, scale_anim_time)
 		grid_button_2.visible = false
 
 	if Global.GRID[0][2] != "" and label_3.text == "":
 		move1 = Global.GRID[0][2]
 		tween.tween_property(label_3, "text", move1, anim_time)
+		tween.tween_property(label_3, "scale", final_scale_size, scale_anim_time)
 		grid_button_3.visible = false
 
 	if Global.GRID[1][0] != "" and label_4.text == "":
 		move1 = Global.GRID[1][0]
 		tween.tween_property(label_4, "text", move1, anim_time)
+		tween.tween_property(label_4, "scale", final_scale_size, scale_anim_time)
 		grid_button_4.visible = false
 
 	if Global.GRID[1][1] != "" and label_5.text == "":
 		move1 = Global.GRID[1][1]
 		tween.tween_property(label_5, "text", move1, anim_time)
+		tween.tween_property(label_5, "scale", final_scale_size, scale_anim_time)
 		grid_button_5.visible = false
 
 	if Global.GRID[1][2] != "" and label_6.text == "":
 		move1 = Global.GRID[1][2]
 		tween.tween_property(label_6, "text", move1, anim_time)
+		tween.tween_property(label_6, "scale", final_scale_size, scale_anim_time)
 		grid_button_6.visible = false
 
 	if Global.GRID[2][0] != "" and label_7.text == "":
 		move1 = Global.GRID[2][0]
 		tween.tween_property(label_7, "text", move1, anim_time)
+		tween.tween_property(label_7, "scale", final_scale_size, scale_anim_time)
 		grid_button_7.visible = false
 
 	if Global.GRID[2][1] != "" and label_8.text == "":
 		move1 = Global.GRID[2][1]
 		tween.tween_property(label_8, "text", move1, anim_time)
+		tween.tween_property(label_8, "scale", final_scale_size, scale_anim_time)
 		grid_button_8.visible = false
 
 	if Global.GRID[2][2] != "" and label_9.text == "":
 		move1 = Global.GRID[2][2]
 		tween.tween_property(label_9, "text", move1, anim_time)
+		tween.tween_property(label_9, "scale", final_scale_size, scale_anim_time)
 		grid_button_9.visible = false
 
 #=========================================================
