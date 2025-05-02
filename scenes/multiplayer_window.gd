@@ -17,6 +17,7 @@ func _ready() -> void:
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
 func _on_server_disconnected():
 	Global.connection_status = "disconnected"
+	print(Global.connection_status)
 	Global.is_multiplayer = false
 
 func _on_start_server_key_pressed() -> void:
@@ -80,3 +81,4 @@ func multiplayer_connected(id):
 
 func _on_copy_pressed() -> void:
 	DisplayServer.clipboard_set(connection_string)
+	button_press.play()

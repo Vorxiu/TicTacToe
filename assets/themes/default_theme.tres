@@ -1,7 +1,11 @@
-[gd_resource type="Theme" load_steps=16 format=3 uid="uid://dnp6l7snho7jf"]
+[gd_resource type="Theme" load_steps=19 format=3 uid="uid://dnp6l7snho7jf"]
 
 [ext_resource type="FontFile" uid="uid://b5mntr3ahh4h0" path="res://assets/font/Teko/Teko-VariableFont_wght.ttf" id="1_sx0q5"]
 [ext_resource type="StyleBox" uid="uid://jvqu6h114o5j" path="res://assets/themes/new_style_box_flat.tres" id="2_5sm08"]
+[ext_resource type="StyleBox" uid="uid://bp7htunvurmft" path="res://assets/themes/pressed_style_box_flat.tres" id="2_cytoj"]
+[ext_resource type="StyleBox" uid="uid://dgeh7wt7f68jo" path="res://assets/themes/default_style_box_flat.tres" id="3_b4fcc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cytoj"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sx0q5"]
 content_margin_left = 6.0
@@ -159,9 +163,14 @@ corner_detail = 5
 [resource]
 default_font = ExtResource("1_sx0q5")
 Button/colors/font_color = Color(0.929412, 0.94902, 0.956863, 1)
-Button/colors/font_hover_color = Color(0.556863, 0.490196, 0.745098, 1)
-Button/colors/font_pressed_color = Color(0.388235, 0.639216, 0.458824, 1)
+Button/colors/font_hover_color = Color(0.304431, 0.248446, 0.446164, 1)
+Button/colors/font_pressed_color = Color(0.556863, 0.490196, 0.745098, 1)
+Button/colors/icon_pressed_color = Color(0.381703, 0.381703, 0.381703, 1)
 Button/fonts/font = ExtResource("1_sx0q5")
+Button/styles/focus = SubResource("StyleBoxEmpty_cytoj")
+Button/styles/hover = ExtResource("2_cytoj")
+Button/styles/normal = ExtResource("3_b4fcc")
+Button/styles/pressed = ExtResource("2_cytoj")
 CheckButton/colors/font_color = Color(0.929412, 0.94902, 0.956863, 1)
 CheckButton/colors/font_disabled_color = Color(0.875, 0.875, 0.875, 0.5)
 CheckButton/colors/font_focus_color = Color(0.95, 0.95, 0.95, 1)
