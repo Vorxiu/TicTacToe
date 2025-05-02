@@ -18,6 +18,7 @@ var multiplayer_PlayerSymbol = ""
 
 func clear_grid():
 	GRID = [['','',''],['','',''],['','','']]
+	emit_signal("grid_updated")
 
 func grid_changed(r,c,move):
 	if GRID[r][c] != move and GRID[r][c] == "":

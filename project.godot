@@ -37,6 +37,10 @@ window/handheld/orientation=1
 version_control/plugin_name="GitPlugin"
 version_control/autoload_on_startup=true
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/icon_explorer/plugin.cfg", "res://addons/tattomoosa.spinner/plugin.cfg")
+
 [gui]
 
 theme/custom_font="uid://b5mntr3ahh4h0"

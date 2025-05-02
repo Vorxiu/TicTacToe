@@ -8,8 +8,13 @@ extends Control
 @onready var gridwindow: Control = $"../../Gridwindow"
 @onready var option_menu_animation: AnimationPlayer = $"../Option_menu_animation"
 @onready var ttt_header: Label = $"../../header/ttt_header"
-
+@onready var multiplayer_status: Label = $"../../multiplayer_status/Multiplayer_status"
 var connection_string = "Couldn't connect"
+
+func _ready() -> void:
+	#multiplayer.connection_failed.connect(multiplayer_disconnected())
+	pass
+
 func _on_start_server_key_pressed() -> void:
 	button_press.pitch_scale = randf_range(0.9, 1.2)
 	button_press.play()
@@ -39,6 +44,7 @@ func _on_multiplayer_key_edit_text_submitted(new_text: String) -> void:
 		player_joined_label.text = "Failed to intialize client"
 	multiplayer.connection_failed.connect(func():
 		player_joined_label.text = "Connection error: "+ str(client.connection_error())
+		Global.is_multiplayer = false
 		)
 	multiplayer.multiplayer_peer.peer_connected.connect(
 			func(id):
@@ -48,7 +54,8 @@ func _on_multiplayer_key_edit_text_submitted(new_text: String) -> void:
 	)
 
 func multiplayer_connected(id):
-	
+	Global.clear_grid()
+
 	if id == 1:
 		player_joined_label.text = ("Player Connected id: " + str(id))
 		
@@ -59,12 +66,14 @@ func multiplayer_connected(id):
 	print ("Connected id " + str(id))
 	Global.is_multiplayer = true
 	#Global.multiplayer_opponentID = id
-	Global.clear_grid()
+	Global.tictactoe_mode = 0
 	gridwindow.visible = true
 	multiplayer_window.visible = false
 	get_tree().paused = false
 	option_menu_animation.play_backwards("option")
 	ttt_header.visible = true
-
+	multiplayer_status.text = "Connected"
+func multiplayer_disconnected():
+	multiplayer_status.text = "player_disconnected"
 func _on_copy_pressed() -> void:
 	DisplayServer.clipboard_set(connection_string)

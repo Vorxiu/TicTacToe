@@ -103,7 +103,12 @@ func _on_grid_button_9_released() -> void:
 	play_turn(2, 2)
 
 # starting ui buttons
+
 func _on_reload_button_released() -> void:
+	reload_game.rpc()
+
+@rpc("authority","call_local","reliable")
+func reload_game():
 	get_tree().paused = false
 	score_display.visible = false
 	get_tree().reload_current_scene()

@@ -31,6 +31,17 @@ func advanced_bot():
 		var r = move[0]
 		var c = move[1]
 		GRID[r][c] = bot_move_value  # Simulate the bot's move
+		var moves1 = available_moves()
+		#Simulates another move
+		for move1 in moves1:
+			var r1 = move1[0]
+			var c1 = move1[1]
+			GRID[r1][c1] = bot_move_value 
+			if check_win_condition():  
+				GRID[r1][c1] = ""  
+				return move  
+			GRID[r1][c1] = ""  
+		
 		if check_win_condition():  # Check if this move wins the game
 			GRID[r][c] = ""  # Reset the grid
 			return move  # Return the winning move
@@ -46,15 +57,15 @@ func advanced_bot():
 			return move  # Return the blocking move
 		GRID[r][c] = ""  
 
-	# If the center is available, take it
-	if GRID[1][1] == "":
-		return [1, 1]
+	# # If the center is available, take it
+	# if GRID[1][1] == "":
+	# 	return [1, 1]
 
-	# Check for an empty corner
-	var corner_moves = [[0, 0], [0, 2], [2, 0], [2, 2]]
-	for corner in corner_moves:
-		if corner in moves:
-			return corner
+	# # Check for an empty corner
+	# var corner_moves = [[0, 0], [0, 2], [2, 0], [2, 2]]
+	# for corner in corner_moves:
+	# 	if corner in moves:
+	# 		return corner
 	return moves.pick_random()
 
 func beatable_bot():
