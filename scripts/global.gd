@@ -5,12 +5,13 @@ const save_path = "user://savedgame.cfg"
 @export var GRID = [['','',''],['','',''],['','','']]
 @export var player1:String = "X"
 @export var player2:String = "O"
-var tictactoe_mode:int = 0 # 0 is pvp,1is easy bot,2is advanced bot
+var is_multiplayer:bool = false
+var tictactoe_mode:int = 0 #if !is_multiplayer else 0# 0 is pvp,1is easy bot,2is advanced bot
 var winner:String = ""
 var P1_WinCount:int = 0
 var P2_WinCount:int = 0
 signal grid_updated()
-var is_multiplayer:bool
+
 var Player_turn:String = player1
 var multiplayer_PlayerSymbol = ""
 

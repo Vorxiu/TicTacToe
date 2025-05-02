@@ -13,19 +13,20 @@ var connection_string = "Couldn't connect"
 func _on_start_server_key_pressed() -> void:
 	button_press.pitch_scale = randf_range(0.9, 1.2)
 	button_press.play()
-	var server := IrohServer.start()
+	var server := IrohServer.start() 
 	multiplayer.multiplayer_peer = server
 	connection_string = server.connection_string()
 	mp_key_label.text = connection_string
-	player_joined_label.text = "Starting server"
 	if server == null:
 		player_joined_label.text = "Failed to initialize server"
+	else:
+		player_joined_label.text = "Started Server"
+		DisplayServer.clipboard_set(connection_string)
 	multiplayer.multiplayer_peer.peer_connected.connect(
 		func(id):
 			player_joined_label.text = "Server hosted with id" + str(id)
 			multiplayer_connected(id)
 			Global.multiplayer_PlayerSymbol = Global.player1
-			
 	)
 
 func _on_multiplayer_key_edit_text_submitted(new_text: String) -> void:
@@ -64,6 +65,6 @@ func multiplayer_connected(id):
 	get_tree().paused = false
 	option_menu_animation.play_backwards("option")
 	ttt_header.visible = true
-	
+
 func _on_copy_pressed() -> void:
 	DisplayServer.clipboard_set(connection_string)
