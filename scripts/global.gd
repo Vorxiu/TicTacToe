@@ -11,7 +11,7 @@ var winner:String = ""
 var P1_WinCount:int = 0
 var P2_WinCount:int = 0
 signal grid_updated()
-
+var connection_status:String = ""
 var Player_turn:String = player1
 var multiplayer_PlayerSymbol = ""
 

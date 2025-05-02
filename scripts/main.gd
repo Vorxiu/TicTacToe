@@ -50,6 +50,7 @@ extends Control
 
 var bot_script = preload("res://scripts/bots.gd")
 var bot = bot_script.new()
+@onready var multiplayer_status: Label = $"../../multiplayer_status/Multiplayer_status"
 
 func _ready() -> void:
 	var tween = get_tree().create_tween()
@@ -72,6 +73,7 @@ func _on_tictactoe_mainwindow_grid_updated() -> void:
 	insert_sound.pitch_scale = randf_range(0.9, 1.2)
 	insert_sound.play()
 	update_grid()
+	multiplayer_status.text = Global.connection_status
 	if !get_tree().paused and Global.turn_count > 5:
 		get_winner()
 

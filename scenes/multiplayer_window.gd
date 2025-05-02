@@ -12,8 +12,12 @@ extends Control
 var connection_string = "Couldn't connect"
 
 func _ready() -> void:
-	#multiplayer.connection_failed.connect(multiplayer_disconnected())
-	pass
+	#multiplayer.connection_failed.connect(_on_connection_failed)
+	#multiplayer.connected_to_server.connect(_on_connected_to_server)
+	multiplayer.server_disconnected.connect(_on_server_disconnected)
+func _on_server_disconnected():
+	Global.connection_status = "disconnected"
+	Global.is_multiplayer = false
 
 func _on_start_server_key_pressed() -> void:
 	button_press.pitch_scale = randf_range(0.9, 1.2)
@@ -72,8 +76,7 @@ func multiplayer_connected(id):
 	get_tree().paused = false
 	option_menu_animation.play_backwards("option")
 	ttt_header.visible = true
-	multiplayer_status.text = "Connected"
-func multiplayer_disconnected():
-	multiplayer_status.text = "player_disconnected"
+	Global.connection_status = "Connected"
+
 func _on_copy_pressed() -> void:
 	DisplayServer.clipboard_set(connection_string)
