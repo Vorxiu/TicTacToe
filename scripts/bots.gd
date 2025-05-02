@@ -50,7 +50,7 @@ func advanced_bot():
 		GRID[r][c] = ""  
 
 	#checks two moves ahead in the future
-	if Global.turn_count > 2:
+	if Global.turn_count > 1:
 		var win1
 		for a:int in range(len(moves)):
 			var x1:int = moves[a][0]
