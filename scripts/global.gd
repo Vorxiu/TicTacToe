@@ -14,7 +14,7 @@ signal grid_updated()
 var connection_status:String = ""
 var Player_turn:String = player1
 var multiplayer_PlayerSymbol:String = ""
-var vibration_intensity:int = 500
+var vibration_intensity:float = 500
 
 
 func clear_grid():
@@ -41,6 +41,7 @@ func load_game():
 
 
 func _on_vibration_intensity_value_changed(value: float) -> void:
+	print("Vbration intensity set to" + str(value))
 	vibration_intensity = value
 	Input.vibrate_handheld(value)
 	pass # Replace with function body.

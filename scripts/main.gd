@@ -26,6 +26,7 @@ extends Control
 @onready var score_display: Label = $"../../score_display"
 @onready var reload_button: TouchScreenButton = $reload_button
 @onready var gridwindow: Control = $".."
+@onready var win_display: Label = $"../../header/win_display"
 # Audio
 @onready var button_press: AudioStreamPlayer2D = $"../../button_press"
 @onready var insert_sound: AudioStreamPlayer2D = $"../../insert_sound"
@@ -34,7 +35,7 @@ extends Control
 @onready var game_options: Control = $"../../changemode/game_options"
 @onready var game_options_window: Control = $"../../changemode/game_options"
 @onready var option_window: ColorRect = $"../../changemode/game_options/Option_window"
-@onready var game_options_labels: Label = $"../../changemode/game_options/Option_window/GameOptions"
+@onready var game_options_labels: Label = $"../../changemode/game_options/GameOptions"
 @onready var button_game_options: TouchScreenButton = $"../../changemode/button_gameOptions"
 @onready var option_menu_animation: AnimationPlayer = $"../../changemode/Option_menu_animation"
 
@@ -45,7 +46,6 @@ extends Control
 @onready var bot_button: Button = $"../../changemode/game_options/Option_window/bot_button"
 @onready var expert_button: Button = $"../../changemode/game_options/Option_window/expert_button"
 @onready var resume: Button = $"../../changemode/game_options/Option_window/resume"
-
 @onready var multiplayer_window: Control = $"../../changemode/multiplayer_window"
 
 var bot_script = preload("res://scripts/bots.gd")
@@ -331,7 +331,6 @@ func play_turn(r: int, c: int):
 			Global.Player_turn = Global.player2
 		elif (Global.Player_turn == Global.player2):
 			Global.Player_turn = Global.player1
-
 		set_turnLabeltext("Player " + str(Global.Player_turn) + " turn")
 		_on_tictactoe_mainwindow_grid_updated()
 		# Bot turn
@@ -353,24 +352,34 @@ func get_winner():
 	if Global.turn_count > 4:
 		if check_win_condition():
 			Input.vibrate_handheld(Global.vibration_intensity)
-			set_turnLabeltext("Player " + str(move) + " Won")
-			turn_display.text = ("Player " + str(move) + " Won")
+			
 			if move == Global.player1:
 				Global.P2_WinCount += 1
 			elif move == Global.player2:
 				Global.P1_WinCount += 1
+			
+			# turn_display.text = ("Player " + str(move) + " Won")
+			#win_display.text = ("Player " + str(move) + " Won")
+			set_turnLabeltext("Player " + str(move) + " Won")
+			#win_display.visible = true
+			#turn_display.visible= false
 			game_finished()
 			return
 		elif Global.turn_count >= 9 and bot.available_moves().is_empty():
 			Input.vibrate_handheld(Global.vibration_intensity)
 			# Condition for draw
 			draw_anim()
+			#win_display.text = ("Its a draw!")
 			set_turnLabeltext("Its a draw!")
+			#turn_display.visible = false
+			#win_display.visible = true
 			game_finished()
-
-# WHen any win condition is met
+		
+# When any win condition is met
 func game_finished():
+	set_turnLabeltext("")
 	get_tree().paused = true
+	_on_tictactoe_mainwindow_grid_updated()
 	reload_button.visible = true
 	score_display.visible = true
 	score_display.text =  str(Global.player1) + "  🞄  " + str(Global.P1_WinCount) + "                                   " + str(Global.player2) + "  🞄  " + str(Global.P2_WinCount)
