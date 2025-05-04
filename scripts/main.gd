@@ -176,7 +176,7 @@ func update_grid():
 	var tween = get_tree().create_tween().set_pause_mode(Tween.TWEEN_PAUSE_PROCESS).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	#Global.Player_turn == Global.player2 and 
 	var anim_time = 0.1
-	var scale_anim_time = 0.4 #if (Global.tictactoe_mode != 0) else 0.5
+	var scale_anim_time = 0.5 #if (Global.tictactoe_mode != 0) else 0.5
 	var final_scale_size = Vector2(1,1)
 	if Global.Player_turn == Global.player1:
 		anim_time = 0.2
@@ -211,7 +211,7 @@ func update_grid():
 		tween.tween_property(label_5, "text", move1, anim_time)
 		tween.tween_property(label_5, "scale", final_scale_size, scale_anim_time)
 		grid_button_5.visible = false
-	await tween.finished
+	
 	if Global.GRID[1][2] != "" and label_6.text == "":
 		move1 = str(Global.GRID[1][2])
 		tween.tween_property(label_6, "text", move1, anim_time)
