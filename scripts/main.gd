@@ -26,7 +26,7 @@ extends Control
 @onready var score_display: Label = $"../../score_display"
 @onready var reload_button: TouchScreenButton = $reload_button
 @onready var gridwindow: Control = $".."
-@onready var win_display: Label = $"../../header/win_display"
+
 # Audio
 @onready var button_press: AudioStreamPlayer2D = $"../../button_press"
 @onready var insert_sound: AudioStreamPlayer2D = $"../../insert_sound"
@@ -187,7 +187,7 @@ func update_grid():
 		tween.tween_property(label_1, "text", move1, anim_time)
 		tween.tween_property(label_1, "scale", final_scale_size, scale_anim_time)
 		grid_button_1.visible = false
-	
+
 	if Global.GRID[0][1] != "" and label_2.text == "":
 		move1 = str(Global.GRID[0][1])
 		tween.tween_property(label_2, "text", move1, anim_time)
@@ -211,7 +211,7 @@ func update_grid():
 		tween.tween_property(label_5, "text", move1, anim_time)
 		tween.tween_property(label_5, "scale", final_scale_size, scale_anim_time)
 		grid_button_5.visible = false
-
+	await tween.finished
 	if Global.GRID[1][2] != "" and label_6.text == "":
 		move1 = str(Global.GRID[1][2])
 		tween.tween_property(label_6, "text", move1, anim_time)
@@ -235,7 +235,6 @@ func update_grid():
 		tween.tween_property(label_9, "text", move1, anim_time)
 		tween.tween_property(label_9, "scale", final_scale_size, scale_anim_time)
 		grid_button_9.visible = false
-
 #=========================================================
 
 func check_win_condition():
@@ -382,7 +381,7 @@ func game_finished():
 	_on_tictactoe_mainwindow_grid_updated()
 	reload_button.visible = true
 	score_display.visible = true
-	score_display.text =  str(Global.player1) + "  🞄  " + str(Global.P1_WinCount) + "                                   " + str(Global.player2) + "  🞄  " + str(Global.P2_WinCount)
+	score_display.text =  str(Global.player1) + "  -  " + str(Global.P1_WinCount) + "                                   " + str(Global.player2) + "  -  " + str(Global.P2_WinCount)
 
 @rpc("authority","call_local")
 func set_turnLabeltext(toast: String):
