@@ -20,11 +20,11 @@ var vibration_intensity:float = 500
 func clear_grid():
 	GRID = [['','',''],['','',''],['','','']]
 	emit_signal("grid_updated")
+	
 
 func grid_changed(r,c,move):
 	if GRID[r][c] != move and GRID[r][c] == "":
 		GRID[r][c] = move
-
 		emit_signal("grid_updated")
 
 func save_game():

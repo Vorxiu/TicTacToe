@@ -152,10 +152,13 @@ func _on_expert_button_toggled(toggled_on: bool) -> void:
 
 func _on_resume_pressed() -> void:
 	gridwindow.visible = true
+	game_options.visible = true
 	multiplayer_window.visible = false
 	get_tree().paused = false
+	
 	Global.save_game()
 	option_menu_animation.play_backwards("option")
+	game_options.visible =  false
 	ttt_header.visible = true
 	button_press.pitch_scale = randf_range(0.9, 1.2)
 	button_press.play()
@@ -235,6 +238,7 @@ func update_grid():
 		tween.tween_property(label_9, "text", move1, anim_time)
 		tween.tween_property(label_9, "scale", final_scale_size, scale_anim_time)
 		grid_button_9.visible = false
+
 #=========================================================
 
 func check_win_condition():
