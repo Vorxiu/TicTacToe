@@ -42,6 +42,5 @@ func load_game():
 
 func _on_vibration_intensity_value_changed(value: float) -> void:
 	print("Vbration intensity set to" + str(value))
-	vibration_intensity = value
-	Input.vibrate_handheld(value)
-	pass # Replace with function body.
+	vibration_intensity = 0
+	Input.vibrate_handheld(0)
