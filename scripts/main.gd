@@ -107,7 +107,7 @@ func _on_grid_button_9_released() -> void:
 # starting ui buttons
 
 func _on_reload_button_released() -> void:
-	Input.vibrate_handheld(Global.vibration_intensity)
+	# Input.vibrate_handheld(Global.vibration_intensity)
 	reload_game.rpc()
 
 @rpc("authority","call_local","reliable")
