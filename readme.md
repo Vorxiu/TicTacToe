@@ -18,4 +18,10 @@ git clone https://github.com/Vorxiu/tictactoe
 ```
 
 ### Screenshots
-![TicTacToe Game](/screenshots/TicTacToe.png) ![TicTacToe Game Lost](/screenshots/game_lost.png) ![TicTacToe Multiplayer](/screenshots/mutiplayer_window.png)
+
+<div style="display: flex; gap: 10px;">
+  <img src="/screenshots/TicTacToe.png" alt="TicTacToe Game" width="300" height="400" style="border-radius: 5px;">
+  <img src="/screenshots/game_lost.png" alt="TicTacToe Game Lost" width="300" height="400" style="border-radius: 5px;">
+  
+  <img src="/screenshots/mutiplayer_window.png" alt="TicTacToe Multiplayer" width="300" height="400" style="border-radius: 5px;">
+</div>
