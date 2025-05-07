@@ -17,6 +17,8 @@ Get the latest  [release](https://github.com/Vorxiu/tictactoe/releases) or build
 git clone https://github.com/Vorxiu/tictactoe
 ```
 
+you can follow the [Godot docs](https://docs.godotengine.org/en/latest/tutorials/export/exporting_projects.html) to export it to your desired platform. 
+
 ### Screenshots
 
 <div style="display: flex; gap: 10px;">
