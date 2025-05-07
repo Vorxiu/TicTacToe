@@ -22,8 +22,8 @@ you can follow the [Godot docs](https://docs.godotengine.org/en/latest/tutorials
 ### Screenshots
 
 <div style="display: flex; gap: 10px;">
-  <img src="/screenshots/TicTacToe.png" alt="TicTacToe Game" width="300" height="500" style="border-radius: 5px;">
-  <img src="/screenshots/game_lost.png" alt="TicTacToe Game Lost" width="300" height="500" style="border-radius: 5px;">
+  <img src="/screenshots/TicTacToe.png" alt="TicTacToe Game" width="300" height="600" style="border-radius: 5px;">
+  <img src="/screenshots/game_lost.png" alt="TicTacToe Game Lost" width="300" height="600" style="border-radius: 5px;">
   
-  <img src="/screenshots/mutiplayer_window.png" alt="TicTacToe Multiplayer" width="300" height="500" style="border-radius: 5px;">
+  <img src="/screenshots/mutiplayer_window.png" alt="TicTacToe Multiplayer" width="300" height="600" style="border-radius: 5px;">
 </div>
