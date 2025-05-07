@@ -14,7 +14,7 @@ signal grid_updated()
 var connection_status:String = ""
 var Player_turn:String = player1
 var multiplayer_PlayerSymbol:String = ""
-var vibration_intensity:float = 10
+var vibration_intensity:float = 0
 
 
 func clear_grid():
@@ -40,6 +40,8 @@ func load_game():
 		tictactoe_mode = config.get_value("TicTacToe","mode",0)
 
 
-func _on_vibration_intensity_value_changed(value: float) -> void:
-	print("Vbration intensity set to")#str(value)
-	#Input.vibrate_handheld(5)
+func _on_vibration_intensity_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		vibration_intensity = 8
+	else:
+		vibration_intensity = 0
